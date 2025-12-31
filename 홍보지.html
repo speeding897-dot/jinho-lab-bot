@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김진호 합격 연구소 | 홍보 리플렛</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --bg-gray: #f1f5f9;
+            --text-main: #334155;
+            --accent-red: #ef4444;
+            --bg-light-gold: #fffbeb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg-gray); color: var(--text-main); line-height: 1.6; }
+        
+        .leaflet-container {
+            max-width: 800px; margin: 0 auto; background: var(--white);
+            box-shadow: 0 0 40px rgba(0,0,0,0.1); overflow: hidden;
+        }
+
+        /* 공통 헤더 스타일 */
+        .section-header { text-align: center; margin-bottom: 30px; }
+        .section-title { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+        .section-desc { color: #64748b; font-size: 1rem; }
+
+        /* [PAGE 1] 메인 커버 */
+        .cover-section {
+            background: var(--navy); color: var(--white); padding: 60px 40px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .cover-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .brand-logo { font-size: 1.2rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        .main-title { font-family: 'Nanum Myeongjo', serif; font-size: 2.8rem; font-weight: 800; line-height: 1.3; margin-bottom: 20px; }
+        .main-sub { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 40px; }
+        .guarantee-box {
+            border: 2px solid var(--gold); color: var(--gold); padding: 15px 30px;
+            display: inline-block; font-weight: 700; font-size: 1.1rem; border-radius: 50px;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* [PAGE 2] 훅(Hook) 배너 섹션 (수정됨) */
+        .hook-section {
+            background: var(--bg-light-gold); padding: 40px; text-align: center; border-bottom: 1px solid #e2e8f0;
+        }
+        .hook-title { font-size: 1.8rem; font-weight: 900; color: #b45309; margin-bottom: 20px; line-height: 1.4; }
+        .hook-desc { font-size: 1.1rem; color: #4b5563; line-height: 1.8; word-break: keep-all; }
+        .hook-desc strong { color: var(--navy); font-weight: 800; background: rgba(212, 175, 55, 0.15); padding: 0 5px; border-radius: 4px; }
+
+        /* [PAGE 3] 실적 증명 */
+        .proof-section { padding: 50px 40px; background: var(--white); border-bottom: 10px solid var(--bg-gray); }
+        .proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .proof-card { background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; }
+        .proof-num { font-size: 2.5rem; font-weight: 900; color: var(--gold); line-height: 1; display: block; margin-bottom: 10px; }
+        .proof-text { font-weight: 700; font-size: 1.1rem; color: var(--navy); margin-bottom: 5px; display: block; }
+        .proof-detail { font-size: 0.9rem; color: #64748b; }
+
+        /* [PAGE 4] AI 팩트 체크 */
+        .ai-check-section { padding: 50px 40px; background: var(--white); border-bottom: 10px solid var(--bg-gray); }
+        .vs-grid { display: flex; gap: 20px; justify-content: center; align-items: stretch; margin-bottom: 30px; }
+        .vs-card { flex: 1; padding: 25px; border-radius: 15px; text-align: center; border: 2px solid transparent; }
+        
+        .vs-card.bad { background: #f1f5f9; border-color: #cbd5e1; }
+        .vs-card.bad h3 { color: #64748b; font-size: 1.1rem; margin-bottom: 5px; }
+        .vs-card.bad .ai-list { font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px; }
+        .vs-card.bad .score { font-size: 3rem; font-weight: 900; color: #94a3b8; line-height: 1; margin-bottom: 10px; }
+        
+        .vs-card.good { background: #fffbf0; border-color: var(--gold); position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15); }
+        .vs-card.good::after { content: "WINNER"; position: absolute; top: 15px; right: -30px; background: var(--navy); color: white; padding: 5px 40px; transform: rotate(45deg); font-weight: 800; font-size: 0.8rem; }
+        .vs-card.good h3 { color: var(--navy); font-size: 1.3rem; margin-bottom: 5px; }
+        .vs-card.good .score { font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+
+        .comp-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
+        .comp-table th { background: var(--navy); color: white; padding: 12px; font-weight: 600; font-size: 0.9rem; }
+        .comp-table td { padding: 15px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+        .comp-table tr td:first-child { font-weight: 800; color: var(--text-main); width: 20%; background: #f8fafc; text-align: center; }
+        .comp-table tr td:nth-child(2) { color: #64748b; width: 35%; text-align: center; font-size: 0.9rem; }
+        .comp-table tr td:last-child { font-weight: 700; color: var(--navy); width: 45%; background: #fffbf0; text-align: center; border-bottom: 1px solid #faeacc; }
+        
+        .highlight-txt { color: var(--gold); font-weight: 900; }
+
+        /* [PAGE 5] 커리큘럼 */
+        .curriculum-section { padding: 50px 40px; background: var(--white); border-bottom: 1px solid #e2e8f0; }
+        .curr-list { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        
+        .curr-item {
+            background: #f8fafc; padding: 25px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; align-items: flex-start; gap: 20px;
+            transition: 0.3s; border-left: 5px solid var(--navy);
+        }
+        .curr-item:hover { transform: translateX(5px); border-left-color: var(--gold); background: white; }
+        
+        .step-badge {
+            background: var(--navy); color: var(--white); font-weight: 800; font-size: 1rem;
+            width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 5px;
+        }
+        
+        .curr-item.new-feature { border-left-color: var(--accent-red); background: #fff5f5; }
+        .curr-item.new-feature .step-badge { background: var(--accent-red); }
+        .new-tag { background: var(--accent-red); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+
+        .step-content h3 { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+        .step-content p { font-size: 0.95rem; color: #475569; line-height: 1.5; word-break: keep-all; }
+
+        /* [PAGE 6] 오퍼 및 연락처 */
+        .offer-section { padding: 60px 40px; background: var(--navy); color: var(--white); text-align: center; }
+        .price-box { margin: 30px 0; padding: 20px; border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; }
+        .old-price { text-decoration: line-through; color: #94a3b8; font-size: 1.2rem; margin-right: 10px; }
+        .new-price { font-size: 2.2rem; font-weight: 900; color: var(--gold); }
+        
+        .contact-info { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
+        .contact-item { font-size: 1.1rem; margin-bottom: 10px; }
+        .contact-item strong { color: var(--gold); margin-right: 10px; }
+
+        .print-btn {
+            display: block; width: 100%; padding: 20px; background: #334155; color: #fff;
+            text-align: center; font-weight: 700; cursor: pointer; border: none; transition: 0.3s;
+        }
+        .print-btn:hover { background: #1e293b; }
+
+        /* 인쇄 최적화 (끊김 방지 및 페이지 번호 숨김) */
+        @media print {
+            .print-btn { display: none; }
+            body { margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; }
+            .leaflet-container { 
+                box-shadow: none; width: 100%; max-width: 100%; margin: 0; 
+                border: none;
+            }
+            
+            /* 머리글/바닥글 제거 시도 (브라우저마다 다름) */
+            @page { margin: 10mm; size: auto; }
+
+            /* 요소 중간 잘림 방지 */
+            section, .curr-item, .proof-card, .vs-card, .price-box, .hook-section, .comp-table, tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .proof-grid { grid-template-columns: 1fr; }
+            .vs-grid { display: block; }
+            .vs-card { margin-bottom: 15px; }
+            .comp-table { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="leaflet-container">
+    
+    <section class="cover-section">
+        <span class="brand-logo">STRUCTURE-X</span>
+        <h1 class="main-title">취업률 <br>수직 상승시킵니다.</h1>
+        <p class="main-sub">AI 시대, 합격의 기준이 바뀌었습니다.<br>기존 자소서 방식으로는 절대 합격할 수 없습니다.</p>
+        <div class="guarantee-box">자신 있습니다.</div>
+    </section>
+
+    <section class="hook-section">
+        <h2 class="hook-title">"담당자는 귀하의 자소서를<br>읽지도 않았습니다."</h2>
+        <p class="hook-desc">
+            대기업은 물론 일반 기업도 <strong>AI가 이력서의 '키워드'를 먼저 검열</strong>한다는 사실, 알고 계셨나요?<br>
+            핵심 키워드가 없으면, 아무리 잘 쓴 소설도 <strong>자동으로 휴지통</strong>에 들어갑니다.<br><br>
+            STRUCTURE-X는 <strong>AI 필터를 100% 통과하는 '합격 키워드'</strong>를 찾아 심어드립니다.
+        </p>
+    </section>
+
+    <section class="proof-section">
+        <div class="section-header">
+            <h2 class="section-title">Why STRUCTURE-X?</h2>
+            <p class="section-desc">말로만 하지 않습니다. 데이터로 증명합니다.</p>
+        </div>
+        <div class="proof-grid">
+            <div class="proof-card">
+                <span class="proof-num">NO.1</span>
+                <span class="proof-text">전국 실적 1위</span>
+                <p class="proof-detail">前 스탭스(STAFFS) 입사 3개월 만에 달성한 압도적 알선 기록</p>
+            </div>
+            <div class="proof-card">
+                <span class="proof-num">4.9/5</span>
+                <span class="proof-text">고객 만족도</span>
+                <p class="proof-detail">네이버, 오투잡 등 주요 플랫폼 취업 분야 석권</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ai-check-section">
+        <div class="section-header">
+            <h2 class="section-title">AI Fact Check</h2>
+            <p class="section-desc">소설 쓰는 멍청한 AI vs 합격 전략가</p>
+        </div>
+        <div class="vs-grid">
+            <div class="vs-card bad">
+                <h3>일반 AI</h3>
+                <div class="ai-list">(뤼튼 / 챗GPT / 제미나이 등)</div>
+                <div class="score">20점</div>
+                <p style="font-size:0.95rem; color:#64748b;">"로봇이 지어낸 이야기"<br>(면접장 침묵 유발)</p>
+            </div>
+            <div class="vs-card good">
+                <h3>STRUCTURE-X</h3>
+                <div class="score">100점</div>
+                <p style="font-size:0.95rem; color:#334155; font-weight:700;">"면접관을 홀리는 전략"<br>(면접장 주인공은 나!)</p>
+            </div>
+        </div>
+        <table class="comp-table">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>일반 AI</th>
+                    <th style="background:var(--navy); color:var(--gold);">STRUCTURE-X</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>글 방식</td>
+                    <td>소설처럼 창작</td>
+                    <td style="color:var(--navy);">탐정처럼 <span class="highlight-txt">팩트 발굴</span></td>
+                </tr>
+                <tr>
+                    <td>퀄리티</td>
+                    <td>누구나 아는 뻔한 말</td>
+                    <td style="color:var(--navy);">숫자와 <span class="highlight-txt">증거로 설득</span></td>
+                </tr>
+                <tr>
+                    <td>진짜 목표</td>
+                    <td>단순 서류 통과</td>
+                    <td style="color:var(--navy);">면접 <span class="highlight-txt">설계 및 주도</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="curriculum-section">
+        <div class="section-header" style="text-align: left; margin-bottom: 20px;">
+            <h2 class="section-title">Total Care System</h2>
+            <p class="section-desc">기초 설계부터 비공개 채용 시장 공략까지</p>
+        </div>
+
+        <div class="curr-list">
+            <div class="curr-item">
+                <div class="step-badge">01</div>
+                <div class="step-content">
+                    <h3>적을 알고 나를 알면 백전백승!</h3>
+                    <p>AI한테 무작정 써달라고 하면 100% 탈락합니다. 기업이 어떤 사람을 원하는지 먼저 알아야 AI에게 똑똑하게 일을 시킬 수 있습니다. 합격의 '기준'부터 잡아드립니다.</p>
+                </div>
+            </div>
+            <div class="curr-item">
+                <div class="step-badge">02</div>
+                <div class="step-content">
+                    <h3>면접관이 내 자랑만 물어보게 만들기</h3>
+                    <p>그럴듯한 AI 자소서는 면접 가면 의심만 받습니다. 내 경험을 아주 구체적으로 적어서, 면접관이 내가 준비한 '유리한 질문'만 던지게 만드는 설계를 해드립니다.</p>
+                </div>
+            </div>
+            <div class="curr-item">
+                <div class="step-badge">03</div>
+                <div class="step-content">
+                    <h3>텅 빈 이력서, 1시간 만에 채우기</h3>
+                    <p>쓸 내용이 없어서 고민이신가요? 당장 오늘 따서 이력서에 한 줄 추가할 수 있는 수료증으로 '준비된 인재'라는 도장을 쾅! 찍어드립니다.</p>
+                </div>
+            </div>
+            <div class="curr-item">
+                <div class="step-badge">04</div>
+                <div class="step-content">
+                    <h3>인사팀과 실무팀, 공략법이 다르다?</h3>
+                    <p>사람 좋은 인사팀장과 깐깐한 실무 팀장은 보는 눈이 다릅니다. 누구를 만나느냐에 따라 말투, 표정, 태도를 어떻게 바꿔야 합격하는지 딱 정해드립니다.</p>
+                </div>
+            </div>
+            <div class="curr-item new-feature">
+                <div class="step-badge">05</div>
+                <div class="step-content">
+                    <h3>전국 헤드헌터를 내 '취업 비서'로! <span class="new-tag">NEW</span></h3>
+                    <p>채용 사이트엔 없는 알짜배기 정보는 따로 있습니다. 전국의 헤드헌터들을 나만의 '취업 에이전트'로 똑똑하게 부리는 방법과 주의할 점을 알려드립니다.</p>
+                </div>
+            </div>
+            <div class="curr-item">
+                <div class="step-badge">06</div>
+                <div class="step-content">
+                    <h3>면접관의 거짓말 탐지기 통과하기</h3>
+                    <p>이력서와 자소서가 따로 놀면 100% 떨어집니다. 두 서류가 찰떡궁합인지 확인해서, 면접관에게 '이 사람은 진짜다'라는 확신을 심어주는 최종 점검입니다.</p>
+                </div>
+            </div>
+            <div class="curr-item new-feature">
+                <div class="step-badge">07</div>
+                <div class="step-content">
+                    <h3>급한 기업 찾아내기 <span class="new-tag">HOT</span></h3>
+                    <p>취업이 급한 구직자에게 유용한 급한 기업을 빠르게 찾아내는 법과 급한 기업에 빠르게 취업되는 방법을 알려드립니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="offer-section">
+        <h2 style="margin-bottom: 10px;">"자소서 첨삭 1회 비용으로<br>기관의 취업률을 바꾸세요."</h2>
+        <div class="price-box">
+            <span class="old-price">300,000원</span>
+            <span class="new-price">150,000원</span>
+            <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">(자소서 첨삭 1회가격으로 기관취업률을 올릴수 있습니다.)</p>
+        </div>
+        
+        <p style="font-weight: 700; font-size: 1.2rem; color: var(--gold);">오직 결과로 증명합니다. 믿어주세요.</p>
+
+        <div class="contact-info">
+            <div class="contact-item"><strong>Mobile</strong> 010-6279-4998</div>
+            <div class="contact-item"><strong>Email</strong> speeding1234@naver.com</div>
+            <div class="contact-item"><strong>Web</strong> https://kimjinholab.pages.dev/</div>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 20px;">김진호 합격 연구소 | 사업자번호: 133-90-03123</p>
+        </div>
+    </section>
+
+    <button class="print-btn" onclick="window.print()">최대한 취업률을 올려드리겠습니다.</button>
+</div>
+
+</body>
+</html>

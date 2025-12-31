@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김진호 합격 연구소 | 전 세대 압도적 합격률</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- 기본 설정 --- */
+        :root {
+            --navy: #0f172a;        
+            --gold: #d4af37;        
+            --white: #ffffff;
+            --bg-gray: #f8f9fa;       
+            --text-dark: #111111;     
+            --text-gray: #64748b;     
+            --highlight-bg: #fffbe7;
+            --alert-red: #ef4444;
+            --strong-text: #0f172a;
+            --kakao-yellow: #FEE500; /* 카카오 공식 컬러 추가 */
+            
+            /* 단계별 색상 정의 */
+            --step0-main: #3b82f6; --step0-bg: #f0f9ff;
+            --step1-main: #d4af37; --step1-bg: #fffdf5;
+            --step2-main: #8b5cf6; --step2-bg: #faf5ff;
+            --step3-main: #10b981; --step3-bg: #f0fdf4;
+            --step4-main: #f59e0b; --step4-bg: #fffbeb;
+            --step5-main: #be123c; --step5-bg: #fff1f2; /* New: 필승 레드 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {  
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            color: var(--text-dark);    
+            background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fa 100%);
+            line-height: 1.6;
+            word-break: keep-all;   
+        }
+
+        /* --- 1. 진행 프로세스 섹션 --- */
+        .process-section {
+            padding: 100px 5% 80px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(248,249,250,0.9) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--navy);
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-family: 'Nanum Myeongjo', serif;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 💡 100% 후불 결제 (황금색 강조) */
+        .section-title span {
+            color: var(--gold);
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 100%);
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 60px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-container {
+            display: grid;
+            /* 카드 6개(0~5단계)를 위해 3열로 조정 */
+            grid-template-columns: repeat(3, 1fr);  
+            gap: 24px;
+            max-width: 1500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 40px 28px;
+            text-align: left;
+            background: var(--white);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .process-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+        }
+
+        /* 단계별 스타일 */
+        .process-card.step-zero { order: 0; background: var(--step0-bg); border-color: var(--step0-main); }
+        .process-card.step-one { order: 1; background: var(--step1-bg); border-color: var(--step1-main); }
+        .process-card.step-two { order: 2; background: var(--step2-bg); border-color: var(--step2-main); }
+        .process-card.step-three { order: 3; background: var(--step3-bg); border-color: var(--step3-main); }
+        .process-card.step-four { order: 4; background: var(--step4-bg); border-color: var(--step4-main); }
+        .process-card.step-five { order: 5; background: var(--step5-bg); border-color: var(--step5-main); border-width: 3px; }
+        
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+            align-self: flex-start;
+            letter-spacing: 0.5px;
+            background: var(--navy);
+        }
+
+        /* 단계별 배지 색상 */
+        .process-card.step-zero .step-badge { background: var(--step0-main); }
+        .process-card.step-one .step-badge { background: var(--step1-main); }
+        .process-card.step-two .step-badge { background: var(--step2-main); }
+        .process-card.step-three .step-badge { background: var(--step3-main); }
+        .process-card.step-four .step-badge { background: var(--step4-main); }
+        .process-card.step-five .step-badge { background: var(--step5-main); box-shadow: 0 4px 15px rgba(190, 18, 60, 0.3); }
+
+
+        .process-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--navy); 
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1.3;
+        }
+
+        .process-desc {
+            font-size: 1.1rem;
+            color: var(--text-dark); 
+            line-height: 1.7;
+        }
+        
+        .highlight-text {
+            color: var(--strong-text);
+            font-weight: 800;
+            background: var(--highlight-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        /* 단계별 강조 스타일 */
+        .process-card.step-zero .process-desc .highlight-text { background: #dbeafe; color: var(--navy); font-weight: 900; }
+        .process-card.step-one .process-desc .highlight-text { background: #fff9c4; color: var(--navy); font-weight: 900; }
+        .process-card.step-two .process-desc .highlight-text { background: #ede9fe; color: var(--navy); font-weight: 900; }
+        .process-card.step-three .process-desc .highlight-text { background: #d1fae5; color: var(--navy); font-weight: 900; }
+        .process-card.step-four .process-desc .highlight-text { background: #fed7aa; color: var(--navy); font-weight: 900; }
+        .process-card.step-five .process-desc .highlight-text { background: #ffe4e6; color: var(--step5-main); font-weight: 900; }
+        
+        /* 0단계 통화 불가 안내 */
+        .process-card.step-zero .process-desc .highlight-text[style*="background: #fff;"] {
+            background: #fff !important;    
+            color: var(--alert-red) !important;
+        }
+
+
+        /* --- 문의 및 계좌 정보 박스 --- */
+        .contact-big-box {
+            max-width: 1000px;
+            margin: 80px auto 0;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 3px solid var(--navy);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--navy);
+            margin-bottom: 35px;
+            display: block;
+        }
+
+        .contact-row {
+            font-size: 1.35rem;
+            margin-bottom: 28px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .contact-row strong {
+            color: var(--gold);
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .phone-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--navy);
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 8px;
+        }
+
+        .bank-account {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--navy);
+            background: linear-gradient(135deg, #fff9c4 0%, #fef3c7 100%);
+            padding: 8px 20px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .alert-msg {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: var(--alert-red);
+            font-weight: 700;
+            background: #fff;
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 2px solid #fee2e2;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+        }
+
+        .referral-guide-box {
+            margin-top: 35px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #93c5fd;
+            padding: 28px;
+            border-radius: 16px;
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        /* --- 2. 가격 섹션 --- */
+        .price-section {
+            padding: 100px 5% 80px;
+            background: linear-gradient(180deg, rgba(248,249,250,0.9) 0%, rgba(255,255,255,0.8) 100%);
+            text-align: center;
+            position: relative;
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 32px;
+            /* 4번째 카드가 들어갈 수 있도록 max-width 확장 */
+            max-width: 1650px; 
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .price-card {
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 48px 36px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.12);
+            border-color: var(--gold);
+        }
+
+        .price-card.selected {
+            border: 3px solid var(--gold);
+            background: linear-gradient(135deg, #fffdf5 0%, #ffffff 100%);
+            transform: scale(1.03);
+            box-shadow: 0 24px 56px rgba(212, 175, 55, 0.25);
+        }
+
+        .price-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--navy) 0%, #1e293b 100%);
+            padding: 10px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+        }
+        
+        .price-card.selected .price-badge {
+            background: linear-gradient(135deg, var(--gold) 0%, #c49a2e 100%);
+            color: var(--navy);
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+        }
+
+        .price-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+            font-family: 'Nanum Myeongjo', serif;
+        }
+
+        .price-display-area {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 28px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .normal-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.15rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        
+        .referral-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--navy);
+        }
+
+        .referral-label {
+            font-size: 1.15rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            padding: 6px 14px;
+            border-radius: 8px;
+        }
+
+        .referral-amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .price-desc {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            font-size: 1.15rem;
+            line-height: 2;
+        }
+
+        .price-features li {
+            margin-bottom: 12px;
+            padding-left: 32px;
+            position: relative;
+        }
+
+        .price-features li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        .click-guide {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            font-weight: 600;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink { 
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }    
+        }
+
+        /* --- 카카오 비즈니스 채팅 버튼 --- */
+        .kakao-chat-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .kakao-bubble {
+            background: var(--white);
+            color: var(--navy);
+            padding: 10px 18px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 2px solid var(--gold);
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+
+        .kakao-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--gold);
+        }
+
+        .kakao-btn {
+            width: 65px;
+            height: 65px;
+            background-color: var(--kakao-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .kakao-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .kakao-btn svg {
+            width: 35px;
+            height: 35px;
+            fill: #3c1e1e;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* --- 모바일 최적화 --- */
+        @media (max-width: 1200px) {
+            .process-container { 
+                grid-template-columns: repeat(2, 1fr); /* 태블릿: 2열 */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .process-section, .price-section {
+                padding: 50px 4% 40px;
+            }
+
+            .section-title { 
+                font-size: 1.8rem;
+            }
+            .section-title span {
+                padding: 6px 15px;
+                font-size: 1.1rem;
+            }
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+            .process-container { 
+                grid-template-columns: 1fr; /* 모바일: 1열 */
+                gap: 16px;
+            }
+            
+            .process-card {
+                padding: 25px 20px;
+                margin-bottom: 10px;
+            }
+            
+            /* 모바일에서도 순서 유지 */
+            .process-card.step-zero { order: 0; }
+            .process-card.step-one { order: 1; }
+            .process-card.step-two { order: 2; }
+            .process-card.step-three { order: 3; }
+            .process-card.step-four { order: 4; }
+            .process-card.step-five { order: 5; }
+            
+            .process-title {
+                font-size: 1.3rem;
+            }
+            .process-desc {
+                font-size: 1rem;
+            }
+
+            .contact-big-box { 
+                padding: 30px 20px;
+                margin-top: 50px;
+            }
+            .contact-title {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            .contact-row {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+            .phone-number {
+                font-size: 1.8rem;
+            }
+            .bank-account {
+                font-size: 1.3rem;
+                padding: 6px 15px;
+            }
+            .alert-msg {
+                font-size: 0.95rem;
+                padding: 10px 20px;
+            }
+            .referral-guide-box { 
+                font-size: 1.0rem;
+                padding: 20px;
+            }
+            
+            .price-grid { 
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .price-card {
+                padding: 30px 25px;
+            }
+            .price-card.selected {
+                transform: scale(1.0);
+            }
+            .price-title {
+                font-size: 1.6rem;
+            }
+            .normal-price-row span, .referral-label {
+                font-size: 1rem;
+            }
+            .referral-amount {
+                font-size: 1.5rem;
+            }
+            .price-desc, .price-features {
+                font-size: 1rem;
+            }
+            .click-guide {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .kakao-chat-float {
+                bottom: 20px;
+                right: 20px;
+            }
+            .kakao-btn {
+                width: 55px;
+                height: 55px;
+            }
+            .kakao-bubble {
+                display: none; /* 모바일에서는 말풍선 숨김 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="process-section">
+        <h2 class="section-title">
+            합격까지 6단계 프로세스<br>
+            <span> 100% 후불 결제</span>
+        </h2>
+        <p class="section-subtitle">검증된 프로세스로 합격까지 책임집니다</p>
+
+        <div class="process-container">
+            
+            <div class="process-card step-zero">
+                <span class="step-badge">0단계</span>
+                <strong class="process-title">1분 진단 및 접수</strong>
+                <p class="process-desc">
+                    카카오톡이나 문자로 <span class="highlight-text">지원 분야와 마감일</span>을 남겨주세요.<br>
+                    <span class="highlight-text" style="background: #fff; color: var(--alert-red);">상담 중에는 통화가 어렵습니다. 문자를 남겨주시면 즉시 확인 후 연락드리겠습니다.</span>
+                </p>
+            </div>
+            
+            <div class="process-card step-one">
+                <span class="step-badge">1단계</span>
+                <strong class="process-title">스펙업 정보 즉시 제공</strong>
+                <p class="process-desc">
+                    자소서 첨삭 신청과 동시에, 남들은 모르는 <span class="highlight-text">100% 무료 스펙업 리스트 (200개+)</span>를 즉시 제공해 드립니다.
+                </p>
+            </div>
+            
+            <div class="process-card step-two">
+                <span class="step-badge">2단계</span>
+                <strong class="process-title">27단계 심층 인터뷰</strong>
+                <p class="process-desc">
+                    30~60분간 전화 인터뷰를 진행합니다. <span class="highlight-text">선생님의 모든 경험을 합격 데이터로</span> 완벽하게 바꿔드립니다.
+                </p>
+            </div>
+
+            <div class="process-card step-three">
+                <span class="step-badge">3단계</span>
+                <strong class="process-title">완성본 검토 및 수정</strong>
+                <p class="process-desc">
+                    초안을 먼저 보여드립니다. 마음에 드실 때까지 수정하며, <span class="highlight-text">2차 수정은 당일 완료</span>를 원칙으로 합니다.
+                </p>
+            </div>
+
+            <div class="process-card step-four">
+                <span class="step-badge">4단계</span>
+                <strong class="process-title">면접 대비 질문 제공</strong>
+                <p class="process-desc">
+                    자소서 기반 <span class="highlight-text">면접 예상 질문과 답변</span>까지 꼼꼼하게 챙겨드립니다.
+                </p>
+            </div>
+
+            <div class="process-card step-five">
+                <span class="step-badge">5단계 (Final)</span>
+                <strong class="process-title">필승 면접 치트키 전수</strong>
+                <p class="process-desc">
+                    <strong>이 멘트로 떨어진 사람은 단 한 명도 없었습니다.</strong><br>
+                    <br>
+                    <span class="highlight-text">1. 반전 매력 1분 자기소개</span><br>
+                    <span class="highlight-text">2. 마지막 한 방 필살기 멘트</span><br>
+                    <br>
+                    불합격이 불가능한 최후의 무기를 드리고, 최종 후불 결제를 진행합니다.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="contact-big-box">
+            <strong class="contact-title">📞 상담 문의 및 결제 안내</strong>
+            
+            <div class="contact-row">
+                <strong>1. 상담 문의 (문자/카톡)</strong><br>
+                <span class="phone-number">010-6279-4998</span>
+            </div>
+
+            <div class="contact-row">
+                <strong>2. 후불 결제 계좌 (카카오뱅크)</strong><br>
+                <span class="bank-account">3333-35-8081857 (예금주: 김진호)</span>
+            </div>
+
+            <span class="alert-msg">※ 상담 중에는 통화가 어렵습니다. 문자를 남겨주시면 바로 연락드립니다.</span>
+
+            <div class="referral-guide-box">
+                🎁 <strong>지인 추천 특별 혜택</strong><br>
+                상담 시 추천해주신 지인의 <span style="text-decoration: underline;">성함 또는 전화번호 뒷자리</span>를 말씀해주세요.<br>
+                정가가 아닌 <strong>'지인 우대가'</strong>로 적용해 드립니다.
+            </div>
+        </div>
+    </section>
+
+    <section class="price-section">
+        <h2 class="section-title">가격 정책: 결과에 대한 자신감</h2>
+        <p class="click-guide">👇 원하시는 상품을 클릭해보세요.</p>
+
+        <div class="price-grid">
+            <div class="price-card" onclick="selectCard(this)">
+                <span class="price-badge">1-2개 항목</span>
+                <h3 class="price-title">스탠다드 플랜</h3>
+                
+                <div class="price-display-area">
+                    <div class="normal-price-row">
+                        <span>일반 결제</span>
+                        <span>60,000원</span>
+                    </div>
+                    <div class="referral-price-row">
+                        <span class="referral-label">⚡ 지인 추천</span>
+                        <span class="referral-amount">50,000원</span>
+                    </div>
+                </div>
+
+                <p class="price-desc">800자 이내 1개 항목 완성</p>
+                <ul class="price-features">
+                    <li>27단계 논리 구조 설계</li>
+                    <li>전문가 직접 작성 및 수정</li>
+                    <li><strong>면접 예상 질문 & 답변 제공</strong></li>
+                    <li>1:1 전담 상담</li>
+                </ul>
+            </div>
+
+            <div class="price-card selected" onclick="selectCard(this)">
+                <span class="price-badge">3~4개 항목 </span>
+                <h3 class="price-title">마스터 패키지</h3>
+                
+                <div class="price-display-area">
+                    <div class="normal-price-row">
+                        <span>일반 결제</span>
+                        <span>120,000원</span>
+                    </div>
+                    <div class="referral-price-row">
+                        <span class="referral-label">⚡ 지인 추천</span>
+                        <span class="referral-amount">100,000원</span>
+                    </div>
+                </div>
+
+                <p class="price-desc">1,500자 이내 2~3개 항목 완성</p>
+                <ul class="price-features">
+                    <li>전체 항목 유기적 설계</li>
+                    <li>경력 기술서 심층 분석</li>
+                    <li><strong>면접 압박 질문 & 답변 제공</strong></li>
+                    <li>완성본 PDF 제공</li>
+                </ul>
+            </div>
+
+            <div class="price-card" onclick="selectCard(this)">
+                <span class="price-badge"> 경력단절/ 정부사업</span>
+                <h3 class="price-title">VIP 프리미엄</h3>
+                
+                <div class="price-display-area">
+                    <div class="normal-price-row">
+                        <span>일반 결제</span>
+                        <span>150,000원</span>
+                    </div>
+                    <div class="referral-price-row">
+                        <span class="referral-label">⚡ 지인 추천</span>
+                        <span class="referral-amount">130,000원</span>
+                    </div>
+                </div>
+
+                <p class="price-desc">분량 무제한 / 인생 2막 설계</p>
+                <ul class="price-features">
+                    <li>모든 항목 완벽 대응</li>
+                    <li>공백기/단점 방어 논리 구축</li>
+                    <li><strong>면접 시나리오 풀세트 제공</strong></li>
+                    <li>소장 직접 유선 전략 회의</li>
+                </ul>
+            </div>
+
+            <div class="price-card" onclick="selectCard(this)">
+                <span class="price-badge" style="background: linear-gradient(135deg, #4a044e 0%, #701a75 100%);"> B2B / 대학 / 관공서</span>
+                <h3 class="price-title">기관 취업특강</h3>
+                
+                <div class="price-display-area">
+                    <div class="normal-price-row">
+                        <span>일반 결제</span>
+                        <span>350,000원</span>
+                    </div>
+                    <div class="referral-price-row">
+                        <span class="referral-label">⚡ 지인/단체</span>
+                        <span class="referral-amount">300,000원</span>
+                    </div>
+                </div>
+
+                <p class="price-desc"> 특강 </p>
+                <ul class="price-features">
+                    <li>최신 채용 트렌드 분석</li>
+                    <li>합격 자소서 Case Study</li>
+                    <li><strong>실시간 Q&A 및 즉석 코칭</strong></li>
+                    <li>참여자 전용 템플릿 제공</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="kakao-chat-float">
+        <div class="kakao-bubble">100% 후불제 상담하기 💬</div>
+        <a href="https://pf.kakao.com/_KMiQn/chat" target="_blank" class="kakao-btn">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.558 1.712 4.81 4.348 6.155-.201.75-.727 2.713-.834 3.13-.134.52.181.513.38.38 1.565-1.045 7.243-4.84 7.243-4.84 3.424-.155 5.863-2.613 5.863-4.825C21 6.185 16.97 3 12 3z"/>
+            </svg>
+        </a>
+    </div>
+
+    <script>
+        function selectCard(element) {
+            const cards = document.querySelectorAll('.price-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
