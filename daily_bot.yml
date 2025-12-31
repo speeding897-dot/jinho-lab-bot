@@ -35,4 +35,4 @@ jobs:
         git config --global user.email "bot@noreply.github.com"
         git add .
         git commit -m "🤖 일일 채용공고 업데이트 (30개)" || echo "변경 사항 없음"
-        git push
+        git push origin main
