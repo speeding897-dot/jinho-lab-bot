@@ -7,7 +7,6 @@ from datetime import datetime
 import random
 import json
 import re
-import subprocess  # 👈 자동 저장을 위한 필수 도구
 
 # ==========================================
 # 1. 설정 영역
@@ -37,7 +36,7 @@ def export_db_to_js():
                     if isinstance(content, list): data.extend(content)
             except: pass
     
-    # 데이터가 없을 경우 샘플 데이터
+    # 샘플 데이터 (파일 없을 경우)
     if not data:
         data = ["성장과정: 책임감 없는 재능은 낭비라는 가훈 아래...", "지원동기: 귀사의 혁신적인 시스템은..."]
     
@@ -215,7 +214,8 @@ JOB_TEMPLATE = """
     </div>
 
     <script>
-        // [수정] 2개로 쪼개진 파일(db_data1.js, db_data2.js)을 합쳐서 하나인 것처럼 사용
+        // [핵심] 2개로 쪼개진 파일(db_data1.js, db_data2.js)을 합쳐서 하나인 것처럼 사용
+        // 로드 안 됐을 경우 대비 (빈 배열)
         const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
         const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
         const dbData = part1.concat(part2);
@@ -290,6 +290,7 @@ JOB_TEMPLATE = """
             setTimeout(() => el.style.borderColor = '#e2e8f0', 300);
         }}
 
+        // 실행 (0.5초 딜레이 - JS 로드 시간 고려)
         setTimeout(() => renderSingle(0), 100);
     </script>
 </body>
@@ -297,7 +298,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 실행 로직 (크롤링 + 페이지 생성)
+# 4. 실행 로직 (JS 생성 -> 페이지 생성)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -324,6 +325,7 @@ def create_job_page(url):
         job_id = urllib.parse.parse_qs(parsed.query)['idx'][0]
     except: return False
     
+    # 히스토리 체크 (중복 생성 방지)
     if job_id in load_history(): return False
 
     print(f"🔄 [수집] ID: {job_id}...")
@@ -339,6 +341,7 @@ def create_job_page(url):
         safe_name = "".join([c for c in org_name if c.isalnum()])
         filename = f"{SAVE_DIR}/{job_id}_{safe_name}.html"
         
+        # 파일 존재 시 패스
         if os.path.exists(filename): return False
 
         try:
@@ -353,11 +356,13 @@ def create_job_page(url):
         content_text = content_html.text if content_html else ""
         content = str(content_html) if content_html else "<p>상세 내용은 원문 참조</p>"
 
+        # 키워드 배지 생성
         keywords = extract_keywords_from_text(content_text)
         keyword_chips_html = ""
         for kw in keywords:
             keyword_chips_html += f'<button class="keyword-chip" onclick="executeSearch(\'{kw}\')"><span class="chip-check">✔</span> {kw}</button>'
         
+        # [수정] DB 데이터를 직접 넣지 않고 템플릿만 사용
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
@@ -373,87 +378,14 @@ def create_job_page(url):
         print(f"   ❌ 실패: {e}")
         return False
 
-# ==========================================
-# 5. 파이썬이 직접 깃허브에 저장하는 함수
-# ==========================================
-def auto_push_to_github():
-    print("\n🚀 [자동 저장] 깃허브 업로드 시작...")
-    
-    token = os.getenv('GITHUB_TOKEN')
-    repo_name = os.getenv('GITHUB_REPOSITORY')
-    
-    if not token or not repo_name:
-        print("⚠️ 로컬 환경이거나 토큰 없음 (자동 저장 패스)")
-        return
-
-    try:
-        subprocess.run(["git", "config", "--global", "user.name", "Auto Bot"], check=True)
-        subprocess.run(["git", "config", "--global", "user.email", "bot@noreply.github.com"], check=True)
-        subprocess.run(["git", "add", "."], check=True)
-        subprocess.run(["git", "commit", "-m", "🤖 데일리 채용공고 업데이트"], check=False)
-        remote_url = f"https://x-access-token:{token}@github.com/{repo_name}.git"
-        subprocess.run(["git", "push", remote_url, "HEAD:main"], check=True)
-        print("🎉 [성공] 깃허브에 저장 완료!")
-    except Exception as e:
-        print(f"❌ [실패] 저장 중 에러: {e}")
-
-# ==========================================
-# 6. [신규 기능] 기존 HTML 파일 일괄 패치 (구버전 -> 신버전 변환)
-# ==========================================
-def patch_existing_files():
-    print("\n🛠️ [패치] 기존 HTML 파일들을 'db_data1.js, db_data2.js' 방식으로 변환합니다...")
-    
-    if not os.path.exists(SAVE_DIR):
-        print("   ⚠️ 저장된 폴더가 없습니다.")
-        return
-
-    # 변경할 대상 문자열 정의 (구버전 패턴)
-    OLD_SCRIPT = '<script src="db_data.js"></script>'
-    # 변경될 문자열 정의 (신버전 패턴)
-    NEW_SCRIPT = '<script src="db_data1.js"></script>\n    <script src="db_data2.js"></script>'
-
-    # JS 로직 변경
-    OLD_JS_LOGIC = "const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];"
-    NEW_JS_LOGIC = """const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
-        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
-        const dbData = part1.concat(part2);"""
-
-    count = 0
-    files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
-    
-    for filename in files:
-        filepath = os.path.join(SAVE_DIR, filename)
-        try:
-            with open(filepath, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
-            # 1. 스크립트 태그 교체 (파일 내용에 구버전 코드가 있으면 교체)
-            if OLD_SCRIPT in content:
-                new_content = content.replace(OLD_SCRIPT, NEW_SCRIPT)
-                
-                # 2. 내부 JS 로직 교체
-                if OLD_JS_LOGIC in new_content:
-                    new_content = new_content.replace(OLD_JS_LOGIC, NEW_JS_LOGIC)
-                
-                # 파일 덮어쓰기
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    f.write(new_content)
-                count += 1
-        except Exception as e:
-            print(f"   ❌ 변환 실패 ({filename}): {e}")
-
-    print(f"✅ [완료] 총 {count}개의 기존 파일을 신버전으로 업데이트했습니다.")
-
-# ==========================================
-# 메인 실행부
-# ==========================================
+# 메인 실행
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
     
-    # 1. DB 분할 (db_data1.js, db_data2.js 생성)
+    # 1. DB 데이터를 별도 JS 파일로 추출 (용량 다이어트 핵심)
     export_db_to_js()
     
-    # 2. 크롤링
+    # 2. 크롤링 및 페이지 생성
     new_files_count = 0
     page = 1
     
@@ -470,7 +402,7 @@ if __name__ == "__main__":
         page += 1
         time.sleep(1)
         
-    # 3. 목록 갱신
+    # 3. 목록 페이지 갱신 (jobs.html)
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
@@ -479,16 +411,11 @@ if __name__ == "__main__":
         list_html = """<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>채용공고 목록</title><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"><style>body{font-family:'Pretendard';padding:20px;background:#f8fafc;max-width:800px;margin:0 auto;} .card{background:white;padding:20px;margin-bottom:15px;border-radius:10px;border:1px solid #e2e8f0;display:block;text-decoration:none;color:#333;box-shadow:0 2px 5px rgba(0,0,0,0.05);} .card:hover{border-color:#d4af37;transform:translateY(-2px);} h3{margin:0 0 5px 0;color:#0f172a;} p{margin:0;color:#64748b;font-size:0.9rem;}</style></head><body><h1 style="text-align:center;color:#0f172a;">실시간 채용공고 & DB</h1>"""
         
         for f in files:
-            name = f.replace(".html", "")
-            list_html += f'<a href="{SAVE_DIR}/{f}" class="card"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
+            name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
+            # [수정] target="_blank" 추가로 새 창에서 열리게 함
+            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
         list_html += "</body></html>"
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
-    print(f"\n작업 종료. 신규 파일: {new_files_count}개")
-
-    # 4. [중요] 기존 파일 일괄 수정 (Patch)
-    patch_existing_files()
-
-    # 5. 자동 저장 실행
-    auto_push_to_github()
+    print(f"\n🎉 작업 끝! 오늘 새로 만든 파일: {new_files_count}개")
