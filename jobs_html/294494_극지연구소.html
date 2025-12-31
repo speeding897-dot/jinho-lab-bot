@@ -7,7 +7,8 @@
     <title>극지연구소 합격 가이드 - 김진호 합격연구소</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
-    <script src="db_data.js"></script>
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
 
     <style>
         :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
@@ -127,13 +128,18 @@
 
             <div class="content-body"><div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>- (자격요건) 화학, 환경과학, 지구과학 관련 분야 학사 학위 소지자, 경력 무관<br/>- (우대사항) ICP-SF-MS를 이용한 미량원소분석 및 화학실험을 위한 청정실험실 경험</p>
+<p>- (자격요건) 화학, 환경과학, 지구과학 관련 분야 학사 학위 소지자, 경력 무관
+<br/>- (우대사항) ICP-SF-MS를 이용한 미량원소분석 및 화학실험을 위한 청정실험실 경험</p>
 <h4>결격사유</h4>
 <p>연구소 규정(인사규정 제10조)의 임용 결격사유(「국가공무원법」 제33조(결격사유) 각 호의 어느 하나에 해당하는 자, 법률에 의하여 공민권이 정지 또는 박탈된 자, 신체검사 결과 채용실격으로 판정된 자, 병역의무를 기피한 사실이 있는 자, 부패행위로 당연 퇴직, 파면, 해임된 자)에 해당되는 자 (※세부 결격사유 채용공고문 확인)</p>
 <h4>우대내용</h4>
 <p>공고문 참고</p>
 <h4>전형절차/방법</h4>
-<p>1. 1차전형(서류) : 지원자격을 충족한 지원자를 대상으로 100점 만점 기준 총점 평균 60점 이상 득점자 중 고득점자 순으로 채용인원의 5배수 이내 선발<br/>* 심사항목 중 직무수행능력평가 15점 미만 시 불합격<br/>2. 2차전형(면접) : 전문지식 및 인성 각 분야 만점의 60%이상 득점자 중 총점 평균 70점 이상 고득점자순으로 합격자 선정<br/>(예비합격자는 차순위자순 2배수 이내 선정)<br/>*세부사항 채용공고문 확인</p>
+<p>1. 1차전형(서류) : 지원자격을 충족한 지원자를 대상으로 100점 만점 기준 총점 평균 60점 이상 득점자 중 고득점자 순으로 채용인원의 5배수 이내 선발
+<br/>* 심사항목 중 직무수행능력평가 15점 미만 시 불합격
+<br/>2. 2차전형(면접) : 전문지식 및 인성 각 분야 만점의 60%이상 득점자 중 총점 평균 70점 이상 고득점자순으로 합격자 선정
+<br/>(예비합격자는 차순위자순 2배수 이내 선정)
+<br/>*세부사항 채용공고문 확인</p>
 </div></div>
             <div class="consult-box">
                 <h2 style="margin:0 0 10px 0;">"검증된 데이터가 합격을 만듭니다."</h2>
@@ -147,7 +153,9 @@
     <script>
         // [핵심] 이제 무거운 데이터가 아니라, 외부 파일(db_data.js)에서 변수를 가져옵니다.
         // 만약 로드가 안 됐을 경우를 대비해 빈 배열 처리
-        const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
         
         const dbContainer = document.getElementById('dbContainer');
         const dbStatus = document.getElementById('dbStatus');

@@ -7,7 +7,8 @@
     <title>한국지식재산보호원 합격 가이드 - 김진호 합격연구소</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
-    <script src="db_data.js"></script>
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
 
     <style>
         :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
@@ -127,13 +128,32 @@
 
             <div class="content-body"><div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>ㅇ 장애인 또는 경력단절여성<br/>ㅇ 업무수행 여건(PC 및 업무관련 필수 소프트웨어* 보유 등)을 갖춘 자<br/>* MS Office Excel, HWP 등</p>
+<p>ㅇ 장애인 또는 경력단절여성
+<br/>ㅇ 업무수행 여건(PC 및 업무관련 필수 소프트웨어* 보유 등)을 갖춘 자
+<br/>* MS Office Excel, HWP 등</p>
 <h4>결격사유</h4>
-<p>1. 「국가공무원법」제33조 각호의 하나에 해당하는 자<br/>2. 신체검사결과가 부적합한 자 등<br/>3. 제출서류에 허위사실이 판명된 자<br/>4. 부패방지 및 국민권익위원회의 설치와 운영에 관한 법률 제82조에 따른 비위면직자 등의 취업제한 적용을 받는 자<br/>5. 부정한 방법으로 채용된 사실이 밝혀져 채용 취소된 후 5년이 경과되지 아니한 자</p>
+<p>1. 「국가공무원법」제33조 각호의 하나에 해당하는 자
+<br/>2. 신체검사결과가 부적합한 자 등
+<br/>3. 제출서류에 허위사실이 판명된 자
+<br/>4. 부패방지 및 국민권익위원회의 설치와 운영에 관한 법률 제82조에 따른 비위면직자 등의 취업제한 적용을 받는 자
+<br/>5. 부정한 방법으로 채용된 사실이 밝혀져 채용 취소된 후 5년이 경과되지 아니한 자</p>
 <h4>우대내용</h4>
-<p>ㅇ 장애인, 국가보훈대상자<br/>ㅇ 컴퓨터 활용능력 우수자<br/>ㅇ 정보통신 관련 전공자<br/>ㅇ 유사업무(재택 모니터링) 및 IT업계 유경험자</p>
+<p>ㅇ 장애인, 국가보훈대상자
+<br/>ㅇ 컴퓨터 활용능력 우수자
+<br/>ㅇ 정보통신 관련 전공자
+<br/>ㅇ 유사업무(재택 모니터링) 및 IT업계 유경험자</p>
 <h4>전형절차/방법</h4>
-<p>1. 서류전형<br/>- 심사위원별 합산점수 평균 70점 이상자 합격(모집분야별 채용 예정인원의 10배수 내외 선발)<br/>- 동점자 발생 시 전원 합격<br/> <br/>2. 면접전형<br/>- 심사위원별 합산점수 평균 70점 이상자 합격<br/>1) 최종합격 : 합격자 중 고득점자<br/>2) 예비후보자 : 모집분야별 채용예정 인원의 2배수 내 선발가능<br/>- 동점자 발생 시 다음 기준에 따라 순위 결정<br/>1) 취업지원대상자(보훈)<br/>2) 등록장애인<br/>3) 서류전형 점수가 높은 자</p>
+<p>1. 서류전형
+<br/>- 심사위원별 합산점수 평균 70점 이상자 합격(모집분야별 채용 예정인원의 10배수 내외 선발)
+<br/>- 동점자 발생 시 전원 합격
+<br/> <br/>2. 면접전형
+<br/>- 심사위원별 합산점수 평균 70점 이상자 합격
+<br/>1) 최종합격 : 합격자 중 고득점자
+<br/>2) 예비후보자 : 모집분야별 채용예정 인원의 2배수 내 선발가능
+<br/>- 동점자 발생 시 다음 기준에 따라 순위 결정
+<br/>1) 취업지원대상자(보훈)
+<br/>2) 등록장애인
+<br/>3) 서류전형 점수가 높은 자</p>
 </div></div>
             <div class="consult-box">
                 <h2 style="margin:0 0 10px 0;">"검증된 데이터가 합격을 만듭니다."</h2>
@@ -147,7 +167,9 @@
     <script>
         // [핵심] 이제 무거운 데이터가 아니라, 외부 파일(db_data.js)에서 변수를 가져옵니다.
         // 만약 로드가 안 됐을 경우를 대비해 빈 배열 처리
-        const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
         
         const dbContainer = document.getElementById('dbContainer');
         const dbStatus = document.getElementById('dbStatus');
