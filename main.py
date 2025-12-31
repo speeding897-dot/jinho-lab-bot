@@ -7,6 +7,7 @@ from datetime import datetime
 import random
 import json
 import re
+import subprocess  # 👈 자동 저장을 위한 필수 도구
 
 # ==========================================
 # 1. 설정 영역
@@ -22,12 +23,11 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. [핵심] DB를 외부 JS 파일로 분리 저장
+# 2. DB를 외부 JS 파일로 분리 저장
 # ==========================================
 def export_db_to_js():
     """db1.json, db2.json을 읽어서 jobs_html/db_data.js 파일로 내보냅니다."""
     data = []
-    # 파일 읽기
     for db_file in ['db1.json', 'db2.json']:
         if os.path.exists(db_file):
             try:
@@ -36,7 +36,6 @@ def export_db_to_js():
                     if isinstance(content, list): data.extend(content)
             except: pass
     
-    # 샘플 데이터 (파일 없을 경우)
     if not data:
         data = ["성장과정: 책임감 없는 재능은 낭비라는 가훈 아래...", "지원동기: 귀사의 혁신적인 시스템은..."]
     
@@ -47,10 +46,8 @@ def export_db_to_js():
         if len(content) > 20: title = content[:20] + "..."
         formatted_data.append({"title": title, "content": content})
     
-    # 저장 폴더 확인
     os.makedirs(SAVE_DIR, exist_ok=True)
     
-    # JS 파일로 저장 (변수명: GLOBAL_DB_DATA)
     js_content = f"const GLOBAL_DB_DATA = {json.dumps(formatted_data, ensure_ascii=False)};"
     with open(f"{SAVE_DIR}/db_data.js", "w", encoding="utf-8") as f:
         f.write(js_content)
@@ -63,7 +60,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. 템플릿 (데이터 제거 + JS 파일 연결)
+# 3. 템플릿
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -203,8 +200,7 @@ JOB_TEMPLATE = """
     </div>
 
     <script>
-        // [핵심] 이제 무거운 데이터가 아니라, 외부 파일(db_data.js)에서 변수를 가져옵니다.
-        // 만약 로드가 안 됐을 경우를 대비해 빈 배열 처리
+        // 외부 파일 로드 체크
         const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];
         
         const dbContainer = document.getElementById('dbContainer');
@@ -277,7 +273,6 @@ JOB_TEMPLATE = """
             setTimeout(() => el.style.borderColor = '#e2e8f0', 300);
         }}
 
-        // 실행 (0.5초 딜레이 - JS 로드 시간 고려)
         setTimeout(() => renderSingle(0), 100);
     </script>
 </body>
@@ -285,7 +280,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 실행 로직 (JS 생성 -> 페이지 생성)
+# 4. 실행 로직 (크롤링 + 페이지 생성)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -312,7 +307,6 @@ def create_job_page(url):
         job_id = urllib.parse.parse_qs(parsed.query)['idx'][0]
     except: return False
     
-    # 히스토리 체크 (중복 생성 방지)
     if job_id in load_history(): return False
 
     print(f"🔄 [수집] ID: {job_id}...")
@@ -325,10 +319,10 @@ def create_job_page(url):
             title = soup.select_one('.titleH2').text.strip()
         except: return False
         
+        # 파일명 생성
         safe_name = "".join([c for c in org_name if c.isalnum()])
         filename = f"{SAVE_DIR}/{job_id}_{safe_name}.html"
         
-        # 파일 존재 시 패스
         if os.path.exists(filename): return False
 
         try:
@@ -343,13 +337,11 @@ def create_job_page(url):
         content_text = content_html.text if content_html else ""
         content = str(content_html) if content_html else "<p>상세 내용은 원문 참조</p>"
 
-        # 키워드 배지 생성
         keywords = extract_keywords_from_text(content_text)
         keyword_chips_html = ""
         for kw in keywords:
             keyword_chips_html += f'<button class="keyword-chip" onclick="executeSearch(\'{kw}\')"><span class="chip-check">✔</span> {kw}</button>'
         
-        # [수정] DB 데이터를 직접 넣지 않고 템플릿만 사용
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
@@ -365,14 +357,40 @@ def create_job_page(url):
         print(f"   ❌ 실패: {e}")
         return False
 
-# 메인 실행
+# ==========================================
+# 5. [신규 추가] 파이썬이 직접 깃허브에 저장하는 함수
+# ==========================================
+def auto_push_to_github():
+    print("\n🚀 [자동 저장] 깃허브 업로드 시작...")
+    
+    token = os.getenv('GITHUB_TOKEN')
+    repo_name = os.getenv('GITHUB_REPOSITORY')
+    
+    if not token or not repo_name:
+        print("⚠️ 로컬 환경이거나 토큰 없음 (자동 저장 패스)")
+        return
+
+    try:
+        subprocess.run(["git", "config", "--global", "user.name", "Auto Bot"], check=True)
+        subprocess.run(["git", "config", "--global", "user.email", "bot@noreply.github.com"], check=True)
+        subprocess.run(["git", "add", "."], check=True)
+        subprocess.run(["git", "commit", "-m", "🤖 데일리 채용공고 업데이트"], check=False)
+        remote_url = f"https://x-access-token:{token}@github.com/{repo_name}.git"
+        subprocess.run(["git", "push", remote_url, "HEAD:main"], check=True)
+        print("🎉 [성공] 깃허브에 저장 완료!")
+    except Exception as e:
+        print(f"❌ [실패] 저장 중 에러: {e}")
+
+# ==========================================
+# 메인 실행부
+# ==========================================
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
     
-    # 1. DB 데이터를 별도 JS 파일로 추출 (용량 다이어트 핵심)
+    # 1. DB 분할
     export_db_to_js()
     
-    # 2. 크롤링 및 페이지 생성
+    # 2. 크롤링
     new_files_count = 0
     page = 1
     
@@ -389,7 +407,7 @@ if __name__ == "__main__":
         page += 1
         time.sleep(1)
         
-    # 3. 목록 페이지 갱신 (jobs.html)
+    # 3. 목록 갱신 (여기가 핵심 수정 사항!)
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
@@ -398,10 +416,14 @@ if __name__ == "__main__":
         list_html = """<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>채용공고 목록</title><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"><style>body{font-family:'Pretendard';padding:20px;background:#f8fafc;max-width:800px;margin:0 auto;} .card{background:white;padding:20px;margin-bottom:15px;border-radius:10px;border:1px solid #e2e8f0;display:block;text-decoration:none;color:#333;box-shadow:0 2px 5px rgba(0,0,0,0.05);} .card:hover{border-color:#d4af37;transform:translateY(-2px);} h3{margin:0 0 5px 0;color:#0f172a;} p{margin:0;color:#64748b;font-size:0.9rem;}</style></head><body><h1 style="text-align:center;color:#0f172a;">실시간 채용공고 & DB</h1>"""
         
         for f in files:
-            name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
+            # [수정됨] 파일명을 그대로 제목으로 써서 'ID_기관명' 형태로 표시 -> 중복 아님을 증명
+            name = f.replace(".html", "")
             list_html += f'<a href="{SAVE_DIR}/{f}" class="card"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
         list_html += "</body></html>"
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
-    print(f"\n🎉 작업 끝! 오늘 새로 만든 파일: {new_files_count}개")
+    print(f"\n작업 종료. 신규 파일: {new_files_count}개")
+
+    # 4. 자동 저장 실행
+    auto_push_to_github()
