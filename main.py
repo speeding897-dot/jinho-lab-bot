@@ -23,11 +23,12 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB를 외부 JS 파일로 분리 저장
+# 2. [수정됨] DB를 2개의 JS 파일로 분할 저장
 # ==========================================
 def export_db_to_js():
-    """db1.json, db2.json을 읽어서 jobs_html/db_data.js 파일로 내보냅니다."""
+    """db1.json, db2.json을 읽어서 db_data1.js, db_data2.js 두 개로 쪼개서 내보냅니다."""
     data = []
+    # 파일 읽기
     for db_file in ['db1.json', 'db2.json']:
         if os.path.exists(db_file):
             try:
@@ -36,6 +37,7 @@ def export_db_to_js():
                     if isinstance(content, list): data.extend(content)
             except: pass
     
+    # 데이터가 없을 경우 샘플 데이터
     if not data:
         data = ["성장과정: 책임감 없는 재능은 낭비라는 가훈 아래...", "지원동기: 귀사의 혁신적인 시스템은..."]
     
@@ -46,13 +48,25 @@ def export_db_to_js():
         if len(content) > 20: title = content[:20] + "..."
         formatted_data.append({"title": title, "content": content})
     
+    # 저장 폴더 확인
     os.makedirs(SAVE_DIR, exist_ok=True)
     
-    js_content = f"const GLOBAL_DB_DATA = {json.dumps(formatted_data, ensure_ascii=False)};"
-    with open(f"{SAVE_DIR}/db_data.js", "w", encoding="utf-8") as f:
-        f.write(js_content)
+    # [핵심] 데이터를 반으로 나누기
+    half_index = len(formatted_data) // 2
+    part1 = formatted_data[:half_index]
+    part2 = formatted_data[half_index:]
+
+    # JS 파일 1 저장 (변수명: DB_PART_1)
+    js_content1 = f"const DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};"
+    with open(f"{SAVE_DIR}/db_data1.js", "w", encoding="utf-8") as f:
+        f.write(js_content1)
+
+    # JS 파일 2 저장 (변수명: DB_PART_2)
+    js_content2 = f"const DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};"
+    with open(f"{SAVE_DIR}/db_data2.js", "w", encoding="utf-8") as f:
+        f.write(js_content2)
     
-    print(f"✅ [용량 최적화] 합격 데이터 {len(formatted_data)}건을 'db_data.js'로 분리했습니다.")
+    print(f"✅ [용량 분산 완료] 총 {len(formatted_data)}건을 'db_data1.js'와 'db_data2.js'로 나누어 저장했습니다.")
 
 def extract_keywords_from_text(text):
     target_keywords = ["소통", "협력", "도전", "책임", "분석", "성실", "윤리", "고객", "안전", "혁신", "창의", "전문성", "리더십", "글로벌", "신뢰", "배려", "팀워크", "문제해결", "계획"]
@@ -60,7 +74,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. 템플릿
+# 3. [수정됨] 템플릿 (2개 파일을 합치는 로직 추가)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -71,7 +85,8 @@ JOB_TEMPLATE = """
     <title>{org_name} 합격 가이드 - 김진호 합격연구소</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
-    <script src="db_data.js"></script>
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
 
     <style>
         :root {{ --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }}
@@ -200,8 +215,10 @@ JOB_TEMPLATE = """
     </div>
 
     <script>
-        // 외부 파일 로드 체크
-        const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];
+        // [수정] 2개로 쪼개진 파일(db_data1.js, db_data2.js)을 합쳐서 하나인 것처럼 사용
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
         
         const dbContainer = document.getElementById('dbContainer');
         const dbStatus = document.getElementById('dbStatus');
@@ -319,7 +336,6 @@ def create_job_page(url):
             title = soup.select_one('.titleH2').text.strip()
         except: return False
         
-        # 파일명 생성
         safe_name = "".join([c for c in org_name if c.isalnum()])
         filename = f"{SAVE_DIR}/{job_id}_{safe_name}.html"
         
@@ -358,7 +374,7 @@ def create_job_page(url):
         return False
 
 # ==========================================
-# 5. [신규 추가] 파이썬이 직접 깃허브에 저장하는 함수
+# 5. 파이썬이 직접 깃허브에 저장하는 함수
 # ==========================================
 def auto_push_to_github():
     print("\n🚀 [자동 저장] 깃허브 업로드 시작...")
@@ -382,12 +398,59 @@ def auto_push_to_github():
         print(f"❌ [실패] 저장 중 에러: {e}")
 
 # ==========================================
+# 6. [신규 기능] 기존 HTML 파일 일괄 패치 (구버전 -> 신버전 변환)
+# ==========================================
+def patch_existing_files():
+    print("\n🛠️ [패치] 기존 HTML 파일들을 'db_data1.js, db_data2.js' 방식으로 변환합니다...")
+    
+    if not os.path.exists(SAVE_DIR):
+        print("   ⚠️ 저장된 폴더가 없습니다.")
+        return
+
+    # 변경할 대상 문자열 정의 (구버전 패턴)
+    OLD_SCRIPT = '<script src="db_data.js"></script>'
+    # 변경될 문자열 정의 (신버전 패턴)
+    NEW_SCRIPT = '<script src="db_data1.js"></script>\n    <script src="db_data2.js"></script>'
+
+    # JS 로직 변경
+    OLD_JS_LOGIC = "const dbData = typeof GLOBAL_DB_DATA !== 'undefined' ? GLOBAL_DB_DATA : [];"
+    NEW_JS_LOGIC = """const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);"""
+
+    count = 0
+    files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
+    
+    for filename in files:
+        filepath = os.path.join(SAVE_DIR, filename)
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 1. 스크립트 태그 교체 (파일 내용에 구버전 코드가 있으면 교체)
+            if OLD_SCRIPT in content:
+                new_content = content.replace(OLD_SCRIPT, NEW_SCRIPT)
+                
+                # 2. 내부 JS 로직 교체
+                if OLD_JS_LOGIC in new_content:
+                    new_content = new_content.replace(OLD_JS_LOGIC, NEW_JS_LOGIC)
+                
+                # 파일 덮어쓰기
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                count += 1
+        except Exception as e:
+            print(f"   ❌ 변환 실패 ({filename}): {e}")
+
+    print(f"✅ [완료] 총 {count}개의 기존 파일을 신버전으로 업데이트했습니다.")
+
+# ==========================================
 # 메인 실행부
 # ==========================================
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
     
-    # 1. DB 분할
+    # 1. DB 분할 (db_data1.js, db_data2.js 생성)
     export_db_to_js()
     
     # 2. 크롤링
@@ -407,7 +470,7 @@ if __name__ == "__main__":
         page += 1
         time.sleep(1)
         
-    # 3. 목록 갱신 (여기가 핵심 수정 사항!)
+    # 3. 목록 갱신
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
@@ -416,7 +479,6 @@ if __name__ == "__main__":
         list_html = """<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>채용공고 목록</title><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"><style>body{font-family:'Pretendard';padding:20px;background:#f8fafc;max-width:800px;margin:0 auto;} .card{background:white;padding:20px;margin-bottom:15px;border-radius:10px;border:1px solid #e2e8f0;display:block;text-decoration:none;color:#333;box-shadow:0 2px 5px rgba(0,0,0,0.05);} .card:hover{border-color:#d4af37;transform:translateY(-2px);} h3{margin:0 0 5px 0;color:#0f172a;} p{margin:0;color:#64748b;font-size:0.9rem;}</style></head><body><h1 style="text-align:center;color:#0f172a;">실시간 채용공고 & DB</h1>"""
         
         for f in files:
-            # [수정됨] 파일명을 그대로 제목으로 써서 'ID_기관명' 형태로 표시 -> 중복 아님을 증명
             name = f.replace(".html", "")
             list_html += f'<a href="{SAVE_DIR}/{f}" class="card"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
@@ -425,5 +487,8 @@ if __name__ == "__main__":
 
     print(f"\n작업 종료. 신규 파일: {new_files_count}개")
 
-    # 4. 자동 저장 실행
+    # 4. [중요] 기존 파일 일괄 수정 (Patch)
+    patch_existing_files()
+
+    # 5. 자동 저장 실행
     auto_push_to_github()
