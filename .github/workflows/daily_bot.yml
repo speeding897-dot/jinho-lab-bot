@@ -1,0 +1,36 @@
+name: 24시간 자동 크롤링 로봇
+
+on:
+  schedule:
+    # 한국 시간(KST) 매일 오전 6시 21분 실행 (UTC 21:21)
+    - cron: '21 21 * * *'
+  workflow_dispatch: # 수동 실행 버튼 활성화
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: 파이썬 설치
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 라이브러리 설치
+        run: |
+          pip install -r requirements.txt
+
+      - name: 크롤링 및 파일 생성 실행
+        run: |
+          python main.py
+
+      - name: 변경사항 깃허브에 반영
+        run: |
+          git config --global user.name "AutoBot"
+          git config --global user.email "bot@github.com"
+          git add .
+          # 변경사항이 있을 때만 업데이트 기록을 남김
+          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 자동 업데이트: $(date +'%Y-%m-%d %H:%M')"
+          git push
