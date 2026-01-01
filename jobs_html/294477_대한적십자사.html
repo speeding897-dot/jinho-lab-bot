@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한적십자사 합격 가이드 - 김진호 합격연구소</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        /* [중요] 검색 하이라이트 스타일 (빨간색 강조) */
+        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .keyword-chip:hover { background: var(--navy); color: white; }
+        
+        /* 커스텀 검색창 스타일 */
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; transition: border-color 0.2s; }
+        .custom-search-box input:focus { border-color: var(--navy); }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .custom-search-box button:hover { background: #1e293b; }
+
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-floater span { font-size: 32px; }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; font-family: 'Pretendard', sans-serif; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">채용공고</span>
+            <h1 class="job-title">2026년도 상반기 대한적십자사 <코이카 영프로페셔널(YP)> 청년인턴 채용공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>대한적십자사</strong> | 마감일: 2025.12.29</div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('협력')">#협력</span>
+                    
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 위 키워드를 클릭하거나 직접 입력하면, 왼쪽 사이드바에서 <span style="color:red; font-weight:bold;">빨간색</span>으로 강조된 합격 데이터를 찾아줍니다.</div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>&lt;필수자격조건&gt;<br/> - 임용예정일 기준 만 19세 이상 만 34세 이하 미취업자(단, 군필자는 해당법률에 따라 연령 연장)<br/> ※ 제대군인지원에 관한 법률 제16조 1항에 의거 제대군인에 대한 채용시험 응시 연령 상한을 다음 각 호와 같이 연장함<br/> ▷ 2년 이상의 복무기간을 마치고 전역한 제대군인: 만 37세<br/> ▷ 1년 이상 2년 미만의 복무기간을 마치고 전역한 제대군인: 만 36세<br/> ▷ 1년 미만의 복무기간을 마치고 전역한 제대군인: 만 35세<br/>- KOICA 개발협력 사업수행기관 영프로페셔널(YP)로 근무한 경험이 없는 자 (※ KOICA 영프로페셔널 사업 (유형 ①개발협력 사업수행기관 YP, ②KOICA 해외사무소/재외공관 YP) 유형별 각 1회에 한해 참여 가능(기재부 지침에 따라 매년 상이할 수 있음))<br/>- TOEIC 700점 이상 또는 TEPS 555점(NEW TEPS 264점) 이상인 자 (다만, 청각장애인의 경우 TOEIC 350점 이상, TEPS 333점 이상(NEW TEPS 153점 이상) 적용). 임용예정일 기준 유효기간(2년) 내 취득한 점수로 원서접수 마감일 이전의 성적에 한하여 인정함<br/> <br/>&lt;공통 자격조건&gt;<br/>- 공무원 채용 신체검사 규정 제4조(불합격 판정기준)에 해당하지 않는 자<br/>- 병역법 제76조의 병역의무 불이행자에 해당하지 않는 자<br/>- 대한적십자사 직원 운영규정 제20조 임용결격사유에 해당하지 않는 자<br/>- 임용(예정)일(‘26. 2. 1.)부터 근무가능한 자</p>
+<h4>결격사유</h4>
+<p>&lt;결격사유(대한적십자사 직원 운영규정 제20조)&gt;<br/>1. 피성년후견인과 피한정후견인&lt;개정 2015.4.1&gt;<br/>2. 파산자로서 복권되지 아니한 자<br/>3. 금고 이상의 실형을 선고받고 그 집행이 끝나거나(집행이 끝난 것으로 보는 경우를 포함한다) 집행이 면제된 날부터 5년이 지나지 아니한 자&lt;개정 2025.1.1&gt;<br/>4. 금고이상의 형을 받고 그 집행유예의 기간이 완료된 날로부터 2년을 경과하지 아니한 자<br/>5. 금고이상의 형의 선고유예를 받은 경우에 그 선고유예기간중에 있는 자<br/>6. 법원의 판결 또는 다른 법률에 의하여 자격이 상실 또는 정지된 자<br/>7. 징계에 의하여 파면의 처분을 받은 때로부터 5년을 경과하지 아니한 자<br/>8. 징계에 의하여 해임의 처분을 받은 때로부터 3년을 경과하지 아니한 자<br/>9. 부패방지 및 국민권익위원회의 설치와 운영에 관한 법률 제82조에 따른 비위 면직자 등의 취업<br/>   제한 적용을 받는 자&lt;신설 2018.1.1&gt;<br/>10. 공공기관에서 채용비위로 면직 또는 채용취소된 때부터 5년이 지나지 아니한 자&lt;신설 2019.1.1, 개정 2020.4.1&gt;<br/>11. 다음 각 목의 어느 하나에 해당하는 죄를 범한 사람으로서 100만원 이상의 벌금형을 선고받고 그 형이 확정된 후 3년이 지나지 아니한 자&lt;신설 2019.4.1. 개정 2025.1.1&gt;<br/>  가. 성폭력범죄의 처벌 등에 관한 특례법 제2조에 따른 성폭력범죄&lt;신설 2025.1.1&gt;<br/>  나. 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제74조제1항제2호 및 제3호에 규정된 죄&lt;신설 2025.1.1&gt;<br/>  다. 스토킹범죄의 처벌 등에 관한 법률 제2조제2호에 따른 스토킹범죄&lt;신설 2025.1.1&gt;<br/>12. 미성년자에 대한 다음 각 목의 어느 하나에 해당되는 죄를 저질러 파면.해임되거나 형 또는 치료감호를 선고받아 그 형 또는 치료감호가 확정된 자(집행유예를 선고받은 후 그 집행유예기간이 경과한 자를 포함한다) &lt;신설 2020.6.1. 개정 2025.1.1&gt;<br/>  가. 성폭력범죄의 처벌 등에 관한 특례법 제2조에 따른 성폭력범죄 &lt;신설 2020.6.1&gt;<br/>  나. 아동.청소년의 성보호에 관한 법률 제2조제2호에 따른 아동?청소년 대상 성범죄 &lt;신설 2020.6.1.&gt;<br/>13. 직무와 관련하여 형법 제355조 및 제356조에 규정된 죄를 범한 자로서 300만원 이상의 벌금형을 선고받고 그 형이 확정된 후 2년이 지나지 아니한 자&lt;신설 2025.1.1.&gt; [본조개정 1996.4.1]</p>
+<h4>우대내용</h4>
+<p>&lt;서류심사 우선합격 대상(관련 증빙서류 제출자에 한함)&gt;<br/>가. 국가유공자 등 예우 및 지원에 관한 법률 제29조 및 독립유공자예우에 관한 법률 제16조에 해당하는 자<br/>나. 5?18민주유공자예우 및 단체설립에 관한 법률 제20조 및 특수임무유공자 예우 및 단체설립에 관한 법률 제 19조의 규정에 의한 취업지원대상자<br/>다. 보훈보상대상자 지원에 관한 법률 제33조 및 고엽제후유의증 등 환자지원 및 단체설립에 관한 법률 제7조의9에 해당하는 자<br/>라. 장애인고용촉진 및 직업재활법 제2조 제1호 규정에 의한 장애인<br/>※ 일반직원에 응시한 서류심사 우선합격 대상자 중 과락기준(필수자격조건 소지)에 미달하는 자는 우선합격자에서 제외<br/>※ 채용인원이 3명 이하인 권역/분야의 경우 취업지원 대상자는 우선합격에서 제외<br/> <br/>&lt;전형별 가점대상자(증빙서류 제출자에 한함)&gt;<br/>가. 국가유공자 등 예우 및 지원에 관한 법률 제31조제1항제1호 및 독립유공자예우에 관한 법률 제16조제3항제1호, 5?18민주유공자예우 및 단체설립에 관한 법률 제22조제1항제1호 및 특수임무유공자 예우 및 단체설립에 관한 법률 제24조제1항제1호, 보훈보상대상자 지원에 관한 법률 제35조제1항제1호 및 고엽제후유의증 등 환자지원 및 단체설립에 관한 법률 제7조의9제2항제1호의 규정에 의거 취업지원대상자 증명서를 제출한 자: 각 전형별로 만점의 10%를 응시자의 점수에 가산<br/>나. 국가유공자 등 예우 및 지원에 관한 법률 제31조제1항제2호 및 독립유공자예우에 관한 법률 제16조제3항제2호, 5?18민주유공자예우 및 단체설립에 관한 법률 제22조제1항제2호 및 특수임무유공자 예우 및 단체설립에 관한 법률 제24조제1항제2호, 보훈보상대상자 지원에 관한 법률 제35조제1항제2호 및 고엽제후유의증 등 환자지원 및 단체설립에 관한 법률 제7조의9제2항제2호의 규정에 의거 취업지원대상자 증명서를 제출한 자: 각 전형별로 만점의 5%를 응시자의 점수에 가산<br/>다. 장애인고용촉진 및 직업재활법 제2조1호 규정에 의한 장애인: 각 전형별로 만점의 10%를 응시자의 점수에 가산<br/>라. 북한이탈주민의 보호 및 정착지원에 관한 법률에 따른 북한이탈주민 : 각 전형별로 만점의 5%를 응시자의 점수에 가산<br/>※ 가점 부여 시 득점한 과목 중 한 과목 이상의 점수가 40% 미만인 경우 가산하지 않음(서류전형은 예외)<br/>※ 가), 나)에 해당하여 가점을 받아 합격하는 인원은 전체 선발인원의 30%를 초과할 수 없다.(채용인원이 3명 이하인 경우 가), 나)에 해당하는 자는 면접 등 각 전형별 가점 미부여가 원칙이되 응시자의 수가 채용인원과 같거나 그보다 적은 경우 가점을 적용한 점수로 평가</p>
+<h4>전형절차/방법</h4>
+<p>&lt;전형절차&gt;<br/> - 1차 서류심사(7배수)<br/> - 2차 면접심사(서류 합격자에 한함, 일부 영어 면접 진행)<br/> - 면접심사 평정항목: 적십자이해, 직무수행능력, 가치관 및 인성, 미래지향성, 적응 및 표현<br/>※ 면접은 영어 구술 및 작문 역량을 확인할 수 있도록 일부 질문을 영어로 진행하고, 코이카 ODA 자격증 등 관련 업무 전문성을 증명할 수 있는 질문 포함<br/>※ 공무원 채용신체검사 합격 시 최종합격 처리되고, 결과 미제출 시 임용이 취소될 수 있으며 불합격 판정을 받은 자는 인사위원회를 거쳐 채용 여부를 결정할 수 있음<br/> <br/>&lt;접수방법&gt;<br/> 대한적십자사 홈페이지 인터넷 접수(https://www.redcross.or.kr/recruit)</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294477" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 대한적십자사 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[대한적십자사]</strong> 분석 AI입니다.<br>
+                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (참고: 첫 질문 시 AI 서버가 깨어나느라 <strong>약 30초~1분</strong> 정도 걸릴 수 있습니다. 조금만 기다려주세요!)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 30);
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map(item => {
+                    let displayContent = item.content.substring(0, 320) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }
+                    return `
+                    <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
+                        <div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+
+        renderDB();
+
+        function searchDB(keyword) {
+            dbSearch.value = keyword;
+            renderDB(keyword);
+        }
+
+        function manualSearch() {
+            const val = document.getElementById('manualKeyword').value;
+            if(val) {
+                searchDB(val);
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. 빨간색 글씨를 확인하세요!");
+            }
+        }
+
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            // [수정 포인트] 로딩 멘트 변경
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 대한적십자사\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
