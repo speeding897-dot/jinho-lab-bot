@@ -25,10 +25,9 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직 (용량 최적화)
+# 2. DB 분할 저장 로직
 # ==========================================
 def export_db_to_js():
-    """db1.json, db2.json을 읽어서 js 파일 2개로 분할 저장"""
     data = []
     for db_file in ['db1.json', 'db2.json']:
         if os.path.exists(db_file):
@@ -67,7 +66,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [핵심] 챗봇이 탑재된 HTML 템플릿
+# 3. [개별 공고 페이지] 템플릿 (AI + 빨간색 강조)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -86,64 +85,42 @@ JOB_TEMPLATE = """
         * {{ box-sizing: border-box; }}
         body {{ font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }}
         
-        /* 레이아웃 */
         .sidebar {{ width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }}
         .main-content {{ flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }}
 
-        /* 사이드바 스타일 */
         .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }}
         .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }}
         .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
         
-        /* 메인 콘텐츠 스타일 */
+        /* [중요] 검색 하이라이트 스타일 (빨간색 강조) */
+        .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
+
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
         .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
         .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }}
         .keyword-chip:hover {{ background: var(--navy); color: white; }}
+        
+        /* 커스텀 검색창 스타일 */
+        .custom-search-box {{ display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }}
+        .custom-search-box input {{ padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; transition: border-color 0.2s; }}
+        .custom-search-box input:focus {{ border-color: var(--navy); }}
+        .custom-search-box button {{ padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }}
+        .custom-search-box button:hover {{ background: #1e293b; }}
+
         .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
 
-        /* ------------------------------------------------------- */
-        /* [AI 챗봇 위젯 스타일] */
-        /* ------------------------------------------------------- */
-        #chatbot-bubble {{
-            position: fixed; bottom: 95px; right: 30px;
-            background: white; padding: 10px 15px; border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb;
-            font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998;
-            animation: float 3s ease-in-out infinite; cursor: pointer;
-        }}
+        #chatbot-bubble {{ position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }}
         #chatbot-bubble::after {{ content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }}
         @keyframes float {{ 0% {{transform: translateY(0);}} 50% {{transform: translateY(-10px);}} 100% {{transform: translateY(0);}} }}
-
-        #chatbot-floater {{
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: linear-gradient(135deg, #2563eb, #1e40af);
-            border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s;
-        }}
+        #chatbot-floater {{ position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }}
         #chatbot-floater:hover {{ transform: scale(1.1); }}
         #chatbot-floater span {{ font-size: 32px; }}
-
-        #chatbot-window {{
-            display: none; position: fixed; bottom: 100px; right: 30px;
-            width: 360px; height: 520px; background: white;
-            border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0;
-            overflow: hidden; font-family: 'Pretendard', sans-serif;
-        }}
-
-        .chat-header {{
-            background: #2563eb; color: white; padding: 15px; font-weight: bold;
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: move;
-        }}
-        
+        #chatbot-window {{ display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; font-family: 'Pretendard', sans-serif; }}
+        .chat-header {{ background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }}
         #chat-messages {{ flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }}
         .msg {{ max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }}
         .msg-user {{ align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }}
         .msg-ai {{ align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }}
-
         .chat-input-area {{ padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }}
         .chat-input-area input {{ flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }}
         .chat-input-area button {{ background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }}
@@ -159,7 +136,7 @@ JOB_TEMPLATE = """
         <a href="{home_link}" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
         
-        <input type="text" id="dbSearch" placeholder="키워드 검색 (예: 소통, 성실)" 
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
                style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
                
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
@@ -171,9 +148,17 @@ JOB_TEMPLATE = """
             <h1 class="job-title">{title}</h1>
             <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>{org_name}</strong> | 마감일: {end_date}</div>
 
-            <div style="margin:20px 0;">
-                <strong style="color:var(--navy);">✨ 핵심 키워드:</strong> {keyword_chips}
-                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">(키워드를 클릭하면 왼쪽에서 관련 합격 데이터를 찾아줍니다)</div>
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    {keyword_chips}
+                    
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 위 키워드를 클릭하거나 직접 입력하면, 왼쪽 사이드바에서 <span style="color:red; font-weight:bold;">빨간색</span>으로 강조된 합격 데이터를 찾아줍니다.</div>
             </div>
 
             <div class="content-body">
@@ -190,13 +175,8 @@ JOB_TEMPLATE = """
         </div>
     </div>
 
-    <div id="chatbot-bubble" onclick="toggleChat()">
-        자기소개서 무엇이든 물어보세요!! AI입니다.
-    </div>
-
-    <div id="chatbot-floater" onclick="toggleChat()">
-        <span>🤖</span>
-    </div>
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
 
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
@@ -204,16 +184,12 @@ JOB_TEMPLATE = """
                 <span>🧠 {org_name} 전담 AI</span>
                 <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
             </div>
-            <div style="display:flex; gap:10px;">
-                <span onclick="toggleChat()" style="cursor:pointer;">_</span>
-                <span onclick="toggleChat()" style="cursor:pointer;">✕</span>
-            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
         <div id="chat-messages">
             <div class="msg msg-ai">
                 안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
-                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
-                (예: "이 직무 핵심 역량이 뭐야?")
+                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.
             </div>
         </div>
         <div class="chat-input-area">
@@ -223,7 +199,6 @@ JOB_TEMPLATE = """
     </div>
 
     <script>
-        // [수정] DB 로드 및 검색 기능
         const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
         const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
         const dbData = part1.concat(part2);
@@ -231,48 +206,58 @@ JOB_TEMPLATE = """
         const dbSearch = document.getElementById('dbSearch');
 
         function renderDB(filter = "") {{
-            const filtered = dbData.filter(item => 
-                item.title.includes(filter) || item.content.includes(filter)
-            ).slice(0, 30); // 검색 결과 30개까지 노출
-
+            let filtered = dbData;
+            if (filter) {{
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }}
+            filtered = filtered.slice(0, 30);
             if(filtered.length > 0) {{
-                dbContainer.innerHTML = filtered.map(item => `
+                dbContainer.innerHTML = filtered.map(item => {{
+                    let displayContent = item.content.substring(0, 80) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {{
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${{filter}}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }}
+                    return `
                     <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
-                        <div style="font-weight:bold; font-size:0.9rem;">${{item.title}}</div>
-                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{item.content.substring(0, 60)}}...</div>
-                    </div>
-                `).join('');
+                        <div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div>
+                    </div>`;
+                }}).join('');
             }} else {{
                 dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
             }}
         }}
 
-        // 초기 렌더링
         renderDB();
 
-        // [추가] 키워드 클릭 시 검색 실행 함수
         function searchDB(keyword) {{
             dbSearch.value = keyword;
             renderDB(keyword);
-            alert("좌측 사이드바에서 '" + keyword + "' 관련 합격 데이터를 찾았습니다.");
         }}
 
-        // 검색창 입력 이벤트
-        dbSearch.addEventListener('input', (e) => {{
-            renderDB(e.target.value);
-        }});
+        function manualSearch() {{
+            const val = document.getElementById('manualKeyword').value;
+            if(val) {{
+                searchDB(val);
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. 빨간색 글씨를 확인하세요!");
+            }}
+        }}
 
-        // [챗봇 기능] - 기존 기능 유지
+        dbSearch.addEventListener('input', (e) => {{ renderDB(e.target.value); }});
+
         function toggleChat() {{
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if (win.style.display === 'none' || win.style.display === '') {{
-                win.style.display = 'flex';
-                bubble.style.display = 'none';
-                document.getElementById('chatInput').focus();
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
             }} else {{
-                win.style.display = 'none';
-                bubble.style.display = 'block';
+                win.style.display = 'none'; bubble.style.display = 'block';
             }}
         }}
 
@@ -280,20 +265,16 @@ JOB_TEMPLATE = """
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
             if (!msg) return;
-
             addBubble(msg, 'user');
             input.value = '';
             
-            // [중요] 말풍선 ID 생성 후 요소 찾기 (버그 수정본 유지)
             const loadingId = addBubble("📄 공고 분석 중...", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
-            // [핵심] 현재 페이지의 제목과 본문을 긁어서 파이썬 서버로 전송
             const jobTitle = document.querySelector('.job-title').innerText;
-            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); // 길이 제한
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
 
             try {{
-                // ★★★ Render 주소로 전송 ★★★
                 const res = await fetch('{render_server_url}', {{
                     method: 'POST',
                     headers: {{ 'Content-Type': 'application/json' }},
@@ -303,15 +284,9 @@ JOB_TEMPLATE = """
                     }})
                 }});
                 const data = await res.json();
-                
-                // 찾은 요소에 답변을 업데이트합니다.
-                if (loadingElement) {{
-                    loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>');
-                }}
+                if (loadingElement) {{ loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }}
             }} catch (err) {{
-                if (loadingElement) {{
-                    loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)";
-                }}
+                if (loadingElement) {{ loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }}
             }}
         }}
 
@@ -319,43 +294,20 @@ JOB_TEMPLATE = """
             const box = document.getElementById('chat-messages');
             const div = document.createElement('div');
             div.className = `msg msg-${{type}}`;
-            // ID를 생성하여 부여합니다.
             div.id = 'msg-' + Date.now();
             div.innerHTML = text.replace(/\\n/g, '<br>');
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
-            return div.id; // 생성된 ID를 반환합니다.
+            return div.id; 
         }}
 
-        // [드래그 기능]
         dragElement(document.getElementById("chatbot-window"));
         function dragElement(elmnt) {{
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            if (document.getElementById("chatHeader")) {{
-                document.getElementById("chatHeader").onmousedown = dragMouseDown;
-            }}
-            function dragMouseDown(e) {{
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }}
-            function elementDrag(e) {{
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }}
-            function closeDragElement() {{
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }}
+            if (document.getElementById("chatHeader")) {{ document.getElementById("chatHeader").onmousedown = dragMouseDown; }}
+            function dragMouseDown(e) {{ e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }}
+            function elementDrag(e) {{ e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }}
+            function closeDragElement() {{ document.onmouseup = null; document.onmousemove = null; }}
         }}
     </script>
 </body>
@@ -422,15 +374,13 @@ def create_job_page(url):
         keywords = extract_keywords_from_text(content_text)
         keyword_chips_html = ""
         for kw in keywords:
-            # [수정] 클릭하면 검색되도록 onclick 이벤트 추가
             keyword_chips_html += f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>'
         
-        # [핵심] 템플릿에 데이터 주입 (챗봇 + Render 주소)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
             original_url=url, keyword_chips=keyword_chips_html,
-            render_server_url=RENDER_SERVER_URL  # ★ 주소 자동 주입
+            render_server_url=RENDER_SERVER_URL 
         )
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
@@ -448,10 +398,8 @@ def create_job_page(url):
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
     
-    # 1. DB 추출
     export_db_to_js()
     
-    # 2. 크롤링
     new_files_count = 0
     page = 1
     
@@ -468,19 +416,68 @@ if __name__ == "__main__":
         page += 1
         time.sleep(1)
         
-    # 3. 목록 페이지 갱신
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
         files.sort(key=lambda x: os.path.getmtime(os.path.join(SAVE_DIR, x)), reverse=True)
         
-        list_html = """<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>채용공고 목록</title><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"><style>body{font-family:'Pretendard';padding:20px;background:#f8fafc;max-width:800px;margin:0 auto;} .card{background:white;padding:20px;margin-bottom:15px;border-radius:10px;border:1px solid #e2e8f0;display:block;text-decoration:none;color:#333;box-shadow:0 2px 5px rgba(0,0,0,0.05);} .card:hover{border-color:#d4af37;transform:translateY(-2px);} h3{margin:0 0 5px 0;color:#0f172a;} p{margin:0;color:#64748b;font-size:0.9rem;}</style></head><body><h1 style="text-align:center;color:#0f172a;">실시간 채용공고 & DB</h1>"""
+        # ★★★ [수정 완료] 메인 목록 페이지에 '실시간 필터 검색창' 추가 ★★★
+        list_html = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>채용공고 목록</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        body{font-family:'Pretendard';padding:20px;background:#f8fafc;max-width:800px;margin:0 auto;} 
+        .card{background:white;padding:20px;margin-bottom:15px;border-radius:10px;border:1px solid #e2e8f0;display:block;text-decoration:none;color:#333;box-shadow:0 2px 5px rgba(0,0,0,0.05); transition:0.2s;} 
+        .card:hover{border-color:#d4af37;transform:translateY(-2px);} 
+        h3{margin:0 0 5px 0;color:#0f172a;} 
+        p{margin:0;color:#64748b;font-size:0.9rem;}
+        
+        /* 검색창 스타일 */
+        .search-container { margin-bottom: 25px; text-align:center; }
+        #jobSearch { width: 100%; max-width: 600px; padding: 15px; border-radius: 30px; border: 1px solid #cbd5e1; font-size: 1rem; outline:none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        #jobSearch:focus { border-color: #0f172a; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;color:#0f172a; margin-bottom:30px;">🚀 실시간 채용공고 & DB</h1>
+    
+    <div class="search-container">
+        <input type="text" id="jobSearch" placeholder="🔍 기업명 검색 (예: 한전, 공단, 병원...)">
+    </div>
+
+    <div id="jobList">
+"""
         
         for f in files:
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
             list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
-        list_html += "</body></html>"
+        # 자바스크립트 필터 로직 추가
+        list_html += """
+    </div>
+    <script>
+        const searchInput = document.getElementById('jobSearch');
+        const cards = document.querySelectorAll('.card');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                if (title.includes(term)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>"""
+        
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
     print(f"\n🎉 작업 끝! 오늘 새로 만든 파일: {new_files_count}개")
