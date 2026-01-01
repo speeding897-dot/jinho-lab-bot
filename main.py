@@ -17,7 +17,7 @@ SAVE_DIR = "jobs_html"
 HISTORY_FILE = "saved_history.txt"
 TARGET_NEW_FILES = 30 
 
-# ★★★ [중요] 소장님의 진짜 Render 서버 주소 (여기로 연결됩니다) ★★★
+# ★★★ [중요] 24시간 가동되는 소장님의 Render 서버 주소 ★★★
 RENDER_SERVER_URL = "https://jinho-lab-bot.onrender.com/chat"
 
 HEADERS = {
@@ -103,7 +103,7 @@ JOB_TEMPLATE = """
         .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
 
         /* ------------------------------------------------------- */
-        /* [AI 챗봇 위젯 스타일] - 움직이는 창 & 호객 말풍선 */
+        /* [AI 챗봇 위젯 스타일] */
         /* ------------------------------------------------------- */
         #chatbot-bubble {{
             position: fixed; bottom: 95px; right: 30px;
@@ -136,7 +136,7 @@ JOB_TEMPLATE = """
         .chat-header {{
             background: #2563eb; color: white; padding: 15px; font-weight: bold;
             display: flex; justify-content: space-between; align-items: center;
-            cursor: move; /* 드래그 커서 */
+            cursor: move;
         }}
         
         #chat-messages {{ flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }}
