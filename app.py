@@ -10,9 +10,9 @@ from flask_cors import CORS
 # ======================================================
 # 1. 설정 및 보안
 # ======================================================
-# config.env 파일 로드
+# config.env 파일 로드 (로컬 테스트용)
 if not load_dotenv('config.env'):
-    print("❌ [경고] config.env 파일을 찾을 수 없습니다!")
+    print("ℹ [알림] config.env 파일을 찾을 수 없습니다. (Render 서버 환경 변수 사용 시 정상)")
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 client = InferenceClient(api_key=HF_TOKEN)
@@ -72,7 +72,7 @@ def classify_intent(user_input):
     return "CONSULTING"
 
 # ======================================================
-# 4. 기능: 답변 생성 (김진호 소장 페르소나)
+# 4. 기능: 답변 생성 (김진호 소장 페르소나 - ★중국어 금지판★)
 # ======================================================
 def ask_kim_pro(user_input, context=""):
     """
@@ -81,41 +81,55 @@ def ask_kim_pro(user_input, context=""):
     """
     intent = classify_intent(user_input)
     
+    # [★중요★] 중국어 원천 봉쇄 규칙 (모든 프롬프트에 공통 적용)
+    NO_CHINESE_RULE = """
+    [치명적 경고: 언어 제한]
+    1. 당신은 '한국인'입니다. 무조건 '한국어(Korean)'로만 답변하십시오.
+    2. 중국어(한자)가 포함되면 즉시 삭제하거나 한국어로 번역해서 출력하세요.
+    3. 절대 중국어 문자를 출력하지 마십시오. (No Chinese characters allowed in output)
+    """
+    
     # [상황 1] 욕설 차단
     if intent == "INSULT":
-        return "🚫 욕설이나 비매너 채팅은 AI가 답변을 거부합니다. 김진호 합격연구소는 예의를 중요시합니다."
+        return "🚫 예의를 갖춰 질문해 주세요. 김진호 합격연구소는 비매너 채팅에 응답하지 않습니다."
     
     # [상황 2] 실시간 웹 검색
     elif intent == "SEARCH":
         info = search_web(user_input)
-        sys_msg = "당신은 스마트한 비서입니다. 검색 결과를 요약해주고, '이 최신 트렌드를 자소서 지원동기에 활용하려면 소장님의 분석이 필요합니다'라고 영업하십시오."
+        sys_msg = f"""
+        당신은 '김진호 합격연구소'의 AI 비서입니다.
+        검색 결과를 요약해서 전달하고, 이 정보를 자소서에 어떻게 녹여낼지 전문가적 관점에서 조언하세요.
+        {NO_CHINESE_RULE}
+        """
         user_msg = f"[실시간 검색 결과]:\n{info}\n\n[사용자 질문]: {user_input}"
         
     # [상황 3] 자소서/취업 상담 (핵심)
     elif intent == "CONSULTING":
         # 3-1. 사용자가 특정 공고를 보고 있을 때 (Context 있음)
         if context:
-            sys_msg = """
+            sys_msg = f"""
             당신은 '김진호 합격연구소'의 채용 공고 분석 전문가입니다.
             사용자가 현재 보고 있는 [채용공고] 내용을 바탕으로 질문에 답해 주세요.
             단, 정답을 전부 알려주지 말고, "이 직무의 숨겨진 핵심 역량을 완벽하게 공략하려면 김진호 소장의 VIP 설계가 필요합니다"라고 강력하게 영업하십시오.
             말투는 전문적이고 냉철하게 하십시오.
+            {NO_CHINESE_RULE}
             """
             user_msg = f"{context}\n\n[사용자 질문]: {user_input}"
             
         # 3-2. 일반적인 상담 (Context 없음) -> DB 활용
         else:
             evidence = search_db(user_input.split()[0])
-            sys_msg = """
+            sys_msg = f"""
             당신은 '김진호 합격연구소' 수석 AI 연구원입니다.
             "이 데이터는 AI가 아닌 인간의 치열한 논리로 합격한 기록입니다"라고 권위를 세우십시오.
             정답 대신 '합격 논리'를 가르치고, 'Structure-X' 기술과 'VIP 유료 진단'을 받도록 유도하십시오.
+            {NO_CHINESE_RULE}
             """
             user_msg = f"[참고 합격DB]: {evidence}\n\n[사용자 질문]: {user_input}"
         
     # [상황 4] 가벼운 인사
     else: # CHAT
-        sys_msg = "당신은 친절하고 전문적인 상담사입니다. 인사를 받아주고, '어떤 자소서 고민이 있으신가요?'라고 물어보세요."
+        sys_msg = f"당신은 친절하고 전문적인 한국인 상담사입니다. 인사를 받아주고, '어떤 자소서 고민이 있으신가요?'라고 한국어로 물어보세요.\n{NO_CHINESE_RULE}"
         user_msg = user_input
 
     # AI 호출 (Qwen 모델)
@@ -165,6 +179,6 @@ def chat_endpoint():
 if __name__ == "__main__":
     load_database()
     print("\n🚀 [김진호 연구소] AI 웹 서버 가동 중 (포트: 5000)")
-    print("   - 모드: DB검색 / 웹검색 / 공고분석 / 영업멘트")
+    print("   - 모드: DB검색 / 웹검색 / 공고분석 / 영업멘트 / 한국어전용")
     print("   - 상태: 연결 대기 중... (종료하려면 Ctrl+C)")
     app.run(host='0.0.0.0', port=5000)

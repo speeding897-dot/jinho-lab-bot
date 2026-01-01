@@ -17,6 +17,9 @@ SAVE_DIR = "jobs_html"
 HISTORY_FILE = "saved_history.txt"
 TARGET_NEW_FILES = 30 
 
+# ★★★ [중요] 소장님의 진짜 Render 서버 주소 (여기로 연결됩니다) ★★★
+RENDER_SERVER_URL = "https://jinho-lab-bot.onrender.com/chat"
+
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
@@ -260,7 +263,8 @@ JOB_TEMPLATE = """
             const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); // 길이 제한
 
             try {{
-                const res = await fetch('http://127.0.0.1:5000/chat', {{
+                // ★★★ 여기가 가장 중요합니다. Render 주소로 전송합니다. ★★★
+                const res = await fetch('{render_server_url}', {{
                     method: 'POST',
                     headers: {{ 'Content-Type': 'application/json' }},
                     body: JSON.stringify({{ 
@@ -272,7 +276,7 @@ JOB_TEMPLATE = """
                 document.getElementById(loadingId).remove();
                 addBubble(data.response, 'ai');
             }} catch (err) {{
-                document.getElementById(loadingId).innerText = "⚠ 서버 연결 실패 (app.py 실행 필요)";
+                document.getElementById(loadingId).innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)";
             }}
         }}
 
@@ -383,11 +387,12 @@ def create_job_page(url):
         for kw in keywords:
             keyword_chips_html += f'<span class="keyword-chip">#{kw}</span>'
         
-        # [핵심] 템플릿에 데이터 주입 (챗봇 포함)
+        # [핵심] 템플릿에 데이터 주입 (챗봇 + Render 주소)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
-            original_url=url, keyword_chips=keyword_chips_html
+            original_url=url, keyword_chips=keyword_chips_html,
+            render_server_url=RENDER_SERVER_URL  # ★ 주소 자동 주입
         )
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
