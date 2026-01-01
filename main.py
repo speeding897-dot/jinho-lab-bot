@@ -158,6 +158,10 @@ JOB_TEMPLATE = """
     <div class="sidebar" id="mainSidebar">
         <a href="{home_link}" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="키워드 검색 (예: 소통, 성실)" 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
@@ -169,6 +173,7 @@ JOB_TEMPLATE = """
 
             <div style="margin:20px 0;">
                 <strong style="color:var(--navy);">✨ 핵심 키워드:</strong> {keyword_chips}
+                <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">(키워드를 클릭하면 왼쪽에서 관련 합격 데이터를 찾아줍니다)</div>
             </div>
 
             <div class="content-body">
@@ -218,24 +223,46 @@ JOB_TEMPLATE = """
     </div>
 
     <script>
-        // DB 로드 및 사이드바 렌더링
+        // [수정] DB 로드 및 검색 기능
         const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
         const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
         const dbData = part1.concat(part2);
         const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
 
-        if(dbData.length > 0) {{
-            dbContainer.innerHTML = dbData.slice(0, 15).map(item => `
-                <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
-                    <div style="font-weight:bold; font-size:0.9rem;">${{item.title}}</div>
-                    <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{item.content.substring(0, 40)}}...</div>
-                </div>
-            `).join('');
-        }} else {{
-            dbContainer.innerHTML = "<div style='padding:10px;'>DB 로딩 중...</div>";
+        function renderDB(filter = "") {{
+            const filtered = dbData.filter(item => 
+                item.title.includes(filter) || item.content.includes(filter)
+            ).slice(0, 30); // 검색 결과 30개까지 노출
+
+            if(filtered.length > 0) {{
+                dbContainer.innerHTML = filtered.map(item => `
+                    <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
+                        <div style="font-weight:bold; font-size:0.9rem;">${{item.title}}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{item.content.substring(0, 60)}}...</div>
+                    </div>
+                `).join('');
+            }} else {{
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }}
         }}
 
-        // [챗봇 기능]
+        // 초기 렌더링
+        renderDB();
+
+        // [추가] 키워드 클릭 시 검색 실행 함수
+        function searchDB(keyword) {{
+            dbSearch.value = keyword;
+            renderDB(keyword);
+            alert("좌측 사이드바에서 '" + keyword + "' 관련 합격 데이터를 찾았습니다.");
+        }}
+
+        // 검색창 입력 이벤트
+        dbSearch.addEventListener('input', (e) => {{
+            renderDB(e.target.value);
+        }});
+
+        // [챗봇 기능] - 기존 기능 유지
         function toggleChat() {{
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
@@ -257,9 +284,9 @@ JOB_TEMPLATE = """
             addBubble(msg, 'user');
             input.value = '';
             
-            // [수정된 부분] 먼저 말풍선을 만들고 ID를 받아옵니다.
+            // [중요] 말풍선 ID 생성 후 요소 찾기 (버그 수정본 유지)
             const loadingId = addBubble("📄 공고 분석 중...", 'ai');
-            const loadingElement = document.getElementById(loadingId); // ID로 요소를 확실하게 찾습니다.
+            const loadingElement = document.getElementById(loadingId); 
 
             // [핵심] 현재 페이지의 제목과 본문을 긁어서 파이썬 서버로 전송
             const jobTitle = document.querySelector('.job-title').innerText;
@@ -395,7 +422,8 @@ def create_job_page(url):
         keywords = extract_keywords_from_text(content_text)
         keyword_chips_html = ""
         for kw in keywords:
-            keyword_chips_html += f'<span class="keyword-chip">#{kw}</span>'
+            # [수정] 클릭하면 검색되도록 onclick 이벤트 추가
+            keyword_chips_html += f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>'
         
         # [핵심] 템플릿에 데이터 주입 (챗봇 + Render 주소)
         html = JOB_TEMPLATE.format(
