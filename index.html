@@ -1012,5 +1012,188 @@
             <iframe src="홍보지.html" style="width:100%; height:100%; border:none; min-height:80vh;"></iframe>
         </div>
     </div>
+<style>
+    /* 호객 행위 말풍선 */
+    #chatbot-bubble {
+        position: fixed; bottom: 95px; right: 30px;
+        background: white; padding: 10px 15px; border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb;
+        font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998;
+        animation: float 3s ease-in-out infinite; cursor: pointer;
+    }
+    #chatbot-bubble::after {
+        content: ''; position: absolute; bottom: -8px; right: 25px;
+        border-width: 8px 8px 0; border-style: solid;
+        border-color: #2563eb transparent transparent transparent;
+    }
+    @keyframes float { 0% {transform: translateY(0px);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0px);} }
 
+    /* 챗봇 버튼 */
+    #chatbot-floater {
+        position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center;
+        transition: transform 0.2s;
+    }
+    #chatbot-floater:hover { transform: scale(1.1); }
+    #chatbot-floater span { font-size: 32px; }
+
+    /* 채팅창 본체 (드래그 가능) */
+    #chatbot-window {
+        display: none; position: fixed; bottom: 100px; right: 30px;
+        width: 360px; height: 520px; background: white;
+        border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0;
+        overflow: hidden; font-family: 'Pretendard', sans-serif;
+    }
+
+    /* 헤더 (드래그 핸들) */
+    .chat-header {
+        background: #2563eb; color: white; padding: 15px; font-weight: bold;
+        display: flex; justify-content: space-between; align-items: center;
+        cursor: move; /* 드래그 커서 */
+    }
+    
+    .chat-controls span { cursor: pointer; margin-left: 10px; font-size: 18px; }
+    .chat-controls span:hover { color: #cbd5e1; }
+
+    /* 대화 내용 */
+    #chat-messages {
+        flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc;
+        display: flex; flex-direction: column; gap: 10px;
+    }
+    .msg { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+    .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+    .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+
+    /* 입력창 */
+    .chat-input-area {
+        padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px;
+    }
+    .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+    .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+</style>
+
+<div id="chatbot-bubble" onclick="toggleChat()">
+    자기소개서 무엇이든 물어보세요!! AI입니다.
+</div>
+
+<div id="chatbot-floater" onclick="toggleChat()">
+    <span>🤖</span>
+</div>
+
+<div id="chatbot-window">
+    <div class="chat-header" id="chatHeader">
+        <div style="display:flex; align-items:center; gap:8px;">
+            <span>🧠 김진호 합격연구소 AI</span>
+            <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+        </div>
+        <div class="chat-controls">
+            <span onclick="toggleChat()">_</span> <span onclick="toggleChat()">✕</span> </div>
+    </div>
+    <div id="chat-messages">
+        <div class="msg msg-ai">
+            안녕하세요! 1,240건의 합격 데이터를 학습한 AI 연구원입니다.<br><br>
+            자소서 작성 고민이나 기업 정보 등 무엇이든 물어봐 주세요.
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="예: 삼성전자 지원동기..." onkeypress="if(event.key==='Enter') sendMsg()">
+        <button onclick="sendMsg()">전송</button>
+    </div>
+</div>
+
+<script>
+    // [1] 채팅창 열기/닫기
+    function toggleChat() {
+        const win = document.getElementById('chatbot-window');
+        const bubble = document.getElementById('chatbot-bubble');
+        
+        if (win.style.display === 'none' || win.style.display === '') {
+            win.style.display = 'flex';
+            bubble.style.display = 'none'; // 열리면 말풍선 숨김
+            document.getElementById('chatInput').focus();
+        } else {
+            win.style.display = 'none';
+            bubble.style.display = 'block'; // 닫히면 말풍선 보임
+        }
+    }
+
+    // [2] 메시지 전송 (파이썬 서버와 통신)
+    async function sendMsg() {
+        const input = document.getElementById('chatInput');
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        addBubble(msg, 'user');
+        input.value = '';
+
+        const loadingId = addBubble("🧠 분석 중...", 'ai');
+
+        try {
+            const res = await fetch('http://127.0.0.1:5000/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            const data = await res.json();
+            
+            document.getElementById(loadingId).remove();
+            addBubble(data.response, 'ai');
+            
+        } catch (err) {
+            document.getElementById(loadingId).innerText = "⚠ 서버 연결 실패 (app.py를 실행하세요)";
+        }
+    }
+
+    function addBubble(text, type) {
+        const box = document.getElementById('chat-messages');
+        const div = document.createElement('div');
+        div.className = `msg msg-${type}`;
+        div.id = 'msg-' + Date.now();
+        div.innerHTML = text.replace(/\n/g, '<br>');
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+        return div.id;
+    }
+
+    // [3] 드래그 기능 (움직이는 창)
+    dragElement(document.getElementById("chatbot-window"));
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        const header = document.getElementById("chatHeader");
+        if (header) {
+            header.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            elmnt.style.bottom = "auto"; // 드래그 시 bottom 고정 해제
+            elmnt.style.right = "auto";  // 드래그 시 right 고정 해제
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+</script>
 </body></html>

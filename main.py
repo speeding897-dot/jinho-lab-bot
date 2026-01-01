@@ -22,12 +22,11 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. [수정됨] DB를 2개의 JS 파일로 분할 저장
+# 2. DB 분할 저장 로직 (용량 최적화)
 # ==========================================
 def export_db_to_js():
-    """db1.json, db2.json을 읽어서 db_data1.js, db_data2.js 두 개로 쪼개서 내보냅니다."""
+    """db1.json, db2.json을 읽어서 js 파일 2개로 분할 저장"""
     data = []
-    # 파일 읽기
     for db_file in ['db1.json', 'db2.json']:
         if os.path.exists(db_file):
             try:
@@ -36,9 +35,8 @@ def export_db_to_js():
                     if isinstance(content, list): data.extend(content)
             except: pass
     
-    # 샘플 데이터 (파일 없을 경우)
     if not data:
-        data = ["성장과정: 책임감 없는 재능은 낭비라는 가훈 아래...", "지원동기: 귀사의 혁신적인 시스템은..."]
+        data = ["(기본 데이터) 성장과정: 책임감...", "(기본 데이터) 지원동기: ..."]
     
     formatted_data = []
     for idx, item in enumerate(data):
@@ -47,33 +45,26 @@ def export_db_to_js():
         if len(content) > 20: title = content[:20] + "..."
         formatted_data.append({"title": title, "content": content})
     
-    # 저장 폴더 확인
     os.makedirs(SAVE_DIR, exist_ok=True)
     
-    # [핵심] 데이터를 반으로 나누기
     half_index = len(formatted_data) // 2
     part1 = formatted_data[:half_index]
     part2 = formatted_data[half_index:]
 
-    # JS 파일 1 저장 (변수명: DB_PART_1)
-    js_content1 = f"const DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};"
     with open(f"{SAVE_DIR}/db_data1.js", "w", encoding="utf-8") as f:
-        f.write(js_content1)
-
-    # JS 파일 2 저장 (변수명: DB_PART_2)
-    js_content2 = f"const DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};"
+        f.write(f"const DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};")
     with open(f"{SAVE_DIR}/db_data2.js", "w", encoding="utf-8") as f:
-        f.write(js_content2)
+        f.write(f"const DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};")
     
-    print(f"✅ [용량 분산 완료] 총 {len(formatted_data)}건을 'db_data1.js'와 'db_data2.js'로 나누어 저장했습니다.")
+    print(f"✅ [시스템] DB 분할 완료: 총 {len(formatted_data)}건")
 
 def extract_keywords_from_text(text):
-    target_keywords = ["소통", "협력", "도전", "책임", "분석", "성실", "윤리", "고객", "안전", "혁신", "창의", "전문성", "리더십", "글로벌", "신뢰", "배려", "팀워크", "문제해결", "계획"]
+    target_keywords = ["소통", "협력", "도전", "책임", "분석", "성실", "윤리", "고객", "안전", "혁신", "창의", "전문성", "리더십", "글로벌"]
     found = [word for word in target_keywords if word in text[:3000]]
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [수정됨] 템플릿 (2개 파일을 합치는 로직 추가)
+# 3. [핵심] 챗봇이 탑재된 HTML 템플릿
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -92,213 +83,246 @@ JOB_TEMPLATE = """
         * {{ box-sizing: border-box; }}
         body {{ font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }}
         
+        /* 레이아웃 */
         .sidebar {{ width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }}
-        .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; transition:0.2s; }}
-        .home-link-btn:hover {{ background: #1e293b; transform: translateY(-2px); }}
-        .sidebar-header {{ font-weight: 800; font-size: 1.1rem; color: var(--navy); margin-bottom: 15px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }}
-        .reset-btn {{ font-size: 0.8rem; background: #e2e8f0; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; color: #64748b; }}
-        
-        .search-area {{ display: flex; gap: 5px; margin-bottom: 15px; }}
-        .search-input {{ flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem; transition: 0.2s; }}
-        .search-input:focus {{ border-color: var(--gold); outline: none; }}
-        .search-btn {{ background: var(--navy); color: white; border: none; padding: 0 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }}
-
-        .db-controls {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
-        .nav-btn {{ background: #f1f5f9; color: #475569; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size:0.85rem; }}
-        .db-status {{ font-size: 0.8rem; color: #64748b; font-weight: 600; }}
-
-        .db-container {{ flex: 1; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fdfdfd; padding: 15px; margin-bottom: 15px; }}
-        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }}
-        .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }}
-        .db-tag {{ font-size: 0.75rem; background: #fffbe6; color: #b45309; padding: 2px 6px; border-radius: 4px; margin-bottom: 6px; display: inline-block; border: 1px solid var(--gold); }}
-        .db-text {{ font-size: 0.9rem; line-height: 1.6; color: #334155; }}
-
-        .editor-area {{ height: 25%; display: flex; flex-direction: column; border-top: 1px solid #e2e8f0; padding-top: 15px; }}
-        textarea {{ width: 100%; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; font-family: inherit; line-height: 1.6; resize: none; background: #fff; font-size: 0.9rem; }}
-        textarea:focus {{ outline: 2px solid var(--gold); }}
-
         .main-content {{ flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }}
-        .header-nav {{ display: flex; justify-content: space-between; margin-bottom: 30px; }}
-        .home-btn {{ text-decoration: none; font-weight: 700; color: #64748b; font-size: 1rem; }}
 
+        /* 사이드바 스타일 */
+        .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }}
+        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }}
+        .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
+        
+        /* 메인 콘텐츠 스타일 */
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
-        .status-badge {{ background: var(--navy); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }}
         .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
-        
-        .keyword-box {{ margin: 30px 0; background: white; padding: 25px; border-radius: 12px; border: 2px solid var(--navy); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08); }}
-        .keyword-header {{ display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }}
-        .keyword-title {{ font-size: 1.1rem; color: var(--navy); font-weight: 800; }}
-        .keyword-desc {{ font-size: 0.9rem; color: #64748b; margin-left: auto; }}
-
-        .keyword-interface {{ display: flex; flex-wrap: wrap; gap: 20px; align-items: start; }}
-        .chip-container {{ flex: 2; display: flex; flex-wrap: wrap; gap: 8px; align-content: center; }}
-        .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 8px 16px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 5px; }}
-        .keyword-chip:hover {{ background: var(--navy); color: white; border-color: var(--navy); transform: translateY(-2px); }}
-        
-        .search-group {{ flex: 1; display: flex; gap: 5px; min-width: 200px; }}
-        .main-search-input {{ flex: 1; padding: 10px; border: 2px solid var(--gold); border-radius: 8px; font-size: 0.95rem; }}
-        .main-search-input:focus {{ outline: none; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }}
-        .main-search-btn {{ background: var(--gold); color: var(--navy); border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; }}
-
-        .consult-box {{ background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin: 40px 0; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2); }}
-        .consult-btn {{ display: inline-block; background: var(--gold); color: var(--navy); padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; text-decoration: none; margin-top: 20px; transition: 0.3s; }}
-        .consult-btn:hover {{ transform: scale(1.05); background: white; }}
-
-        .origin-link {{ display: block; text-align: center; background: #e2e8f0; color: #475569; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 40px; transition:0.2s; }}
-        .origin-link:hover {{ background: #cbd5e1; color: var(--navy); }}
+        .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }}
+        .keyword-chip:hover {{ background: var(--navy); color: white; }}
         .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
 
+        /* ------------------------------------------------------- */
+        /* [AI 챗봇 위젯 스타일] - 움직이는 창 & 호객 말풍선 */
+        /* ------------------------------------------------------- */
+        #chatbot-bubble {{
+            position: fixed; bottom: 95px; right: 30px;
+            background: white; padding: 10px 15px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb;
+            font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998;
+            animation: float 3s ease-in-out infinite; cursor: pointer;
+        }}
+        #chatbot-bubble::after {{ content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }}
+        @keyframes float {{ 0% {{transform: translateY(0);}} 50% {{transform: translateY(-10px);}} 100% {{transform: translateY(0);}} }}
+
+        #chatbot-floater {{
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }}
+        #chatbot-floater:hover {{ transform: scale(1.1); }}
+        #chatbot-floater span {{ font-size: 32px; }}
+
+        #chatbot-window {{
+            display: none; position: fixed; bottom: 100px; right: 30px;
+            width: 360px; height: 520px; background: white;
+            border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0;
+            overflow: hidden; font-family: 'Pretendard', sans-serif;
+        }}
+
+        .chat-header {{
+            background: #2563eb; color: white; padding: 15px; font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: move; /* 드래그 커서 */
+        }}
+        
+        #chat-messages {{ flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }}
+        .msg {{ max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }}
+        .msg-user {{ align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }}
+        .msg-ai {{ align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }}
+
+        .chat-input-area {{ padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }}
+        .chat-input-area input {{ flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }}
+        .chat-input-area button {{ background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }}
+        
         @media (max-width: 1024px) {{
+            .sidebar {{ display: none; }}
             body {{ flex-direction: column; overflow: auto; }}
-            .sidebar {{ display: none; }} 
-            .keyword-interface {{ flex-direction: column; }}
         }}
     </style>
 </head>
 <body>
     <div class="sidebar" id="mainSidebar">
-        <a href="{home_link}" target="_blank" class="home-link-btn">🏠 김진호 합격연구소 공식 홈 (새창)</a>
-        <div class="sidebar-header">
-            <span>📚 합격 데이터베이스</span>
-            <button class="reset-btn" onclick="renderSingle(0)">초기화</button>
-        </div>
-        <div class="search-area">
-            <input type="text" id="dbSearchInput" class="search-input" placeholder="키워드 검색 (예: 소통)" onkeypress="handleEnter(event)">
-            <button class="search-btn" onclick="searchFromInput()">🔍</button>
-        </div>
-        <div class="db-controls">
-            <button class="nav-btn" onclick="moveDB(-1)">◀</button>
-            <span class="db-status" id="dbStatus">로딩중...</span>
-            <button class="nav-btn" onclick="moveDB(1)">▶</button>
-        </div>
-        <div class="db-container" id="dbContainer"></div>
-        <div class="editor-area">
-            <div style="font-weight:700; color:var(--navy); margin-bottom:10px;">📝 전문가 따라잡기 (연습장)</div>
-            <textarea id="userEditor" placeholder="합격 데이터를 클릭하면 복사됩니다. 본문의 단어를 드래그해도 검색됩니다."></textarea>
-        </div>
+        <a href="{home_link}" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
-    <div class="main-content" id="mainContentArea">
-        <div class="header-nav">
-            <a href="../jobs.html" class="home-btn">≡ 전체 채용 목록</a>
-            <a href="{consult_link}" target="_blank" style="color:var(--gold); font-weight:bold; text-decoration:none;">1:1 첨삭 문의 (새창)</a>
-        </div>
+    <div class="main-content">
         <div class="job-card">
-            <span class="status-badge">접수중</span>
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">채용공고</span>
             <h1 class="job-title">{title}</h1>
             <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>{org_name}</strong> | 마감일: {end_date}</div>
 
-            <div class="keyword-box">
-                <div class="keyword-header">
-                    <span style="font-size:1.5rem;">📊</span>
-                    <span class="keyword-title">이 공고의 핵심 역량 키워드</span>
-                    <span class="keyword-desc">클릭 또는 검색하여 합격 DB 확인</span>
-                </div>
-                <div class="keyword-interface">
-                    <div class="chip-container">{keyword_chips}</div>
-                    <div class="search-group">
-                        <input type="text" id="mainSearchInput" class="main-search-input" placeholder="키워드 입력" onkeypress="handleEnter(event)">
-                        <button class="main-search-btn" onclick="manualSearch()">검색</button>
-                    </div>
-                </div>
+            <div style="margin:20px 0;">
+                <strong style="color:var(--navy);">✨ 핵심 키워드:</strong> {keyword_chips}
             </div>
 
-            <div class="content-body">{content}</div>
-            <div class="consult-box">
-                <h2 style="margin:0 0 10px 0;">"검증된 데이터가 합격을 만듭니다."</h2>
-                <p style="opacity:0.9; font-size:1rem;">왼쪽의 합격 사례들처럼, 당신의 경험도 합격의 언어로 바뀔 수 있습니다.<br><strong>김진호 소장</strong>이 직접 당신의 합격 구조를 설계해 드립니다.</p>
-                <a href="{consult_link}" target="_blank" class="consult-btn">⚡ 1:1 첨삭 상담 (새창)</a>
+            <div class="content-body">
+                {content}
             </div>
-            <a href="{original_url}" target="_blank" class="origin-link">📄 공식 공고문 및 양식 확인 (잡알리오 이동)</a>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="{consult_link}" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="{original_url}" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">
+        자기소개서 무엇이든 물어보세요!! AI입니다.
+    </div>
+
+    <div id="chatbot-floater" onclick="toggleChat()">
+        <span>🤖</span>
+    </div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 {org_name} 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <span onclick="toggleChat()" style="cursor:pointer;">_</span>
+                <span onclick="toggleChat()" style="cursor:pointer;">✕</span>
+            </div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
+                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
+                (예: "이 직무 핵심 역량이 뭐야?")
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
         </div>
     </div>
 
     <script>
-        // [핵심] 2개로 쪼개진 파일(db_data1.js, db_data2.js)을 합쳐서 하나인 것처럼 사용
-        // 로드 안 됐을 경우 대비 (빈 배열)
+        // DB 로드 및 사이드바 렌더링
         const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
         const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
         const dbData = part1.concat(part2);
-        
         const dbContainer = document.getElementById('dbContainer');
-        const dbStatus = document.getElementById('dbStatus');
-        const editor = document.getElementById('userEditor');
-        const mainInput = document.getElementById('mainSearchInput');
-        const sideInput = document.getElementById('dbSearchInput');
-        let currentIndex = 0;
 
-        function renderSingle(index) {{
-            if (!dbData.length) {{
-                dbStatus.innerText = "데이터 로드 실패";
-                return;
-            }}
-            if (index < 0) index = dbData.length - 1;
-            if (index >= dbData.length) index = 0;
-            currentIndex = index;
-
-            const item = dbData[currentIndex];
-            dbContainer.innerHTML = `
-                <div class="db-card" onclick="copyToEditor(this)">
-                    <span class="db-tag">랜덤 추천 DB</span>
-                    <div class="db-text" style="font-weight:bold; margin-bottom:5px;">${{item.title}}</div>
-                    <div class="db-text db-content-text">${{item.content}}</div>
+        if(dbData.length > 0) {{
+            dbContainer.innerHTML = dbData.slice(0, 15).map(item => `
+                <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
+                    <div style="font-weight:bold; font-size:0.9rem;">${{item.title}}</div>
+                    <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{item.content.substring(0, 40)}}...</div>
                 </div>
-            `;
-            dbStatus.innerText = `데이터 ${{currentIndex + 1}} / ${{dbData.length}}`;
-            sideInput.value = ''; 
+            `).join('');
+        }} else {{
+            dbContainer.innerHTML = "<div style='padding:10px;'>DB 로딩 중...</div>";
         }}
 
-        function executeSearch(keyword) {{
-            if (!keyword) return;
-            mainInput.value = keyword;
-            sideInput.value = keyword;
-            const results = dbData.filter(item => item.content.includes(keyword) || item.title.includes(keyword));
-            
-            if (results.length > 0) {{
-                dbStatus.innerHTML = `<span>'${{keyword}}'</span>: ${{results.length}}건`;
-                let html = `<div style="padding:10px; font-weight:bold; color:#0f172a; border-bottom:1px solid #e2e8f0; margin-bottom:10px;">🔍 '${{keyword}}' 검색결과</div>`;
-                results.forEach(item => {{
-                    let content = item.content.replace(new RegExp(keyword, 'gi'), match => `<span style="background:#fffbe6; font-weight:bold;">${{match}}</span>`);
-                    html += `
-                        <div class="db-card" onclick="copyToEditor(this)">
-                            <span class="db-tag" style="background:#fffbe6; color:#b45309;">${{keyword}} 매칭</span>
-                            <div class="db-text db-content-text" style="display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;">${{content}}</div>
-                        </div>
-                    `;
-                }});
-                dbContainer.innerHTML = html;
+        // [챗봇 기능]
+        function toggleChat() {{
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {{
+                win.style.display = 'flex';
+                bubble.style.display = 'none';
+                document.getElementById('chatInput').focus();
             }} else {{
-                alert(`'${{keyword}}' 관련 데이터가 없습니다.`);
-                mainInput.focus();
+                win.style.display = 'none';
+                bubble.style.display = 'block';
             }}
         }}
 
-        function manualSearch() {{ executeSearch(mainInput.value); }}
-        function searchFromInput() {{ executeSearch(sideInput.value); }}
-        function handleEnter(e) {{ if (e.key === 'Enter') e.target === mainInput ? manualSearch() : searchFromInput(); }}
-        function moveDB(dir) {{ renderSingle(currentIndex + dir); }}
-        
-        document.getElementById('mainContentArea').addEventListener('mouseup', function() {{
-            const txt = window.getSelection().toString().trim();
-            if (txt.length > 1 && txt.length < 10) executeSearch(txt);
-        }});
+        async function sendMsg() {{
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
 
-        function copyToEditor(el) {{
-            const text = el.querySelector('.db-content-text').innerText;
-            editor.value = "[참고 DB]\\n" + text + "\\n\\n------------------\\n" + editor.value;
-            el.style.borderColor = '#d4af37';
-            setTimeout(() => el.style.borderColor = '#e2e8f0', 300);
+            addBubble(msg, 'user');
+            input.value = '';
+            const loadingId = addBubble("📄 공고 분석 중...", 'ai');
+
+            // [핵심] 현재 페이지의 제목과 본문을 긁어서 파이썬 서버로 전송
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); // 길이 제한
+
+            try {{
+                const res = await fetch('http://127.0.0.1:5000/chat', {{
+                    method: 'POST',
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ 
+                        message: msg,
+                        context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${{jobTitle}}\\n공고내용요약: ${{jobContent}}...`
+                    }})
+                }});
+                const data = await res.json();
+                document.getElementById(loadingId).remove();
+                addBubble(data.response, 'ai');
+            }} catch (err) {{
+                document.getElementById(loadingId).innerText = "⚠ 서버 연결 실패 (app.py 실행 필요)";
+            }}
         }}
 
-        // 실행 (0.5초 딜레이 - JS 로드 시간 고려)
-        setTimeout(() => renderSingle(0), 100);
+        function addBubble(text, type) {{
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${{type}}`;
+            div.innerHTML = text.replace(/\\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id;
+        }}
+
+        // [드래그 기능]
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {{
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) {{
+                document.getElementById("chatHeader").onmousedown = dragMouseDown;
+            }}
+            function dragMouseDown(e) {{
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }}
+            function elementDrag(e) {{
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }}
+            function closeDragElement() {{
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }}
+        }}
     </script>
 </body>
 </html>
 """
 
 # ==========================================
-# 4. 실행 로직 (JS 생성 -> 페이지 생성)
+# 4. 크롤링 및 파일 생성 로직
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -325,7 +349,6 @@ def create_job_page(url):
         job_id = urllib.parse.parse_qs(parsed.query)['idx'][0]
     except: return False
     
-    # 히스토리 체크 (중복 생성 방지)
     if job_id in load_history(): return False
 
     print(f"🔄 [수집] ID: {job_id}...")
@@ -341,7 +364,6 @@ def create_job_page(url):
         safe_name = "".join([c for c in org_name if c.isalnum()])
         filename = f"{SAVE_DIR}/{job_id}_{safe_name}.html"
         
-        # 파일 존재 시 패스
         if os.path.exists(filename): return False
 
         try:
@@ -353,16 +375,15 @@ def create_job_page(url):
         except: end_date = "공고문 참조"
 
         content_html = soup.select_one('#tab-1')
-        content_text = content_html.text if content_html else ""
         content = str(content_html) if content_html else "<p>상세 내용은 원문 참조</p>"
+        content_text = content_html.text if content_html else ""
 
-        # 키워드 배지 생성
         keywords = extract_keywords_from_text(content_text)
         keyword_chips_html = ""
         for kw in keywords:
-            keyword_chips_html += f'<button class="keyword-chip" onclick="executeSearch(\'{kw}\')"><span class="chip-check">✔</span> {kw}</button>'
+            keyword_chips_html += f'<span class="keyword-chip">#{kw}</span>'
         
-        # [수정] DB 데이터를 직접 넣지 않고 템플릿만 사용
+        # [핵심] 템플릿에 데이터 주입 (챗봇 포함)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
@@ -378,14 +399,16 @@ def create_job_page(url):
         print(f"   ❌ 실패: {e}")
         return False
 
-# 메인 실행
+# ==========================================
+# 5. 메인 실행 루프
+# ==========================================
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
     
-    # 1. DB 데이터를 별도 JS 파일로 추출 (용량 다이어트 핵심)
+    # 1. DB 추출
     export_db_to_js()
     
-    # 2. 크롤링 및 페이지 생성
+    # 2. 크롤링
     new_files_count = 0
     page = 1
     
@@ -402,7 +425,7 @@ if __name__ == "__main__":
         page += 1
         time.sleep(1)
         
-    # 3. 목록 페이지 갱신 (jobs.html)
+    # 3. 목록 페이지 갱신
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
@@ -412,7 +435,6 @@ if __name__ == "__main__":
         
         for f in files:
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
-            # [수정] target="_blank" 추가로 새 창에서 열리게 함
             list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
         list_html += "</body></html>"
