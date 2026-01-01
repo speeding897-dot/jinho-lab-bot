@@ -480,4 +480,27 @@ if __name__ == "__main__":
         
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
+        # ==========================================
+        # ★ [NEW] 검색 최적화용 sitemap.xml 자동 생성
+        # ==========================================
+        print("\n🗺️ [SEO] 검색 로봇용 Sitemap 생성 중...")
+        sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        sitemap_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        
+        # 1. 메인 페이지 추가
+        sitemap_content += f'  <url><loc>{MY_HOME_LINK}</loc><priority>1.0</priority></url>\n'
+        sitemap_content += f'  <url><loc>{MY_HOME_LINK}/jobs.html</loc><priority>0.9</priority></url>\n'
+
+        # 2. 모든 개별 공고 페이지 추가
+        today = datetime.now().strftime("%Y-%m-%d")
+        for f in files:
+            full_url = f"{MY_HOME_LINK}/{SAVE_DIR}/{f}"
+            sitemap_content += f'  <url>\n    <loc>{full_url}</loc>\n    <lastmod>{today}</lastmod>\n    <priority>0.8</priority>\n  </url>\n'
+        
+        sitemap_content += '</urlset>'
+        
+        with open("sitemap.xml", "w", encoding="utf-8") as f:
+            f.write(sitemap_content)
+        print("✅ sitemap.xml 생성 완료! (네이버/구글 노출 준비 끝)")
+
     print(f"\n🎉 작업 끝! 오늘 새로 만든 파일: {new_files_count}개")

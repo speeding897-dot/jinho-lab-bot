@@ -1,10 +1,13 @@
 import os
 import json
 import random
+import time
+import threading
+import requests
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 from duckduckgo_search import DDGS
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 
 # ======================================================
@@ -174,11 +177,42 @@ def chat_endpoint():
         return jsonify({'response': "서버 처리 중 오류가 발생했습니다."})
 
 # ======================================================
-# 6. 서버 실행
+# 6. [NEW] 추가 기능 (서버 유지 & 검색 로봇)
+# ======================================================
+
+# [기능 1] 서버 수면 방지 (Self-Ping)
+# Render 무료 서버는 15분간 요청이 없으면 잠자기 때문에, 14분마다 스스로를 찌름
+def keep_alive():
+    while True:
+        try:
+            time.sleep(840)  # 14분 (15분 되기 전에)
+            # 자기 자신(localhost)에게 가벼운 요청을 보냄
+            requests.get("http://127.0.0.1:5000/robots.txt")
+            print("⏰ [알림] 서버 잠자기 방지(Ping) 완료")
+        except:
+            pass # 실패해도 서버에 지장 없음
+
+# 백그라운드 스레드로 실행 (메인 서버 방해 X)
+threading.Thread(target=keep_alive, daemon=True).start()
+
+# [기능 2] 검색 로봇용 robots.txt 응답
+@app.route('/robots.txt')
+def robots():
+    content = "User-agent: *\nAllow: /"
+    return Response(content, mimetype="text/plain")
+
+# [기능 3] 서버 상태 확인용 (Health Check)
+@app.route('/')
+def home():
+    return "🤖 김진호 합격연구소 AI 서버 정상 작동 중 (Status: Online)"
+
+# ======================================================
+# 7. 서버 실행
 # ======================================================
 if __name__ == "__main__":
     load_database()
     print("\n🚀 [김진호 연구소] AI 웹 서버 가동 중 (포트: 5000)")
     print("   - 모드: DB검색 / 웹검색 / 공고분석 / 영업멘트 / 한국어전용")
+    print("   - [NEW] 24시간 Keep-alive 자동 실행")
     print("   - 상태: 연결 대기 중... (종료하려면 Ctrl+C)")
     app.run(host='0.0.0.0', port=5000)
