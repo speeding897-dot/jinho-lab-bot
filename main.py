@@ -405,7 +405,7 @@ if __name__ == "__main__":
     new_files_count = 0
     page = 1
     
-    while new_files_count < TARGET_NEW_FILES and page <= 20:
+    while new_files_count < TARGET_NEW_FILES and page <= 200:
         print(f"\n📄 잡알리오 {page}페이지 스캔 중... (현재: {new_files_count}/{TARGET_NEW_FILES})")
         urls = get_job_urls_from_page(page)
         if not urls: break
