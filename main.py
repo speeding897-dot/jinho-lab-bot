@@ -256,14 +256,17 @@ JOB_TEMPLATE = """
 
             addBubble(msg, 'user');
             input.value = '';
+            
+            // [수정된 부분] 먼저 말풍선을 만들고 ID를 받아옵니다.
             const loadingId = addBubble("📄 공고 분석 중...", 'ai');
+            const loadingElement = document.getElementById(loadingId); // ID로 요소를 확실하게 찾습니다.
 
             // [핵심] 현재 페이지의 제목과 본문을 긁어서 파이썬 서버로 전송
             const jobTitle = document.querySelector('.job-title').innerText;
             const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); // 길이 제한
 
             try {{
-                // ★★★ 여기가 가장 중요합니다. Render 주소로 전송합니다. ★★★
+                // ★★★ Render 주소로 전송 ★★★
                 const res = await fetch('{render_server_url}', {{
                     method: 'POST',
                     headers: {{ 'Content-Type': 'application/json' }},
@@ -273,10 +276,15 @@ JOB_TEMPLATE = """
                     }})
                 }});
                 const data = await res.json();
-                document.getElementById(loadingId).remove();
-                addBubble(data.response, 'ai');
+                
+                // 찾은 요소에 답변을 업데이트합니다.
+                if (loadingElement) {{
+                    loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>');
+                }}
             }} catch (err) {{
-                document.getElementById(loadingId).innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)";
+                if (loadingElement) {{
+                    loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)";
+                }}
             }}
         }}
 
@@ -284,10 +292,12 @@ JOB_TEMPLATE = """
             const box = document.getElementById('chat-messages');
             const div = document.createElement('div');
             div.className = `msg msg-${{type}}`;
+            // ID를 생성하여 부여합니다.
+            div.id = 'msg-' + Date.now();
             div.innerHTML = text.replace(/\\n/g, '<br>');
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
-            return div.id;
+            return div.id; // 생성된 ID를 반환합니다.
         }}
 
         // [드래그 기능]
@@ -397,11 +407,11 @@ def create_job_page(url):
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
         save_history(job_id)
-        print(f"   ✅ 생성 완료: {filename}")
+        print(f"    ✅ 생성 완료: {filename}")
         return True
 
     except Exception as e:
-        print(f"   ❌ 실패: {e}")
+        print(f"    ❌ 실패: {e}")
         return False
 
 # ==========================================

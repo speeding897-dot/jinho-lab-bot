@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한전KPS(주) 합격 가이드 - 김진호 합격연구소</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* 레이아웃 */
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        /* 사이드바 스타일 */
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        /* 메인 콘텐츠 스타일 */
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .keyword-chip:hover { background: var(--navy); color: white; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        /* ------------------------------------------------------- */
+        /* [AI 챗봇 위젯 스타일] */
+        /* ------------------------------------------------------- */
+        #chatbot-bubble {
+            position: fixed; bottom: 95px; right: 30px;
+            background: white; padding: 10px 15px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb;
+            font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998;
+            animation: float 3s ease-in-out infinite; cursor: pointer;
+        }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+
+        #chatbot-floater {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-floater span { font-size: 32px; }
+
+        #chatbot-window {
+            display: none; position: fixed; bottom: 100px; right: 30px;
+            width: 360px; height: 520px; background: white;
+            border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0;
+            overflow: hidden; font-family: 'Pretendard', sans-serif;
+        }
+
+        .chat-header {
+            background: #2563eb; color: white; padding: 15px; font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: move;
+        }
+        
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">채용공고</span>
+            <h1 class="job-title">한전KPS 신보령사업소 '26년도 계획예방정비공사 안전 patrol 채용 공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>한전KPS(주)</strong> | 마감일: 2025.12.31</div>
+
+            <div style="margin:20px 0;">
+                <strong style="color:var(--navy);">✨ 핵심 키워드:</strong> <span class="keyword-chip">#안전</span>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>1. 채용예정일 즉시 근무 가능한 자<br/>2. 다음 중 하나 이상에 해당하는자<br/>  가. 산업안전관련 자격증 소지자<br/>  나. 산업안전관련 학과를 전공하고 졸업한 자 <br/>  다. 산업/건설현장 안전관리 또는 감리단 경력 2년 이상인 자<br/>  라. 발전설비 또는 플랜트 현장에서 5년 이상 근무한 자<br/></p>
+<h4>결격사유</h4>
+<p>○ 신체검사결과 부적격으로 판정된 자<br/>○ 채용구비서류에 허위사실이 발견 또는 기타 채용기준상 부적격 판정 된자<br/>○ 당해연도 현장에서 안전수칙 위반으로 현장 퇴출자(1-Strike Out 제도)<br/>○ 기타 채용기준상 부적격으로 판정된 자</p>
+<h4>우대내용</h4>
+<p>-보훈대상자 :국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보조 대상자, 각 전형단계별 가점부여 (만점의 5%~10%)<br/>※ 국가유공자 등 예우 및 지원에 관한 법률 제31조 제3항에 의거, 채용인원 3명 이하인 경우 보훈대상자 미적용 (단 응시자의 수가 같거나 그보다 적은 경우에는 그러하지 아니함)<br/>-장애인 : 장애인고용촉진 및 직업재활업 제2조 제1호의 규정에 의한 장애인 중 발전소 현장 정비업무 수행이 가능한 자 (청각, 간질장애 제외) (만점의 10%)<br/>-건설업 기초안전교육 이수자 : 산업안전 보건법 제31조 2항 건설업 기초안전교육 이수자(4시간)(만점의 5%)<br/>-국민체력100 : 채용공고일 기준 최근 1년 이내 '국민체력100' 체력인증서 보유자(등급무관, 만점의 5%)</p>
+<h4>전형절차/방법</h4>
+<p>1.채용개요<br/>가. 총 채용인원: 1명<br/>나. 근무부서별 채용인원 및 근무기간<br/>-채용부서 : 안전/ 채용인원 : 1명/ 근무기간 : 2026. 2. 19. ~ 2026. 6. 14.<br/>※불가피한 사정으로 공사 일정이 변경되는 경우 채용이 취소되거나 근무기간이 달라질 수 있음<br/>다. 근무지: 충청남도 보령시 주교면 송도길 201<br/> <br/>2. 근무조건<br/>가. 채용신분: 단기노무원<br/>- 계약기간 만료 후 고용관계 소멸, 정규직 전환 혜택 없음<br/>나. 보수 및 복리후생<br/>- 일급/4대 보험/주차수당 별도 지급(주 5일 출근 시 지급)<br/>다. 근무시간: 주5일, 1일 8시간 근무를 원칙으로 하되, 사업소 사정에 따라 변동가능<br/> <br/>3. 전형절차<br/>- 지원서접수 → 서류심사 -&gt; 신체검사→ 합격자발표<br/> <br/>4. 채용일정<br/>1)지원서접수 : 2025. 12. 31.(수) ~ 2026. 1. 9.(금)<br/>2)서류심사 : 2026. 1. 12.(월)<br/>3)신체검사 : 2026. 1. 16.(금)<br/>3)최종합격자 발표 : 2026. 1. 26.(월)<br/> <br/>※채용일정은 회사 사정에 따라 일부 변경 가능<br/>※최종합격자 미입사 시 예비합격자를 최종합격 처리 가능<br/>※최종합격자는 합격자 개별유선통보<br/> <br/>5. 서류 접수 방법<br/>"첨부2" 입사지원서 및 개인정보 동의서 pdf파일을<br/>이메일(ws58580@kps.co.kr)로 접수<br/>※서류 접수 기한 이후 접수분 불인정<br/> <br/>6. 블라인드 채용안내<br/>-입사지원서 상 사진등록란, 학교명, 전공, 주소, 생년월일 기재란 없음<br/>-Email기재시 학교명, 특정단체명이 드러나는 메일 주소 기재 금지<br/>-지원서(자기소개서포함)작성시 개인인적사항(출신학교, 가족관계 등) 관련내용 기재금지<br/>-블라인드 채용 가이드라인을 준수하여 편견요인에 대한 개인정보는 심사위원에게 제공되지 않습니다.<br/> <br/>7. 증빙서류 제출안내<br/>가. 입사지원 시: 블라인드 입사지원서 1부(지원자 서명본), 개인정보제공동의서 1부<br/>나. 추가제출 요청서류<br/>-경력증명서, 소득금액증명원, 4대보험 중 1개 자격득실확인서(해당자에 한함)<br/>-본인명의 통장사본/신분증 사본<br/>-건설업 기초안전 보건교육 이수증(해당자에 한함)<br/>-장애인복지카드/장애인증명서(해당자에 한함)<br/>-국민체력 100 체력인증서(해당자에 한함)<br/>- 취업지원대상자증명원(원본) 및 국가유공자증(사본) (해당자에 한함)<br/> <br/>8. 문의처: 한전KPS(주) 신보령사업소 안전팀 ☎041-928-5533</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294587" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">
+        자기소개서 무엇이든 물어보세요!! AI입니다.
+    </div>
+
+    <div id="chatbot-floater" onclick="toggleChat()">
+        <span>🤖</span>
+    </div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 한전KPS(주) 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <span onclick="toggleChat()" style="cursor:pointer;">_</span>
+                <span onclick="toggleChat()" style="cursor:pointer;">✕</span>
+            </div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[한전KPS(주)]</strong> 분석 AI입니다.<br>
+                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
+                (예: "이 직무 핵심 역량이 뭐야?")
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        // DB 로드 및 사이드바 렌더링
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
+        const dbContainer = document.getElementById('dbContainer');
+
+        if(dbData.length > 0) {
+            dbContainer.innerHTML = dbData.slice(0, 15).map(item => `
+                <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
+                    <div style="font-weight:bold; font-size:0.9rem;">${item.title}</div>
+                    <div style="font-size:0.8rem; color:#666; margin-top:5px;">${item.content.substring(0, 40)}...</div>
+                </div>
+            `).join('');
+        } else {
+            dbContainer.innerHTML = "<div style='padding:10px;'>DB 로딩 중...</div>";
+        }
+
+        // [챗봇 기능]
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex';
+                bubble.style.display = 'none';
+                document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none';
+                bubble.style.display = 'block';
+            }
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            // [수정된 부분] 먼저 말풍선을 만들고 ID를 받아옵니다.
+            const loadingId = addBubble("📄 공고 분석 중...", 'ai');
+            const loadingElement = document.getElementById(loadingId); // ID로 요소를 확실하게 찾습니다.
+
+            // [핵심] 현재 페이지의 제목과 본문을 긁어서 파이썬 서버로 전송
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); // 길이 제한
+
+            try {
+                // ★★★ Render 주소로 전송 ★★★
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 한전KPS(주)\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                
+                // 찾은 요소에 답변을 업데이트합니다.
+                if (loadingElement) {
+                    loadingElement.innerHTML = data.response.replace(/\n/g, '<br>');
+                }
+            } catch (err) {
+                if (loadingElement) {
+                    loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)";
+                }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            // ID를 생성하여 부여합니다.
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; // 생성된 ID를 반환합니다.
+        }
+
+        // [드래그 기능]
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) {
+                document.getElementById("chatHeader").onmousedown = dragMouseDown;
+            }
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+</html>
