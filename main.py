@@ -44,7 +44,7 @@ def export_db_to_js():
     for idx, item in enumerate(data):
         content = item if isinstance(item, str) else str(item)
         title = f"합격 데이터 #{idx+1}"
-        if len(content) > 20: title = content[:20] + "..."
+        if len(content) > 50: title = content[:50] + "..."
         formatted_data.append({"title": title, "content": content})
     
     os.makedirs(SAVE_DIR, exist_ok=True)
@@ -216,7 +216,7 @@ JOB_TEMPLATE = """
             filtered = filtered.slice(0, 30);
             if(filtered.length > 0) {{
                 dbContainer.innerHTML = filtered.map(item => {{
-                    let displayContent = item.content.substring(0, 80) + "...";
+                    let displayContent = item.content.substring(0, 320) + "...";
                     let displayTitle = item.title;
                     if (filter) {{
                         const regex = new RegExp(filter, "gi");
