@@ -66,7 +66,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (AI + 빨간색 강조)
+# 3. [개별 공고 페이지] 템플릿 (AI 로딩 안내 강화)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -189,7 +189,8 @@ JOB_TEMPLATE = """
         <div id="chat-messages">
             <div class="msg msg-ai">
                 안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
-                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.
+                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (참고: 첫 질문 시 AI 서버가 깨어나느라 <strong>약 30초~1분</strong> 정도 걸릴 수 있습니다. 조금만 기다려주세요!)</span>
             </div>
         </div>
         <div class="chat-input-area">
@@ -268,7 +269,8 @@ JOB_TEMPLATE = """
             addBubble(msg, 'user');
             input.value = '';
             
-            const loadingId = addBubble("📄 공고 분석 중...", 'ai');
+            // [수정 포인트] 로딩 멘트 변경
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
             const jobTitle = document.querySelector('.job-title').innerText;
@@ -421,7 +423,6 @@ if __name__ == "__main__":
         files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
         files.sort(key=lambda x: os.path.getmtime(os.path.join(SAVE_DIR, x)), reverse=True)
         
-        # ★★★ [수정 완료] 메인 목록 페이지에 '실시간 필터 검색창' 추가 ★★★
         list_html = """<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -456,7 +457,6 @@ if __name__ == "__main__":
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
             list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
         
-        # 자바스크립트 필터 로직 추가
         list_html += """
     </div>
     <script>
