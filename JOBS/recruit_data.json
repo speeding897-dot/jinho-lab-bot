@@ -21,16 +21,6 @@
     },
     {
         "id": 3,
-        "company": "롯데지알에스(주)",
-        "type": "대기업, 1000대, 롯데그룹",
-        "title": "롯데지알에스(주)",
-        "exp": "신입",
-        "edu": "고졸↑",
-        "deadline": "1000대",
-        "link": "https://www.incruit.com/company/125029122"
-    },
-    {
-        "id": 4,
         "company": "유한킴벌리(주)",
         "type": "대기업, 1000대",
         "title": "유한킴벌리(주)",
@@ -40,7 +30,7 @@
         "link": "https://www.incruit.com/company/2873578"
     },
     {
-        "id": 5,
+        "id": 4,
         "company": "(주)강원랜드",
         "type": "대기업, 1000대, KOSPI",
         "title": "(주)강원랜드",
@@ -48,6 +38,16 @@
         "edu": "학력무관",
         "deadline": "1000대",
         "link": "https://www.incruit.com/company/1674883207"
+    },
+    {
+        "id": 5,
+        "company": "롯데지알에스(주)",
+        "type": "대기업, 1000대, 롯데그룹",
+        "title": "롯데지알에스(주)",
+        "exp": "신입",
+        "edu": "고졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/125029122"
     },
     {
         "id": 6,
@@ -101,16 +101,6 @@
     },
     {
         "id": 11,
-        "company": "롯데지알에스(주)",
-        "type": "강소기업, 1000대, 롯데그룹",
-        "title": "롯데지알에스(주)",
-        "exp": "신입",
-        "edu": "고졸↑",
-        "deadline": "1000대",
-        "link": "https://www.incruit.com/company/125029122"
-    },
-    {
-        "id": 12,
         "company": "롯데자산개발(주)",
         "type": "강소기업, 롯데그룹",
         "title": "롯데자산개발(주)",
@@ -118,6 +108,16 @@
         "edu": "학력무관",
         "deadline": "롯데그룹",
         "link": "https://www.incruit.com/company/5145500"
+    },
+    {
+        "id": 12,
+        "company": "롯데지알에스(주)",
+        "type": "강소기업, 1000대, 롯데그룹",
+        "title": "롯데지알에스(주)",
+        "exp": "신입",
+        "edu": "고졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/125029122"
     },
     {
         "id": 13,
