@@ -99,10 +99,7 @@
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
-               
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
@@ -127,7 +124,7 @@
             <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
                 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
                     <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
-                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('도전')">#도전</span>
+                    <span class="keyword-chip" onclick="searchDB('#LS')">##LS</span><span class="keyword-chip" onclick="searchDB('#전선')">##전선</span>
                     <div class="custom-search-box">
                         <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
                         <button onclick="manualSearch()">검색</button>
@@ -370,9 +367,6 @@
         </div>
     </div>
 
-    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
-    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
-
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -381,21 +375,16 @@
             </div>
             <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
-        <div id="chat-messages">
-            <div class="msg msg-ai">
-                안녕하세요! <strong>[LS전선(주)]</strong> 분석 AI입니다.<br>
-                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
-                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
-            </div>
-        </div>
+        <div id="chat-messages"><div class="msg msg-ai">안녕하세요! <strong>[LS전선(주)]</strong> 분석 AI입니다. 궁금한 점을 물어봐 주세요.</div></div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
+    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
-        // ★★★ [수정완료] DB1, DB2 강제 병합 및 로드 체크 ★★★
+        // ★★★ [연동 수정완료] var로 선언된 변수 안전하게 병합 ★★★
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])

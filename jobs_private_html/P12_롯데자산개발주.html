@@ -99,10 +99,7 @@
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
-               
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
@@ -127,7 +124,7 @@
             <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
                 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
                     <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
-                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('도전')">#도전</span>
+                    <span class="keyword-chip" onclick="searchDB('#롯데자산개')">##롯데자산개</span>
                     <div class="custom-search-box">
                         <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
                         <button onclick="manualSearch()">검색</button>
@@ -201,6 +198,13 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
+                            <a href="" target="_blank" class="news-title">롯데건설, 신임 대표에 오일근 롯데자산개발 대표 내정 - 증권경제신문</a>
+                            <span class="news-date">2025-11-26</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('롯데건설, 신임 대표에 오일근 롯데자산개발 대표 내정 - 증권경제신문', '2025-11-26')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">다시 심장이 뛴다… '계륵' 롯데자산개발의 패자부활전 - 뉴데일리 경제</a>
                             <span class="news-date">2024-09-30</span>
                         </div>
@@ -264,13 +268,6 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">롯데건설 차기 대표에 오일근 롯데자산개발 대표 내정 - 조선비즈 - Chosunbiz</a>
-                            <span class="news-date">2025-11-26</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('롯데건설 차기 대표에 오일근 롯데자산개발 대표 내정 - 조선비즈 - Chosunbiz', '2025-11-26')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">롯데자산개발, 동대문 ‘피트인’ 개편... 복화문화공간 ‘던던’으로 - 조선비즈 - Chosunbiz</a>
                             <span class="news-date">2024-09-25</span>
                         </div>
@@ -303,6 +300,13 @@
                             <span class="news-date">2024-09-25</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('롯데자산개발, 동대문 쇼핑몰 ‘던던’으로 재단장 - 매일경제', '2024-09-25')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">롯데건설 차기 대표에 오일근 롯데자산개발 대표 내정 - 네이트</a>
+                            <span class="news-date">2025-11-26</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('롯데건설 차기 대표에 오일근 롯데자산개발 대표 내정 - 네이트', '2025-11-26')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -346,13 +350,6 @@
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('롯데자산개발, 피트인 동대문→‘던던 동대문점’으로 리뉴얼 - 더리포트', '2024-09-25')">⚡ AI 지원동기 작성</button>
                     </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">이비엔(EBN)뉴스센터 - ebn.co.kr</a>
-                            <span class="news-date">2021-08-28</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('이비엔(EBN)뉴스센터 - ebn.co.kr', '2021-08-28')">⚡ AI 지원동기 작성</button>
-                    </div>
                 </div>
             </div>
 
@@ -370,9 +367,6 @@
         </div>
     </div>
 
-    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
-    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
-
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -381,21 +375,16 @@
             </div>
             <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
-        <div id="chat-messages">
-            <div class="msg msg-ai">
-                안녕하세요! <strong>[롯데자산개발(주)]</strong> 분석 AI입니다.<br>
-                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
-                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
-            </div>
-        </div>
+        <div id="chat-messages"><div class="msg msg-ai">안녕하세요! <strong>[롯데자산개발(주)]</strong> 분석 AI입니다. 궁금한 점을 물어봐 주세요.</div></div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
+    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
-        // ★★★ [수정완료] DB1, DB2 강제 병합 및 로드 체크 ★★★
+        // ★★★ [연동 수정완료] var로 선언된 변수 안전하게 병합 ★★★
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])

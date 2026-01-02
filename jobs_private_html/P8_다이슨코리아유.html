@@ -99,10 +99,7 @@
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
-               
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
@@ -127,7 +124,7 @@
             <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
                 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
                     <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
-                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('도전')">#도전</span>
+                    <span class="keyword-chip" onclick="searchDB('#다이슨코리')">##다이슨코리</span>
                     <div class="custom-search-box">
                         <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
                         <button onclick="manualSearch()">검색</button>
@@ -145,6 +142,13 @@
                     
                     <div class="news-item">
                         <div class="news-info">
+                            <a href="" target="_blank" class="news-title">MZ 세대 뷰티 아이콘 장원영, 다이슨까지 들었다 - MSN</a>
+                            <span class="news-date">2025-12-31</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('MZ 세대 뷰티 아이콘 장원영, 다이슨까지 들었다 - MSN', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">다이슨코리아, 연중 최대 혜택 ‘블랙프라이데이’ 프로모션 실시 - 케이벤치</a>
                             <span class="news-date">2025-11-11</span>
                         </div>
@@ -156,13 +160,6 @@
                             <span class="news-date">2025-11-11</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('다이슨코리아, 블랙프라이데이 최대 35만원 할인 - 네이트', '2025-11-11')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">다이슨코리아, 여름철 맞아 '쿨 스트레이트 캠페인' 전개 - 네이트</a>
-                            <span class="news-date">2025-07-02</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨코리아, 여름철 맞아 쿨 스트레이트 캠페인 전개 - 네이트', '2025-07-02')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -215,6 +212,13 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
+                            <a href="" target="_blank" class="news-title">다이슨코리아, 다이슨 제품으로 꾸민 '다이슨 홈(Dyson Home)' 운영 - 에이빙</a>
+                            <span class="news-date">2020-10-19</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨코리아, 다이슨 제품으로 꾸민 다이슨 홈(Dyson Home) 운영 - 에이빙', '2020-10-19')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">다이슨 제품으로 꾸며진 집 구경 가볼까? 다이슨코리아, 제품 체험 공간 '다이슨 홈(Dyson Home)’ 운영 - 디지틀조선일보</a>
                             <span class="news-date">2020-10-19</span>
                         </div>
@@ -229,13 +233,6 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">다이슨코리아, 다이슨 제품으로 꾸민 '다이슨 홈(Dyson Home)' 운영 - 에이빙</a>
-                            <span class="news-date">2020-10-19</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨코리아, 다이슨 제품으로 꾸민 다이슨 홈(Dyson Home) 운영 - 에이빙', '2020-10-19')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">다이슨 코리아, '체험형 매장'으로 고객 접점 늘린다 - 글로벌이코노믹</a>
                             <span class="news-date">2021-01-14</span>
                         </div>
@@ -243,45 +240,10 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">[포토] 다이슨코리아, 팝업 공간 '다이슨 스타일 랩' 성수동에 오픈 - 뉴데일리</a>
-                            <span class="news-date">2023-02-02</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('[포토] 다이슨코리아, 팝업 공간 다이슨 스타일 랩 성수동에 오픈 - 뉴데일리', '2023-02-02')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">[월간 CEO&]다이슨 코리아, 다이슨 팝업 뷰티랩 선보인다 - 월간 CEO&</a>
                             <span class="news-date">2021-09-06</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('[월간 CEO&]다이슨 코리아, 다이슨 팝업 뷰티랩 선보인다 - 월간 CEO&', '2021-09-06')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">인기 '무선청소기' 청소성능·소음·충전시간 비교해보니... - 뉴시스</a>
-                            <span class="news-date">2018-01-21</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('인기 무선청소기 청소성능·소음·충전시간 비교해보니... - 뉴시스', '2018-01-21')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">다이슨, 초·중등생 대상 실내 공기질 관리 교육 실시 - 지디넷코리아</a>
-                            <span class="news-date">2024-12-23</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨, 초·중등생 대상 실내 공기질 관리 교육 실시 - 지디넷코리아', '2024-12-23')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">다이슨코리아, 더현대 서울서 ‘다이슨 하트랩 팝업스토어’ 운영 - v.daum.net</a>
-                            <span class="news-date">2025-02-17</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨코리아, 더현대 서울서 ‘다이슨 하트랩 팝업스토어’ 운영 - v.daum.net', '2025-02-17')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">LGU+, 14일부터 갤S25 엣지 사전예약…다이슨 에어랩 등 경품 증정 - 뉴시스</a>
-                            <span class="news-date">2025-05-13</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('LGU+, 14일부터 갤S25 엣지 사전예약…다이슨 에어랩 등 경품 증정 - 뉴시스', '2025-05-13')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -299,6 +261,27 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
+                            <a href="" target="_blank" class="news-title">인기 '무선청소기' 청소성능·소음·충전시간 비교해보니... - 뉴시스</a>
+                            <span class="news-date">2018-01-21</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('인기 무선청소기 청소성능·소음·충전시간 비교해보니... - 뉴시스', '2018-01-21')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">다이슨, 초·중등생 대상 실내 공기질 관리 교육 실시 - 지디넷코리아</a>
+                            <span class="news-date">2024-12-23</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨, 초·중등생 대상 실내 공기질 관리 교육 실시 - 지디넷코리아', '2024-12-23')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">LGU+, 14일부터 갤S25 엣지 사전예약…다이슨 에어랩 등 경품 증정 - 뉴시스</a>
+                            <span class="news-date">2025-05-13</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('LGU+, 14일부터 갤S25 엣지 사전예약…다이슨 에어랩 등 경품 증정 - 뉴시스', '2025-05-13')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">다이슨코리아, 연말 라이브커머스 진행…'레오제이'와 특별 협업 - 월요신문</a>
                             <span class="news-date">2024-12-09</span>
                         </div>
@@ -313,10 +296,17 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">자연광을 재현한 다이슨 라이트사이클 모프 조명 - esquirekorea.co.kr</a>
-                            <span class="news-date">2020-05-04</span>
+                            <a href="" target="_blank" class="news-title">[정옥재의 스마트 라이프] 공기청정기, 장마철 여름철 활용법은 - 국제신문</a>
+                            <span class="news-date">2022-07-03</span>
                         </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('자연광을 재현한 다이슨 라이트사이클 모프 조명 - esquirekorea.co.kr', '2020-05-04')">⚡ AI 지원동기 작성</button>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('[정옥재의 스마트 라이프] 공기청정기, 장마철 여름철 활용법은 - 국제신문', '2022-07-03')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">장원영 웨이브 헤어는 진리지…'다이슨' 공식 앰배서더 선정 - xportsnews.com</a>
+                            <span class="news-date">2025-04-08</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('장원영 웨이브 헤어는 진리지…다이슨 공식 앰배서더 선정 - xportsnews.com', '2025-04-08')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -348,10 +338,17 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">장원영 웨이브 헤어는 진리지…'다이슨' 공식 앰배서더 선정 - xportsnews.com</a>
-                            <span class="news-date">2025-04-08</span>
+                            <a href="" target="_blank" class="news-title">다이슨 에어스트레이트너 할인된 가격으로 구매하는 법 - 브런치</a>
+                            <span class="news-date">2025-08-31</span>
                         </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('장원영 웨이브 헤어는 진리지…다이슨 공식 앰배서더 선정 - xportsnews.com', '2025-04-08')">⚡ AI 지원동기 작성</button>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('다이슨 에어스트레이트너 할인된 가격으로 구매하는 법 - 브런치', '2025-08-31')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">#후기인 줄 알았는데 #광고…공정위, SNS 인플루언서 광고 첫 제재 - KBS 뉴스</a>
+                            <span class="news-date">2019-11-25</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('#후기인 줄 알았는데 #광고…공정위, SNS 인플루언서 광고 첫 제재 - KBS 뉴스', '2019-11-25')">⚡ AI 지원동기 작성</button>
                     </div>
                 </div>
             </div>
@@ -370,9 +367,6 @@
         </div>
     </div>
 
-    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
-    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
-
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -381,21 +375,16 @@
             </div>
             <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
-        <div id="chat-messages">
-            <div class="msg msg-ai">
-                안녕하세요! <strong>[다이슨코리아(유)]</strong> 분석 AI입니다.<br>
-                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
-                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
-            </div>
-        </div>
+        <div id="chat-messages"><div class="msg msg-ai">안녕하세요! <strong>[다이슨코리아(유)]</strong> 분석 AI입니다. 궁금한 점을 물어봐 주세요.</div></div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
+    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
-        // ★★★ [수정완료] DB1, DB2 강제 병합 및 로드 체크 ★★★
+        // ★★★ [연동 수정완료] var로 선언된 변수 안전하게 병합 ★★★
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])

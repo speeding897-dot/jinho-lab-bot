@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[강원대학교병원] 2026-05(임상심리레지던트) 채용 공고 합격자소서 공개 & 행동중심 면접 전략 (ID:294357)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        .ai-ask-btn { 
+            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        }
+        .ai-ask-btn:hover { background: #2563eb; color: white; }
+
+        /* 행동중심 강조 박스 스타일 */
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { 
+            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
+            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        /* ★ [NEW] 뉴스 섹션 스타일 (스크롤 적용) */
+        .news-container { 
+            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
+        }
+        .news-header { 
+            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
+            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
+        }
+        .news-scroll-box {
+            max-height: 400px; overflow-y: auto; padding-right: 10px; /* 30개 뉴스 스크롤 처리 */
+        }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { 
+            background: white; color: #d97706; border: 1px solid #d97706; 
+            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
+            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
+        }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">2026-05(임상심리레지던트) 채용 공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>강원대학교병원</strong> | 마감일: 2025.12.23</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('성실')">#성실</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 강원대학교병원 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 연구팀 "치료제 전환으로 녹내장 진행 지연 가능" - 연합뉴스</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 연구팀 치료제 전환으로 녹내장 진행 지연 가능 - 연합뉴스', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[강원대병원] ‘공공보건의료계획 시행 평가’ 최우수 등급 - 병원신문</a>
+                        <span class="news-date">2026-01-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[강원대병원] ‘공공보건의료계획 시행 평가’ 최우수 등급 - 병원신문', '2026-01-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">아크릴, 강원대학교병원과 ‘AI 기반 헬스케어 서비스 협력 고도화’ 맞손… “‘의료 피지컬 AI’ 첫걸음” - 에이빙</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('아크릴, 강원대학교병원과 ‘AI 기반 헬스케어 서비스 협력 고도화’ 맞손… “‘의료 피지컬 AI’ 첫걸음” - 에이빙', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 공공보건의료 평가 ‘최우수’ 달성 - 하이뉴스</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 공공보건의료 평가 ‘최우수’ 달성 - 하이뉴스', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 2024년 공공보건의료계획 시행 평가 ‘최우수’ - v.daum.net</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 2024년 공공보건의료계획 시행 평가 ‘최우수’ - v.daum.net', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">아크릴, 국내 최초 ‘피지컬 AI’ 의료 산업에 도입...강원대병원과 개발 본격화 - 팍스경제TV</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('아크릴, 국내 최초 ‘피지컬 AI’ 의료 산업에 도입...강원대병원과 개발 본격화 - 팍스경제TV', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원-아크릴, AI기반 헬스케어 서비스 협력 고도화 - 전자신문</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원-아크릴, AI기반 헬스케어 서비스 협력 고도화 - 전자신문', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">아크릴, 강원대병원과 전략적 업무협약 체결 - 벤처스퀘어</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('아크릴, 강원대병원과 전략적 업무협약 체결 - 벤처스퀘어', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 “치료제의 전환으로 녹내장 진행 늦춘다” - 참뉴스</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 “치료제의 전환으로 녹내장 진행 늦춘다” - 참뉴스', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 연구팀 "LBN 안약, 거짓비늘증후군 녹내장에 효과" - 뉴스핌</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 연구팀 LBN 안약, 거짓비늘증후군 녹내장에 효과 - 뉴스핌', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">아크릴·강원대병원, 의료산업에 ‘피지컬 AI’ 도입 추진 - 뉴스타운</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('아크릴·강원대병원, 의료산업에 ‘피지컬 AI’ 도입 추진 - 뉴스타운', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">제22회 한독학술경영대상, 강원대병원 남우동 원장 수상 - 메디칼타임즈</a>
+                        <span class="news-date">2025-09-17</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('제22회 한독학술경영대상, 강원대병원 남우동 원장 수상 - 메디칼타임즈', '2025-09-17')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[단독] 강원대병원 '수당 줄줄'..징계 수위도 '논란' - G1방송</a>
+                        <span class="news-date">2025-11-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[단독] 강원대병원 수당 줄줄..징계 수위도 논란 - G1방송', '2025-11-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 지난해 공공보건의료계획 시행평가 최고등급 획득 - 연합뉴스</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 지난해 공공보건의료계획 시행평가 최고등급 획득 - 연합뉴스', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 노조, 경고 파업으로 입장 선회…"요구안 일부 수용" - 연합뉴스</a>
+                        <span class="news-date">2025-09-17</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 노조, 경고 파업으로 입장 선회…요구안 일부 수용 - 연합뉴스', '2025-09-17')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 심방세동 최신 치료법 '펄스장 절제술' 도입 - 연합뉴스</a>
+                        <span class="news-date">2025-12-10</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 심방세동 최신 치료법 펄스장 절제술 도입 - 연합뉴스', '2025-12-10')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 녹내장 유형 따른 최신 치료제 안압 하강 효과 차이 규명 - 뉴스1</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 녹내장 유형 따른 최신 치료제 안압 하강 효과 차이 규명 - 뉴스1', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 환자안전센터·태백병원, 환자 안전 네트워크 위한 MOU - 의학신문</a>
+                        <span class="news-date">2025-09-05</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 환자안전센터·태백병원, 환자 안전 네트워크 위한 MOU - 의학신문', '2025-09-05')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 복지부 ‘지역의료 R&D 사업’ 선정···96억 지원 - 의학신문</a>
+                        <span class="news-date">2025-07-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 복지부 ‘지역의료 R&D 사업’ 선정···96억 지원 - 의학신문', '2025-07-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">아크릴-강원대병원, 국내 최초 '의료 피지컬 AI' 도입 - ebn.co.kr</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('아크릴-강원대병원, 국내 최초 의료 피지컬 AI 도입 - ebn.co.kr', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">존립 흔들리는 강원대병원 “두달새 적자 120억원” - v.daum.net</a>
+                        <span class="news-date">2025-10-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('존립 흔들리는 강원대병원 “두달새 적자 120억원” - v.daum.net', '2025-10-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 노조, 25년 만에 첫 파업 ‘초읽기’ - KBS 뉴스</a>
+                        <span class="news-date">2025-09-15</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 노조, 25년 만에 첫 파업 ‘초읽기’ - KBS 뉴스', '2025-09-15')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 인공지능 기반 환자 상태악화 예측 시스템 도입 - 연합뉴스</a>
+                        <span class="news-date">2025-08-20</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 인공지능 기반 환자 상태악화 예측 시스템 도입 - 연합뉴스', '2025-08-20')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대학교병원 비상진료체계 점검 및 현장 의료진 격려 - 보건복지부 대표홈페이지</a>
+                        <span class="news-date">2025-03-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대학교병원 비상진료체계 점검 및 현장 의료진 격려 - 보건복지부 대표홈페이지', '2025-03-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 설립 첫 총파업 돌입 "인력·처우 개선" 요구 - 노컷뉴스</a>
+                        <span class="news-date">2025-09-15</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 설립 첫 총파업 돌입 인력·처우 개선 요구 - 노컷뉴스', '2025-09-15')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">오페라 공연장으로 변신한 강원대병원…희망의 메시지 전달 - 연합뉴스</a>
+                        <span class="news-date">2025-12-11</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('오페라 공연장으로 변신한 강원대병원…희망의 메시지 전달 - 연합뉴스', '2025-12-11')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">Sh수협은행, 강원대학교 병원 주거래은행 업무협약 체결 - 어업in수산</a>
+                        <span class="news-date">2025-07-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('Sh수협은행, 강원대학교 병원 주거래은행 업무협약 체결 - 어업in수산', '2025-07-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원 노조, 25년 만에 첫 파업 - 경향신문</a>
+                        <span class="news-date">2025-09-15</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원 노조, 25년 만에 첫 파업 - 경향신문', '2025-09-15')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대병원, 허영·김윤·부승찬 의원과 의료정책 논의 - 의학신문</a>
+                        <span class="news-date">2025-05-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대병원, 허영·김윤·부승찬 의원과 의료정책 논의 - 의학신문', '2025-05-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">강원대학교병원, 개원 25주년 기념식 개최 - KBS 뉴스</a>
+                        <span class="news-date">2025-05-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('강원대학교병원, 개원 25주년 기념식 개최 - KBS 뉴스', '2025-05-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>ㅇ 성별·연령 제한 없음<br/>ㅇ 남성은 병역필 또는 면제자(단, 임용일 이전 전역예정자 지원 가능)<br/>ㅇ 아래 요건을 모두 충족하는 자<br/> - 고등교육법에 의한 대학원에서 심리학을 전공하여 석사 학위 이상을 소지한 자 또는 2026년 2월 석사 학위 취득 예정자<br/> - 정신건강복지법에 따라 대학원에서 보건복지부장관이 정하는 임상심리 관련 필수과목(4개 이상) 및 선택과목(3개 이상)을 모두 이수하여 3년의 정신건강임상심리사 1급 수련이 가능한 자<br/> - 한국임상심리학회 임상심리전문가 수련 세칙에서 정하는 수련인정과목(임상심리학 3과목 9학점 이상 및 연구방법론 1과목 3학점 이상)을 대학원에서 모두 이수하여 최소 1년 이상의 임상심리전문가 필수수련이 가능한 자<br/>ㅇ 임용일부터 근무가 가능한 자<br/>ㅇ 본원 「인사규정」 제22조의 임용결격사유에 해당하지 않는 자</p>
+<h4>결격사유</h4>
+<p> 1. 금고이상의 형을 받고 그 집행이 종료되거나 또는 집행을 받지 아니하기로 확정된 후 5년을 경과하지 아니한 자<br/> 2. 금고이상의 형을 받고 그 집행유예기간이 만료된 날로부터 2년을 경과하지 아니한 자 <br/> 3. 금고이상의 형의 선고유예를 받고 그 선고유예기간 중에 있는 자<br/> 4. 법원의 판결 또는 다른 법률에 의하여 자격이 상실되거나 정지된 자<br/> 5. 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 규정된 죄를 범한 사람으로서 100만원 이상의 벌금형을 선고받고 그 형이 확정된 후 3년이 지나지 아니한 사람<br/> 6. 미성년자에 대한 다음 각 목의 어느 하나에 해당하는 죄를 저질러 파면ㆍ해임되거나 형 또는 치료감호를 선고받아 그 형 또는 치료감호가 확정된 사람(집행유예를 선고받은 후 그 집행유예기간이 경과한 사람을 포함한다)<br/>  가. 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 따른 성폭력범죄<br/>  나. 「아동ㆍ청소년의 성보호에 관한 법률」 제2조제2호에 따른 아동ㆍ청소년대상 성범죄<br/> 7. 다음 각 목의 어느 하나에 해당하여 파면ㆍ해임되거나 형 또는 치료감호를 선고받아 그 형 또는 치료감호가 확정된 사람(집행유예를 선고받은 후 그 집행유예기간이 경과한 사람을 포함한다)<br/>    가. 「아동복지법」 제3조제7의2호에 따른 아동학대 관련범죄<br/>    나. 「장애인복지법」 제2조제4항에 따른 장애인학대 관련범죄<br/>    다. 「노인복지법」 제1조의2제5호에 따른 노인학대 관련범죄<br/> 8. 병역의무자로서 병역을 기피한 자<br/> 9. 징계에 의하여 파면?해임 처분된 자로서 처분일로부터 파면은 5년, 해임은 3년을 경과하지 아니한 자. 다만, 직무와 관련된 부패행위로 당연퇴직, 파면?해임 처분된 자로서 처분일로부터 5년이 경과하지 아니한 자<br/> 10. 사상이 불온하거나 불량한 소행이 있는 자로서 부적당하다고 인정된 자<br/> 11. 전염병 질환자 또는 육체적?정신적 장애로 인하여 정상적인 업무수행이 곤란하다고 인정된 자<br/> 12. “부패방지 및 국민권익위원회의 설치와 운영에 관한 법률” 제82조에 따른 비위면직자 등의 취업제한 적용을 받는 자<br/> 13. 채용비리로 인한 부정합격자 또는 채용비리로 인한 채용 취소 후 5년이 지나지 아니한 자<br/> 14. 기타 병원 업무수행에 부적당하다고 인정되는 자</p>
+<h4>우대내용</h4>
+<p>	[보훈]<br/>- 「국가유공자 등 예우 및 지원에 관한 법률」 등 보훈관계법률에 의한 취업지원대상자<br/>- 매 전형 만점의 5% 또는 10%(가점 비율은 '취업지원대상자 증명서'의 내용에 따름)<br/>- 취업지원대상자 증명서 제출 필요(공고일 이후 발급받은 것으로서 제출처에 '강원대학교병원'이 기재되어야 인정)<br/>- 직종(직무)별 채용예정인원이 3명 이하일 경우 보훈 가점을 부여하지 않음<br/> <br/>[장애인]<br/>- 「장애인고용촉진 및 직업재활법」에 의한 장애인<br/>- 매 전형 만점의 5%<br/>- 장애인증명서 제출 필요(중증장애인인 경우 '중증장애인 확인서' 함께 제출)<br/> <br/>* 적부 평가(서류전형)에는 가점 적용 안됨<br/>* 가점항목이 중복될 경우 가장 높은 가점 하나만 적용<br/>* 전형 과락자에게는 가점을 부여하지 않음(장애)<br/>* 전형별 원점수가 만점의 40% 미만인 과목이 있을 시 가점 부여하지 않음(보훈)</p>
+<h4>전형절차/방법</h4>
+<p>[서류전형]<br/>ㅇ 합격자 선발 방법<br/> - ‘[별첨 1] 지원서 작성 가이드’ 참고 → 가이드를 확인하지 않고 지원서를 작성할 경우 전형 과정에서 불이익을 받을 수 있음<br/> - 지원 요건 충족 여부 확인(기재사항 기반) 및 지원서 작성의 성실성 확인<br/> - 불합격 사유 없으면 합격(적부평가로 합격자 배수 없음)<br/>ㅇ 주의사항<br/> - 지원서 작성 가이드를 확인하지 않아 발생하는 불이익은 지원자 본인의 책임으로 함<br/> - (지원 자격) 모든 지원자는 지원서에 ‘석사 학위 학과명’, ‘졸업(예정)연월’ 및 자격요건에 따른 ‘이수과목명’을 기재하여야 하며, 면접전형 전 이에 대한 증빙서류를 제출해야 함 (미기재 또는 증빙서류 미제출 시 불합격 처리)<br/>  - 이수 과목 관련 내용은 [별첨2-1] 및 [별첨2-2] 자료에 따라 확인 <br/> - (지원 자격 외) 필수 지원 자격 외 지원자가 추가로 기재한 내역은 전형 평가에 반영하지 않고 면접전형에서 참고자료로 활용하며, 증빙이 가능한 사항만 기재<br/>  - 면접전형 시 기재한 내용에 대한 증빙서류를 제출하여야 하며, 미제출 또는 기재 내용이 사실과 다를 경우 불이익을 받을 수 있음<br/>ㅇ 합격자 발표 예정일: 2026.1.15.<br/> <br/>[필기전형]<br/>ㅇ 전형 예정일: 2026.1.18.<br/>ㅇ 서류전형 합격자에 한하여 일정 및 장소(춘천시 예정) 개별 안내<br/>ㅇ 필기 과목: NCS 직업기초능력평가 (상세내용 공고 참조)<br/>ㅇ 합격자 선발 방법<br/> - 필기시험 점수에 가점을 합산한 최종점수 순으로 채용예정인원의 4배수 선발<br/> - 합격 배수 이내 동점자는 전부 합격<br/> - 100점 만점 환산 점수가 40점 미만인 자는 불합격(과락)<br/> - 과락자에게는 가점 부여하지 않음<br/>ㅇ 합격자 발표 예정일: 2026.1.27.<br/> <br/>[면접전형]<br/>ㅇ 전형 예정일: 2월 1주~2주 중<br/>ㅇ 필기전형 합격자에 한하여 일정 및 장소(본원 예정) 개별 안내 <br/>ㅇ 평가 방법<br/> - 인성면접 또는 경험행동면접(조직적합성, 직무능력 등 평가)<br/> - 면접은 직종별 응시 인원에 따라 다대다 또는 다대일 방식으로 진행<br/>- 평가항목: 조직적합성, 인성 및 태도, 직무수행능력, 의사소통능력, 발전가능성(각 20점, 100점 만점, 평가항목 순서는 중요도 순, 각 항목의 최저점은 0점)<br/>ㅇ 최종합격자 선발<br/> - 전체 평가위원 점수의 산술평균에 가점을 합산한 최종점수 순으로 채용예정인원의 1배수 이내 선발<br/> - 전체 평가위원 점수의 산술평균이 60점 미만인 자는 불합격(과락)<br/> - 면접 점수가 동점인 경우 다음 순서대로 우선 선발<br/>   - ① 「국가유공자 등 예우 및 지원에 관한 법률」 제31조 제3항에 의한 취업지원대상자, ② 「장애인고용촉진 및 직업재활법」에 의한 장애인, ③ 면접 상위 평가항목이 고득점인 자, ④ 필기시험이 고득점인 자<br/>ㅇ 합격자 발표 예정일: 2026.2.20.<br/> <br/>[합격자 등록 및 임용]<br/>ㅇ 임용후보자 등록<br/> - 최종합격자에 한하여 제출서류 안내<br/> - 등록 기간: 2026.2.20. ~ 2026.2.26.<br/>ㅇ 임용 예정일: 2026.3.1.<br/>ㅇ 예비합격자 운영<br/> - 예비합격자 운영에 관한 사항은 본원 ?직원 채용 및 시험 등에 관한 지침?에 따름</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294357" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 강원대학교병원 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[강원대학교병원]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        // [수정완료] DB1, DB2 강제 병합 및 로드 체크
+        const dbData = [
+            ...(window.DB_PART_1 || []), 
+            ...(window.DB_PART_2 || [])
+        ];
+        console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+
+        window.onload = function() {
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 30);
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map(item => {
+                    let displayContent = item.content.substring(0, 200) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }
+                    
+                    const cleanTitle = item.title.replace(/'/g, "\'");
+                    const cleanContent = item.content.substring(0,100).replace(/[\r\n]+/g, " ").replace(/'/g, "\'");
+
+                    return `
+                    <div class="db-card">
+                        <div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div>
+                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${cleanTitle}', '${cleanContent}')">
+                            ⚡ AI에게 이 데이터로 전략 묻기
+                        </button>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+
+        renderDB();
+
+        function searchDB(keyword) {
+            dbSearch.value = keyword;
+            renderDB(keyword);
+        }
+
+        function manualSearch() {
+            const val = document.getElementById('manualKeyword').value;
+            if(val) {
+                searchDB(val);
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
+            }
+        }
+
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        function askAiAboutDB(event, title, contentSnippet) {
+            event.stopPropagation();
+            toggleChat();
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        // ★ [NEW] 뉴스 기반 AI 요청 함수
+        function askAiAboutNews(title, date) {
+            toggleChat();
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 강원대학교병원\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 강원대학교병원\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
