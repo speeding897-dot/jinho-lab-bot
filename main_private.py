@@ -382,7 +382,13 @@ JOB_TEMPLATE = """
 
         function askAiAboutDB(event, title, contentSnippet) {{
             event.stopPropagation();
-            toggleChat();
+            
+            // [수정] 무조건 채팅창 열기
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            win.style.display = 'flex'; 
+            bubble.style.display = 'none';
+
             const jobTitle = document.querySelector('.job-title').innerText;
             const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
             const input = document.getElementById('chatInput');
@@ -390,6 +396,18 @@ JOB_TEMPLATE = """
             sendMsg();
         }}
 
+        function askAiAboutNews(title, date) {{
+            // [수정] 무조건 채팅창 열기
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            win.style.display = 'flex'; 
+            bubble.style.display = 'none';
+
+            const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }}
         function askAiAboutNews(title, date) {{
             toggleChat();
             const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
