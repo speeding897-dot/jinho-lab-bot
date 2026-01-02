@@ -18,7 +18,7 @@ SAVE_DIR = "jobs_private_html"           # 저장 폴더
 LIST_FILENAME = "jobs_private.html"      # 목록 파일
 SITEMAP_FILENAME = "sitemap_private.xml" # 사이트맵 파일
 HISTORY_FILE = "private_history.txt"     # 히스토리 파일
-JSON_DB_PATH = "JOBS/recruit_data.json"  # collector.py 결과물
+JSON_DB_PATH = "./JOBS/recruit_data.json"  # collector.py 결과물
 
 # ★★★ [중요] 24시간 가동되는 소장님의 Render 서버 주소 ★★★
 RENDER_SERVER_URL = "https://jinho-lab-bot.onrender.com/chat"
@@ -462,8 +462,17 @@ def create_private_pages():
     try:
         with open(JSON_DB_PATH, 'r', encoding='utf-8') as f:
             jobs = json.load(f)
+
+        # ★★★ [추가] 장부가 비어있는지 검사하는 코드 ★★★
+        if not jobs:
+            print(f"\n🚨 [비상] '{JSON_DB_PATH}' 파일은 있는데 내용이 비어있습니다(0개).")
+            print("👉 조치법: collector.py가 제대로 수집을 못 했습니다. 수집기부터 다시 점검하세요.\n")
+            return
+        else:
+            print(f"\n✅ [성공] 장부 확인 완료: 총 {len(jobs)}개의 기업을 처리합니다.\n")
+
     except FileNotFoundError:
-        print("❌ JSON 파일이 없습니다. collector.py를 먼저 실행하세요.")
+        print(f"❌ '{JSON_DB_PATH}' 파일을 찾을 수 없습니다. 경로를 확인하세요.")
         return
 
     print(f"🚀 사기업 페이지 생성 시작: 총 {len(jobs)}개 대상 확인 중...")
@@ -479,9 +488,9 @@ def create_private_pages():
             filepath = os.path.join(SAVE_DIR, filename)
             
             # [속도 최적화] 이미 파일이 존재하면 크롤링 생략하고 건너뜀 (20분 -> 초단위 단축)
-            if os.path.exists(filepath):
-                print(f"  ⏭️ [건너뜀] 이미 존재함: {filename}")
-                continue
+            # if os.path.exists(filepath):
+            #     print(f"  ⏭️ [건너뜀] 이미 존재함: {filename}")
+            #     continue
             
             # [중요] 상세 페이지 본문 긁어오기
             print(f"🔄 [신규수집] {job['company']} 본문 로딩중...")
