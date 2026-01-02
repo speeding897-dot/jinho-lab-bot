@@ -2,8 +2,12 @@ name: Jinho Lab Daily Job
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # 매일 한국시간 오전 7시 (UTC 22:00)
+    - cron: '0 22 * * *'  # 매일 한국시간 오전 7시
   workflow_dispatch:      # 수동 실행 버튼
+
+# [추가] 깃허브 로봇에게 파일 쓰기 권한을 부여합니다.
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -35,5 +39,6 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add .
-          git commit -m "🚀 공기업/사기업 채용공고 자동 업데이트" || echo "변경사항 없음"
+          # 변경된 모든 파일(html, json, txt)을 강제로 포함시킵니다.
+          git commit -m "🚀 공기업/사기업 채용공고 자동 업데이트 [$(date)]" || echo "변경사항 없음"
           git push
