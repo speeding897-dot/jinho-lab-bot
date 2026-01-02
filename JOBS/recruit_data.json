@@ -1,0 +1,202 @@
+[
+    {
+        "id": 1,
+        "company": "서울우유협동조합",
+        "type": "대기업, 1000대",
+        "title": "서울우유협동조합",
+        "exp": "경력",
+        "edu": "대졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/856480"
+    },
+    {
+        "id": 2,
+        "company": "쿠팡로지스틱스서비스(유)",
+        "type": "대기업, 1000대",
+        "title": "쿠팡로지스틱스서비스(유)",
+        "exp": "경력무관",
+        "edu": "학력무관",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/1685963610"
+    },
+    {
+        "id": 3,
+        "company": "롯데지알에스(주)",
+        "type": "대기업, 1000대, 롯데그룹",
+        "title": "롯데지알에스(주)",
+        "exp": "신입",
+        "edu": "고졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/125029122"
+    },
+    {
+        "id": 4,
+        "company": "유한킴벌리(주)",
+        "type": "대기업, 1000대",
+        "title": "유한킴벌리(주)",
+        "exp": "경력무관",
+        "edu": "대졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/2873578"
+    },
+    {
+        "id": 5,
+        "company": "(주)강원랜드",
+        "type": "대기업, 1000대, KOSPI",
+        "title": "(주)강원랜드",
+        "exp": "신입",
+        "edu": "학력무관",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/1674883207"
+    },
+    {
+        "id": 6,
+        "company": "쿠쿠홈시스 주식회사",
+        "type": "대기업, 1000대, KOSPI",
+        "title": "쿠쿠홈시스 주식회사",
+        "exp": "경력무관",
+        "edu": "고졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/1681582964"
+    },
+    {
+        "id": 7,
+        "company": "LS전선(주)",
+        "type": "대기업, 1000대",
+        "title": "LS전선(주)",
+        "exp": "경력",
+        "edu": "무관",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/5276171"
+    },
+    {
+        "id": 8,
+        "company": "다이슨코리아(유)",
+        "type": "대기업, 1000대",
+        "title": "다이슨코리아(유)",
+        "exp": "경력",
+        "edu": "학력무관",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/1685631740"
+    },
+    {
+        "id": 9,
+        "company": "(주) 에스텍시스템",
+        "type": "대기업, 1000대",
+        "title": "(주) 에스텍시스템",
+        "exp": "경력무관",
+        "edu": "고졸",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/1687160750"
+    },
+    {
+        "id": 10,
+        "company": "LS전선(주)",
+        "type": "대기업, 1000대",
+        "title": "LS전선(주)",
+        "exp": "경력",
+        "edu": "무관",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/5276171"
+    },
+    {
+        "id": 11,
+        "company": "롯데지알에스(주)",
+        "type": "강소기업, 1000대, 롯데그룹",
+        "title": "롯데지알에스(주)",
+        "exp": "신입",
+        "edu": "고졸↑",
+        "deadline": "1000대",
+        "link": "https://www.incruit.com/company/125029122"
+    },
+    {
+        "id": 12,
+        "company": "롯데자산개발(주)",
+        "type": "강소기업, 롯데그룹",
+        "title": "롯데자산개발(주)",
+        "exp": "경력무관",
+        "edu": "학력무관",
+        "deadline": "롯데그룹",
+        "link": "https://www.incruit.com/company/5145500"
+    },
+    {
+        "id": 13,
+        "company": "리뉴에너지전남 주식회사",
+        "type": "강소기업, SK그룹",
+        "title": "리뉴에너지전남 주식회사",
+        "exp": "경력무관",
+        "edu": "학력무관",
+        "deadline": "SK그룹",
+        "link": "https://www.incruit.com/company/1683906489"
+    },
+    {
+        "id": 14,
+        "company": "(주)엑스엘게임즈",
+        "type": "강소기업, 카카오그룹",
+        "title": "(주)엑스엘게임즈",
+        "exp": "경력 2년↑",
+        "edu": "학력무관",
+        "deadline": "카카오그룹",
+        "link": "https://www.incruit.com/company/8886380"
+    },
+    {
+        "id": 15,
+        "company": "(주)엑스엘게임즈",
+        "type": "강소기업, 카카오그룹",
+        "title": "(주)엑스엘게임즈",
+        "exp": "경력 3년",
+        "edu": "학력무관",
+        "deadline": "카카오그룹",
+        "link": "https://www.incruit.com/company/8886380"
+    },
+    {
+        "id": 16,
+        "company": "(주)엑스엘게임즈",
+        "type": "강소기업, 카카오그룹",
+        "title": "(주)엑스엘게임즈",
+        "exp": "경력",
+        "edu": "학력무관",
+        "deadline": "카카오그룹",
+        "link": "https://www.incruit.com/company/8886380"
+    },
+    {
+        "id": 17,
+        "company": "(주)엑스엘게임즈",
+        "type": "강소기업, 카카오그룹",
+        "title": "(주)엑스엘게임즈",
+        "exp": "경력 5년↑",
+        "edu": "학력무관",
+        "deadline": "카카오그룹",
+        "link": "https://www.incruit.com/company/8886380"
+    },
+    {
+        "id": 18,
+        "company": "(주)엑스엘게임즈",
+        "type": "강소기업, 카카오그룹",
+        "title": "(주)엑스엘게임즈",
+        "exp": "경력 2년↑",
+        "edu": "학력무관",
+        "deadline": "카카오그룹",
+        "link": "https://www.incruit.com/company/8886380"
+    },
+    {
+        "id": 19,
+        "company": "리뉴에너지전남 주식회사",
+        "type": "강소기업, SK그룹",
+        "title": "리뉴에너지전남 주식회사",
+        "exp": "경력 10~15년",
+        "edu": "대졸",
+        "deadline": "SK그룹",
+        "link": "https://www.incruit.com/company/1683906489"
+    },
+    {
+        "id": 20,
+        "company": "NICE정보통신(주)",
+        "type": "강소기업, 나이스그룹",
+        "title": "NICE정보통신(주)",
+        "exp": "경력 3년↑",
+        "edu": "대졸↑",
+        "deadline": "나이스그룹",
+        "link": "https://www.incruit.com/company/1794896"
+    }
+]
