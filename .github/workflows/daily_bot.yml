@@ -1,35 +1,39 @@
-name: 24시간 자동 크롤링 로봇
+name: Jinho Lab Daily Job
 
 on:
   schedule:
-    - cron: '21 21 * * *'
-  workflow_dispatch:
+    - cron: '0 22 * * *'  # 매일 한국시간 오전 7시 (UTC 22:00)
+  workflow_dispatch:      # 수동 실행 버튼
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: # 권한 추가
-      contents: write
-      
     steps:
-      - name: 코드 체크아웃
+      - name: 저장소 체크아웃
         uses: actions/checkout@v3
 
-      - name: 파이썬 설치
+      - name: 파이썬 설정
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
       - name: 라이브러리 설치
         run: |
-          pip install -r requirements.txt
+          pip install requests beautifulsoup4
 
-      - name: 크롤링 및 파일 생성 실행
+      - name: 1. 인크루트 사기업 데이터 수집 (collector.py)
+        run: python collector.py
+
+      - name: 2. 공기업 채용공고 갱신 (main.py)
         run: python main.py
 
-      - name: 변경사항 깃허브에 반영
+      - name: 3. 사기업 채용공고 갱신 (main_private.py)
+        run: python main_private.py
+
+      - name: 결과 깃허브에 반영 (Commit & Push)
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
           git add .
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 자동 업데이트: $(date +'%Y-%m-%d %H:%M')" && git push)
+          git commit -m "🚀 공기업/사기업 채용공고 자동 업데이트" || echo "변경사항 없음"
+          git push
