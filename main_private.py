@@ -291,7 +291,13 @@ JOB_TEMPLATE = """
             </div>
             <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
-        <div id="chat-messages"><div class="msg msg-ai">안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다. 궁금한 점을 물어봐 주세요.</div></div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">전송</button>
@@ -351,36 +357,49 @@ JOB_TEMPLATE = """
 
         function toggleChat() {{
             const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
             if (win.style.display === 'none' || win.style.display === '') {{
-                win.style.display = 'flex'; document.getElementById('chatInput').focus();
-            }} else {{ win.style.display = 'none'; }}
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            }} else {{
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }}
         }}
 
         function askAiAboutDB(event, title, contentSnippet) {{
             event.stopPropagation();
             
-            // [수정] 무조건 채팅창 열기 (토글 아님)
+            // [수정] 무조건 채팅창 열기 및 자동 전송
             const win = document.getElementById('chatbot-window');
-            win.style.display = 'flex'; 
-            document.getElementById('chatInput').focus();
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
 
             const jobTitle = document.querySelector('.job-title').innerText;
             const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            
             const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            if(input) {{
+                input.value = msg;
+                input.focus();
+                sendMsg(); // 바로 전송
+            }}
         }}
 
         function askAiAboutNews(title, date) {{
-            // [수정] 무조건 채팅창 열기 (토글 아님)
+            // [수정] 무조건 채팅창 열기 및 자동 전송
             const win = document.getElementById('chatbot-window');
-            win.style.display = 'flex'; 
-            document.getElementById('chatInput').focus();
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
 
             const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            
             const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            if(input) {{
+                input.value = msg;
+                input.focus();
+                sendMsg(); // 바로 전송
+            }}
         }}
 
         async function sendMsg() {{
