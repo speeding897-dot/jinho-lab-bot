@@ -68,7 +68,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (아이디어 반영: 제목에 ID 추가, 행동중심 문구 추가)
+# 3. [개별 공고 페이지] 템플릿 (원본 유지)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -361,7 +361,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 크롤링 및 파일 생성 로직 (원본 유지 + 제목 ID 추가)
+# 4. 크롤링 및 파일 생성 로직 (원본 유지)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -494,6 +494,9 @@ if __name__ == "__main__":
     
     <div class="search-container">
         <input type="text" id="jobSearch" placeholder="🔍 기업명 검색 (예: 한전, 공단, 병원...)">
+        <div style="margin-top:10px; font-size:0.9rem; color:#64748b; font-weight:bold;">
+            현재 게시된 공고: <span style="color:#0f172a;">""" + str(len(files)) + """개</span>
+        </div>
     </div>
 
     <div id="jobList">
