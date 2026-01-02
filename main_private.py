@@ -335,59 +335,34 @@ JOB_TEMPLATE = """
                         displayTitle = displayTitle.replace(regex, highlightStr);
                         displayContent = displayContent.replace(regex, highlightStr);
                     }}
-                    
                     const cleanTitle = item.title.replace(/'/g, "\\'");
                     const cleanContent = item.content.substring(0,100).replace(/[\\r\\n]+/g, " ").replace(/'/g, "\\'");
-
-                    return `
-                    <div class="db-card">
-                        <div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div>
-                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div>
-                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">
-                            ⚡ AI에게 이 데이터로 전략 묻기
-                        </button>
-                    </div>`;
+                    return `<div class="db-card"><div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div><div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">⚡ AI에게 전략 묻기</button></div>`;
                 }}).join('');
             }} else {{
                 dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
             }}
         }}
-
         renderDB();
 
-        function searchDB(keyword) {{
-            dbSearch.value = keyword;
-            renderDB(keyword);
-        }}
-
-        function manualSearch() {{
-            const val = document.getElementById('manualKeyword').value;
-            if(val) {{
-                searchDB(val);
-                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
-            }}
-        }}
-
+        function searchDB(keyword) {{ dbSearch.value = keyword; renderDB(keyword); }}
+        function manualSearch() {{ const val = document.getElementById('manualKeyword').value; if(val) {{ searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); }} }}
         dbSearch.addEventListener('input', (e) => {{ renderDB(e.target.value); }});
 
         function toggleChat() {{
             const win = document.getElementById('chatbot-window');
-            const bubble = document.getElementById('chatbot-bubble');
             if (win.style.display === 'none' || win.style.display === '') {{
-                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
-            }} else {{
-                win.style.display = 'none'; bubble.style.display = 'block';
-            }}
+                win.style.display = 'flex'; document.getElementById('chatInput').focus();
+            }} else {{ win.style.display = 'none'; }}
         }}
 
         function askAiAboutDB(event, title, contentSnippet) {{
             event.stopPropagation();
             
-            // [수정] 무조건 채팅창 열기
+            // [수정] 무조건 채팅창 열기 (토글 아님)
             const win = document.getElementById('chatbot-window');
-            const bubble = document.getElementById('chatbot-bubble');
             win.style.display = 'flex'; 
-            bubble.style.display = 'none';
+            document.getElementById('chatInput').focus();
 
             const jobTitle = document.querySelector('.job-title').innerText;
             const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
@@ -397,19 +372,11 @@ JOB_TEMPLATE = """
         }}
 
         function askAiAboutNews(title, date) {{
-            // [수정] 무조건 채팅창 열기
+            // [수정] 무조건 채팅창 열기 (토글 아님)
             const win = document.getElementById('chatbot-window');
-            const bubble = document.getElementById('chatbot-bubble');
             win.style.display = 'flex'; 
-            bubble.style.display = 'none';
+            document.getElementById('chatInput').focus();
 
-            const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
-        }}
-        function askAiAboutNews(title, date) {{
-            toggleChat();
             const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
             const input = document.getElementById('chatInput');
             input.value = msg;
@@ -599,7 +566,6 @@ def create_list_page(files):
 """
     
     for f in files:
-        # 파일명에서 회사명 추출 (P1_삼성전자.html -> 삼성전자)
         name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
         list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name} 합격자소서 공개 & 행동중심 면접 전략</h3><p>🎯 전담 AI의 실시간 합격 전략 및 데이터 확인</p></a>'
         
