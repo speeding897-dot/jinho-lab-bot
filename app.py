@@ -68,7 +68,7 @@ def classify_intent(user_input):
     return "CONSULTING"
 
 # ======================================================
-# 4. 기능: 답변 생성 (★여기에 영업 멘트만 반영★)
+# 4. 기능: 답변 생성 (★기존 영업 로직 + 뉴스 대응 추가★)
 # ======================================================
 def ask_kim_pro(user_input, context=""):
     intent = classify_intent(user_input)
@@ -89,7 +89,7 @@ def ask_kim_pro(user_input, context=""):
         
     elif intent == "CONSULTING":
         
-        # [아이디어 반영] 버튼 클릭 시 발동하는 3단 영업 로직
+        # Case 1: [데이터 분석 요청] (기존 기능)
         if "[데이터 분석 요청]" in user_input:
             sys_msg = f"""
             당신은 '김진호 합격연구소'의 수석 컨설턴트 AI입니다.
@@ -110,7 +110,30 @@ def ask_kim_pro(user_input, context=""):
             """
             user_msg = f"{context}\n\n[요청사항]: {user_input}"
 
-        # [유지] 일반 질문
+        # Case 2: ★ [NEW] 뉴스 기반 지원동기 작성 요청 (신규 기능)
+        elif "[뉴스 기반 지원동기 작성 요청]" in user_input:
+            sys_msg = f"""
+            당신은 대한민국 최고의 채용 컨설턴트 '김진호 소장'의 AI 페르소나입니다.
+            사용자가 제공한 [뉴스 데이터]와 [기업 정보]를 결합하여, 지원동기 초안을 작성하고 강력한 컨설팅 영업을 수행하십시오.
+
+            [필수 답변 형식]
+            **1. 📰 [이슈 인사이트]**: (해당 뉴스가 이 기업에게 어떤 기회이자 위기인지 1줄로 날카롭게 분석)
+
+            **2. ✍️ [지원동기 초안 (Draft)]**:
+            (뉴스의 내용을 인용하여, '귀사의 이러한 행보가 나의 직무 비전과 일치한다'는 논리로 300자 내외의 그럴듯한 초안 작성)
+
+            **3. 🚨 [치명적 경고 (Sales Pitch)]**:
+            "잠깐! 위와 같은 '뉴스 엮기식' 지원동기는 누구나 씁니다. 경쟁률 100:1을 뚫기엔 턱없이 부족합니다.
+            인사담당자는 '지원자가 뉴스를 아느냐'가 아니라, **'그 상황에서 어떻게 행동할 것인가'**를 봅니다.
+            합격하고 싶다면 뉴스가 아닌 **본인의 행동(Action)**을 설계해야 합니다.
+            
+            👉 김진호 소장의 'Structure-X'로 행동 설계 받기: https://kimjinholab.pages.dev/consult.html"
+
+            {NO_CHINESE_RULE}
+            """
+            user_msg = f"{context}\n\n[요청사항]: {user_input}"
+
+        # Case 3: 일반 컨텍스트 기반 질문 (기존 기능)
         elif context:
             sys_msg = f"""
             당신은 '김진호 합격연구소'의 채용 분석가입니다. 
@@ -120,7 +143,7 @@ def ask_kim_pro(user_input, context=""):
             """
             user_msg = f"{context}\n\n[질문]: {user_input}"
             
-        # [유지] DB 기반 질문
+        # Case 4: DB 기반 질문 (기존 기능)
         else:
             evidence = search_db(user_input.split()[0])
             sys_msg = f"당신은 AI 연구원입니다. 합격 DB를 기반으로 답하되, 김진호 소장의 행동 설계를 강조하세요.\n{NO_CHINESE_RULE}"
