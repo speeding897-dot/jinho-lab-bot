@@ -56,9 +56,9 @@ def export_db_to_js():
     part2 = formatted_data[half_index:]
 
     with open(f"{SAVE_DIR}/db_data1.js", "w", encoding="utf-8") as f:
-        f.write(f"const DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};")
+        f.write(f"var DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};") # var로 변경!
     with open(f"{SAVE_DIR}/db_data2.js", "w", encoding="utf-8") as f:
-        f.write(f"const DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};")
+        f.write(f"var DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};") # var로 변경!
     
     print(f"✅ [시스템] DB 분할 완료: 총 {len(formatted_data)}건")
 
