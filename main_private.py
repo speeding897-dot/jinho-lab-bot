@@ -28,7 +28,7 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직 (공기업과 동일 + 연동 수정)
+# 2. DB 분할 저장 로직
 # ==========================================
 def export_db_to_js():
     data = []
@@ -61,7 +61,7 @@ def export_db_to_js():
     part1 = formatted_data[:half_index]
     part2 = formatted_data[half_index:]
 
-    # [수정] var로 선언하여 HTML에서 window 객체로 바로 접근 가능하게 함
+    # JS 변수로 저장
     with open(f"{SAVE_DIR}/db_data1.js", "w", encoding="utf-8") as f:
         f.write(f"var DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};")
     with open(f"{SAVE_DIR}/db_data2.js", "w", encoding="utf-8") as f:
@@ -70,7 +70,6 @@ def export_db_to_js():
     print(f"✅ [시스템] DB 분할 완료: 총 {len(formatted_data)}건")
 
 def extract_keywords_from_text(text):
-    # 빈도수 기반 키워드 추출
     stop_words = ['경력', '신입', '무관', '채용', '모집', '업무', '지원', '사항', '우대', '능력', '가능자', '서울', '경기', '인천', '담당', '직무']
     eng_keywords = re.findall(r'[a-zA-Z]{2,}', text) 
     words = re.findall(r'[가-힣]{2,5}', text)
@@ -89,7 +88,7 @@ def extract_keywords_from_text(text):
     return final_tags if final_tags else ["#직무역량", "#실무경험", "#합격전략"]
 
 # ==========================================
-# ★ [공기업과 동일] 구글 뉴스 크롤링 함수
+# ★ 구글 뉴스 크롤링 함수
 # ==========================================
 def get_google_news(query):
     encoded_query = urllib.parse.quote(query)
@@ -122,7 +121,7 @@ def get_google_news(query):
         return []
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (공기업과 100% 동일 + JS 수정)
+# 3. [개별 공고 페이지] 템플릿
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -306,7 +305,6 @@ JOB_TEMPLATE = """
     <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
-        // ★★★ [연동 수정완료] var로 선언된 변수 안전하게 병합 ★★★
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])
@@ -367,38 +365,33 @@ JOB_TEMPLATE = """
 
         function askAiAboutDB(event, title, contentSnippet) {{
             event.stopPropagation();
-            
-            // [수정] 무조건 채팅창 열기 및 자동 전송
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
             const jobTitle = document.querySelector('.job-title').innerText;
-            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
-            
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해줘.\n\n※ 필독 지시사항: 답변 마지막에 반드시 '최근 AI 채용 도입으로 합격 자소서 평가는 행동(Action) 중심으로 이루어집니다. 본인의 에피소드를 행동 중심으로 완벽하게 다듬고 싶다면 전문가의 첨삭을 꼭 받아보세요.'라는 문구를 포함해줘.`;
             const input = document.getElementById('chatInput');
             if(input) {{
                 input.value = msg;
                 input.focus();
-                sendMsg(); // 바로 전송
+                sendMsg();
             }}
         }}
 
         function askAiAboutNews(title, date) {{
-            // [수정] 무조건 채팅창 열기 및 자동 전송
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n위 뉴스 내용을 바탕으로 전문적인 '지원동기' 초안을 작성해줘.\n\n※ 필독 지시사항: 답변 마지막에 반드시 'AI 도입 이후 기업의 자소서 평가는 철저히 행동(Action) 중심으로 이루어지고 있습니다. 합격 확률을 높이기 위해 전문가의 행동 중심 자소서 첨삭을 받아보시는 것을 강력 추천합니다.'라는 조언을 덧붙여줘.`;
             const input = document.getElementById('chatInput');
             if(input) {{
                 input.value = msg;
                 input.focus();
-                sendMsg(); // 바로 전송
+                sendMsg();
             }}
         }}
 
@@ -456,15 +449,8 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 크롤링 및 파일 생성 로직 (사기업 전용)
+# 4. 크롤링 및 파일 생성 로직
 # ==========================================
-def load_history():
-    if not os.path.exists(HISTORY_FILE): return []
-    with open(HISTORY_FILE, 'r', encoding='utf-8') as f: return f.read().splitlines()
-
-def save_history(job_id):
-    with open(HISTORY_FILE, 'a', encoding='utf-8') as f: f.write(job_id + "\n")
-
 def create_private_pages():
     # 1. 합격자소서 DB를 JS로 변환 (jobs_private_html 폴더에 저장)
     export_db_to_js()
@@ -477,21 +463,30 @@ def create_private_pages():
         print("❌ JSON 파일이 없습니다. collector.py를 먼저 실행하세요.")
         return
 
-    print(f"🚀 사기업 페이지 생성 시작: 총 {len(jobs)}개")
+    print(f"🚀 사기업 페이지 생성 시작: 총 {len(jobs)}개 대상 확인 중...")
     
-    generated_files = []
+    # 폴더가 없으면 생성
+    os.makedirs(SAVE_DIR, exist_ok=True)
 
     for job in jobs:
         try:
             job_id = str(job['id'])
+            safe_company = "".join([c for c in job['company'] if c.isalnum()])
+            filename = f"P{job_id}_{safe_company}.html"
+            filepath = os.path.join(SAVE_DIR, filename)
             
-            # [중요] 상세 페이지 본문 긁어오기 (이 부분이 핵심!)
-            print(f"🔄 [상세수집] {job['company']} 본문 로딩중...")
+            # [속도 최적화] 이미 파일이 존재하면 크롤링 생략하고 건너뜀 (20분 -> 초단위 단축)
+            if os.path.exists(filepath):
+                print(f"  ⏭️ [건너뜀] 이미 존재함: {filename}")
+                continue
+            
+            # [중요] 상세 페이지 본문 긁어오기
+            print(f"🔄 [신규수집] {job['company']} 본문 로딩중...")
             res = requests.get(job['link'], headers=HEADERS, timeout=10)
             res.encoding = res.apparent_encoding
             soup = BeautifulSoup(res.text, 'html.parser')
             
-            # 인크루트 상세 본문 영역 추출 (다양한 클래스 대응)
+            # 인크루트 상세 본문 영역 추출
             content_html = soup.select_one('.job_view_box') or soup.select_one('.view_con') or soup.select_one('.d_ca_list')
             
             content = str(content_html) if content_html else "<p>상세 내용은 아래 '원문 공고 확인하기'를 통해 확인해 주세요.</p>"
@@ -519,9 +514,6 @@ def create_private_pages():
                 news_area_html = "<div style='padding:15px; text-align:center; color:#64748b;'>최근 뉴스가 없습니다.</div>"
 
             # HTML 생성
-            safe_company = "".join([c for c in job['company'] if c.isalnum()])
-            filename = f"P{job_id}_{safe_company}.html"
-            
             full_html = JOB_TEMPLATE.format(
                 org_name=job['company'],
                 title=job['title'],
@@ -536,20 +528,25 @@ def create_private_pages():
                 news_area=news_area_html
             )
 
-            with open(os.path.join(SAVE_DIR, filename), 'w', encoding='utf-8') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(full_html)
             
-            generated_files.append(filename)
             print(f"  ✅ 생성완료: {filename}")
 
         except Exception as e:
             print(f"  ❌ 실패 ({job['company']}): {e}")
 
-    # 3. 목록 페이지 (jobs_private.html) 생성
-    create_list_page(generated_files)
-    
-    # 4. 사이트맵 생성
-    create_sitemap(generated_files)
+    # [중요] 폴더에 있는 모든 파일을 긁어와서 목록을 생성 (누적 적용)
+    if os.path.exists(SAVE_DIR):
+        all_files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html") and not f.startswith("db_data")]
+        # 최신순 정렬
+        all_files.sort(key=lambda x: os.path.getmtime(os.path.join(SAVE_DIR, x)), reverse=True)
+        
+        # 3. 목록 페이지 (jobs_private.html) 생성
+        create_list_page(all_files)
+        
+        # 4. 사이트맵 생성
+        create_sitemap(all_files)
 
 def create_list_page(files):
     list_html = """<!DOCTYPE html>

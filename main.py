@@ -331,39 +331,18 @@ JOB_TEMPLATE = """
                         displayTitle = displayTitle.replace(regex, highlightStr);
                         displayContent = displayContent.replace(regex, highlightStr);
                     }}
-                    
                     const cleanTitle = item.title.replace(/'/g, "\\'");
                     const cleanContent = item.content.substring(0,100).replace(/[\\r\\n]+/g, " ").replace(/'/g, "\\'");
-
-                    return `
-                    <div class="db-card">
-                        <div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div>
-                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div>
-                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">
-                            ⚡ AI에게 이 데이터로 전략 묻기
-                        </button>
-                    </div>`;
+                    return `<div class="db-card"><div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div><div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">⚡ AI에게 전략 묻기</button></div>`;
                 }}).join('');
             }} else {{
                 dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
             }}
         }}
-
         renderDB();
 
-        function searchDB(keyword) {{
-            dbSearch.value = keyword;
-            renderDB(keyword);
-        }}
-
-        function manualSearch() {{
-            const val = document.getElementById('manualKeyword').value;
-            if(val) {{
-                searchDB(val);
-                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
-            }}
-        }}
-
+        function searchDB(keyword) {{ dbSearch.value = keyword; renderDB(keyword); }}
+        function manualSearch() {{ const val = document.getElementById('manualKeyword').value; if(val) {{ searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); }} }}
         dbSearch.addEventListener('input', (e) => {{ renderDB(e.target.value); }});
 
         function toggleChat() {{
@@ -378,21 +357,35 @@ JOB_TEMPLATE = """
 
         function askAiAboutDB(event, title, contentSnippet) {{
             event.stopPropagation();
-            toggleChat();
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
             const jobTitle = document.querySelector('.job-title').innerText;
-            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해줘.\n\n※ 필독 지시사항: 답변 마지막에 반드시 '최근 AI 채용 도입으로 합격 자소서 평가는 행동(Action) 중심으로 이루어집니다. 본인의 에피소드를 행동 중심으로 완벽하게 다듬고 싶다면 전문가의 첨삭을 꼭 받아보세요.'라는 문구를 포함해줘.`;
             const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            if(input) {{
+                input.value = msg;
+                input.focus();
+                sendMsg();
+            }}
         }}
 
-        // ★ [NEW] 뉴스 기반 AI 요청 함수
         function askAiAboutNews(title, date) {{
-            toggleChat();
-            const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
             const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            if(input) {{
+                input.value = msg;
+                input.focus();
+                sendMsg();
+            }}
         }}
 
         async function sendMsg() {{
@@ -476,9 +469,12 @@ def create_job_page(url):
         job_id = urllib.parse.parse_qs(parsed.query)['idx'][0]
     except: return False
     
-    if job_id in load_history(): return False
+    # [속도 최적화] 이미 히스토리에 있으면 통신 없이 즉시 패스
+    if job_id in load_history(): 
+        # print(f"  ⏭️ [건너뜀] 이미 수집됨: {job_id}") # (로그 너무 많으면 주석 처리)
+        return False
 
-    print(f"🔄 [수집] ID: {job_id}...")
+    print(f"🔄 [신규수집] ID: {job_id} 데이터 요청 중...")
     try:
         res = requests.get(url, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(res.text, 'html.parser')
@@ -560,7 +556,7 @@ if __name__ == "__main__":
     page = 1
     
     while new_files_count < TARGET_NEW_FILES and page <= 200:
-        print(f"\n📄 잡알리오 {page}페이지 스캔 중... (현재: {new_files_count}/{TARGET_NEW_FILES})")
+        print(f"\n📄 잡알리오 {page}페이지 스캔 중... (현재 신규: {new_files_count}/{TARGET_NEW_FILES})")
         urls = get_job_urls_from_page(page)
         if not urls: break
         
@@ -568,13 +564,14 @@ if __name__ == "__main__":
             if new_files_count >= TARGET_NEW_FILES: break
             if create_job_page(url):
                 new_files_count += 1
-                time.sleep(1)
+                time.sleep(1) # 차단 방지 딜레이
         page += 1
         time.sleep(1)
         
     print("\n📋 jobs.html 목록 갱신 중...")
     if os.path.exists(SAVE_DIR):
-        files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html")]
+        # [중요] 폴더 내 모든 파일을 긁어모아 목록 생성 (누적)
+        files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".html") and not f.startswith("db_data")]
         files.sort(key=lambda x: os.path.getmtime(os.path.join(SAVE_DIR, x)), reverse=True)
         
         list_html = """<!DOCTYPE html>

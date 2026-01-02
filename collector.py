@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import random
+import time
 
 # ==========================================
 # 1. 설정 (검색어 없음! 규모별 URL 타겟팅)
@@ -26,42 +27,38 @@ HEADERS = {
 # 혹시 섞여 있을 공기업/공무원 필터링
 EXCLUDE_KEYWORDS = ["공사", "공단", "재단", "협회", "진흥원", "시청", "구청", "센터", "공무원", "보건소"]
 
+# ★ 최종적으로 저장할 공고 개수 목표
+FINAL_TARGET_COUNT = 30
+
 def collect_private_jobs_by_size():
-    print(f"🔥 [인크루트] 기업 규모별(대/중견/강소) 알짜배기 공고 수집 시작...")
+    print(f"🔥 [인크루트] 광범위 수집 모드 가동 (카테고리당 최대 200개 탐색)...")
     
-    total_jobs = []
+    candidate_jobs = [] # 후보군을 담을 임시 리스트
     
     # 각 기업 규모별 페이지를 돌면서 데이터를 모음
     for url in TARGET_URLS:
-        if len(total_jobs) >= 30: break # 30개 차면 중단
-        
         try:
             print(f"   Targeting URL: {url}...")
             response = requests.get(url, headers=HEADERS, timeout=10)
-            
-            # 인코딩 자동 감지 (한글 깨짐 방지)
             response.encoding = response.apparent_encoding 
-
             soup = BeautifulSoup(response.text, 'html.parser')
             
-            # 인크루트 리스트 아이템 탐색
-            all_list_items = soup.find_all('li')
+            # 인크루트 리스트 아이템 정밀 타겟팅
+            all_list_items = soup.select('ul.c_list > li')
             
-            # 페이지당 최대 10개씩만 뽑아서 섞기 (다양성을 위해)
-            count_per_page = 0
+            # [수정] 카테고리당 탐색 한도를 200개로 대폭 상향 (소장님 지시 반영)
+            count_per_category = 0
             
             for item in all_list_items:
-                if len(total_jobs) >= 30: break
-                if count_per_page >= 10: break # 한 카테고리당 10개만 (골고루 수집)
+                if count_per_category >= 200: break # 카테고리당 200개까지만 확인
 
                 try:
                     # 1. 회사명 추출 & 필터링
                     comp_tag = item.find(class_='cpname')
                     if not comp_tag: continue
-                    
                     company = comp_tag.get_text(strip=True)
 
-                    # 공기업 키워드가 포함되어 있으면 건너뜀 (순수 사기업만)
+                    # 공기업 키워드 필터링
                     if any(k in company for k in EXCLUDE_KEYWORDS):
                         continue
 
@@ -74,8 +71,6 @@ def collect_private_jobs_by_size():
 
                     title = link_tag.get_text(strip=True)
                     link = link_tag['href']
-                    
-                    # 링크 절대경로 변환
                     if link.startswith("/"):
                         link = "https://job.incruit.com" + link
 
@@ -85,7 +80,6 @@ def collect_private_jobs_by_size():
                         tag_text = icon.get_text(strip=True)
                         if tag_text: type_tags.append(tag_text)
                     
-                    # URL에 따라 강제 태그 부여 (데이터가 비어있을 경우 대비)
                     if "cd=1" in url and "대기업" not in type_tags: type_tags.insert(0, "대기업")
                     elif "cd=2" in url and "중견기업" not in type_tags: type_tags.insert(0, "중견기업")
                     elif "cd=3" in url and "강소기업" not in type_tags: type_tags.insert(0, "강소기업")
@@ -109,9 +103,8 @@ def collect_private_jobs_by_size():
                         d_span = deadline_tag.find('span')
                         if d_span: deadline = d_span.get_text(strip=True)
 
-                    # 6. 데이터 담기
+                    # 6. 데이터 담기 (ID는 나중에 부여)
                     job_data = {
-                        "id": len(total_jobs) + 1,
                         "company": company,
                         "type": type_str,
                         "title": title,
@@ -121,18 +114,36 @@ def collect_private_jobs_by_size():
                         "link": link
                     }
                     
-                    total_jobs.append(job_data)
-                    count_per_page += 1
-                    print(f"      ✅ [{len(total_jobs)}] {company} ({type_str})")
+                    candidate_jobs.append(job_data)
+                    count_per_category += 1
+                    # 로그는 너무 많이 뜨면 지저분하니 10개 단위로만 출력
+                    if count_per_category % 10 == 0:
+                        print(f"      ...현재 카테고리에서 {count_per_category}개 확보 중")
 
                 except Exception:
                     continue 
+            
+            time.sleep(1) # 차단 방지
 
         except Exception as e:
             print(f"   ❌ URL 접속 오류: {e}")
             continue
 
-    return total_jobs
+    print(f"\n📊 1차 수집 완료: 총 {len(candidate_jobs)}개의 후보 공고 확보")
+    
+    # [핵심 로직] 충분히 모은 후 랜덤으로 섞어서 30개만 자름 (다양성 확보)
+    if len(candidate_jobs) > FINAL_TARGET_COUNT:
+        print(f"✂️ 목표 수량({FINAL_TARGET_COUNT}개)에 맞춰 랜덤 선별 중...")
+        random.shuffle(candidate_jobs)
+        final_jobs = candidate_jobs[:FINAL_TARGET_COUNT]
+    else:
+        final_jobs = candidate_jobs
+
+    # ID 재부여
+    for idx, job in enumerate(final_jobs):
+        job['id'] = idx + 1
+        
+    return final_jobs
 
 # --- 실행 및 파일 저장 ---
 if __name__ == "__main__":
@@ -151,7 +162,7 @@ if __name__ == "__main__":
             json.dump(jobs, f, ensure_ascii=False, indent=4)
             
         print("\n" + "="*50)
-        print(f"🎉 기업규모별 알짜 공고 {len(jobs)}개 수집 완료!")
+        print(f"🎉 최종 선별된 알짜 공고 {len(jobs)}개 저장 완료!")
         print(f"📂 저장 경로: {save_path}")
         print("="*50)
     else:
