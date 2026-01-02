@@ -31,105 +31,112 @@ EXCLUDE_KEYWORDS = ["공사", "공단", "재단", "협회", "진흥원", "시청
 FINAL_TARGET_COUNT = 30
 
 def collect_private_jobs_by_size():
-    print(f"🔥 [인크루트] 광범위 수집 모드 가동 (카테고리당 최대 200개 탐색)...")
+    print(f"🔥 [인크루트] 광범위 수집 모드 가동 (페이지 넘김 기능 추가됨)...")
     
     candidate_jobs = [] # 후보군을 담을 임시 리스트
     
-    # 각 기업 규모별 페이지를 돌면서 데이터를 모음
-    for url in TARGET_URLS:
-        try:
-            print(f"   Targeting URL: {url}...")
-            response = requests.get(url, headers=HEADERS, timeout=10)
-            response.encoding = response.apparent_encoding 
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # 인크루트 리스트 아이템 정밀 타겟팅
-            all_list_items = soup.select('ul.c_list > li')
-            
-            # [수정] 카테고리당 탐색 한도를 200개로 대폭 상향 (소장님 지시 반영)
-            count_per_category = 0
-            
-            for item in all_list_items:
-                if count_per_category >= 200: break # 카테고리당 200개까지만 확인
+    # 각 기업 규모별 URL을 순회
+    for base_url in TARGET_URLS:
+        
+        # [수정] 각 카테고리별로 1페이지부터 5페이지까지 탐색 (Pagination)
+        for page in range(1, 6):
+            try:
+                # 목표량의 3배 이상 모였으면 조기 종료 (속도 최적화)
+                if len(candidate_jobs) >= FINAL_TARGET_COUNT * 3:
+                    break
 
-                try:
-                    # 1. 회사명 추출 & 필터링
-                    comp_tag = item.find(class_='cpname')
-                    if not comp_tag: continue
-                    company = comp_tag.get_text(strip=True)
+                # URL에 페이지 번호 추가 (&page=1, &page=2 ...)
+                target_url = f"{base_url}&page={page}"
+                print(f"   Targeting URL: {target_url} (Page {page})...")
+                
+                response = requests.get(target_url, headers=HEADERS, timeout=10)
+                response.encoding = response.apparent_encoding 
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # 인크루트 리스트 아이템 추출
+                all_list_items = soup.select('ul.c_list > li')
+                
+                # 해당 페이지에 공고가 없으면 다음 카테고리로 넘어감
+                if not all_list_items:
+                    print(f"      ㄴ 공고 없음. 다음 카테고리로 이동.")
+                    break
 
-                    # 공기업 키워드 필터링
-                    if any(k in company for k in EXCLUDE_KEYWORDS):
-                        continue
+                for item in all_list_items:
+                    try:
+                        # 1. 회사명 추출 & 필터링
+                        comp_tag = item.find(class_='cpname')
+                        if not comp_tag: continue
+                        company = comp_tag.get_text(strip=True)
 
-                    # 2. 제목 & 링크 추출
-                    title_tag = item.find(class_='cl_top') or item.find(class_='hdit')
-                    if not title_tag: continue
-                    
-                    link_tag = title_tag.find('a')
-                    if not link_tag: continue
+                        # 공기업 키워드 필터링
+                        if any(k in company for k in EXCLUDE_KEYWORDS):
+                            continue
 
-                    title = link_tag.get_text(strip=True)
-                    link = link_tag['href']
-                    if link.startswith("/"):
-                        link = "https://job.incruit.com" + link
+                        # 2. 제목 & 링크 추출
+                        title_tag = item.find(class_='cl_top') or item.find(class_='hdit')
+                        if not title_tag: continue
+                        
+                        link_tag = title_tag.find('a')
+                        if not link_tag: continue
 
-                    # 3. 기업 형태(규모) 태그 추출
-                    type_tags = []
-                    for icon in item.find_all(class_='icon'):
-                        tag_text = icon.get_text(strip=True)
-                        if tag_text: type_tags.append(tag_text)
-                    
-                    if "cd=1" in url and "대기업" not in type_tags: type_tags.insert(0, "대기업")
-                    elif "cd=2" in url and "중견기업" not in type_tags: type_tags.insert(0, "중견기업")
-                    elif "cd=3" in url and "강소기업" not in type_tags: type_tags.insert(0, "강소기업")
-                    
-                    type_str = ", ".join(type_tags)
+                        title = link_tag.get_text(strip=True)
+                        link = link_tag['href']
+                        if link.startswith("/"):
+                            link = "https://job.incruit.com" + link
 
-                    # 4. 세부 정보 (경력, 학력 등)
-                    details = item.find_all('span')
-                    exp = "무관"
-                    edu = "무관"
-                    
-                    info_texts = [d.get_text(strip=True) for d in details if len(d.get_text(strip=True)) > 1]
-                    for text in info_texts:
-                        if "경력" in text or "신입" in text: exp = text
-                        elif "대졸" in text or "고졸" in text or "학력" in text: edu = text
+                        # 3. 기업 형태(규모) 태그 추출
+                        type_tags = []
+                        for icon in item.find_all(class_='icon'):
+                            tag_text = icon.get_text(strip=True)
+                            if tag_text: type_tags.append(tag_text)
+                        
+                        if "cd=1" in base_url and "대기업" not in type_tags: type_tags.insert(0, "대기업")
+                        elif "cd=2" in base_url and "중견기업" not in type_tags: type_tags.insert(0, "중견기업")
+                        elif "cd=3" in base_url and "강소기업" not in type_tags: type_tags.insert(0, "강소기업")
+                        
+                        type_str = ", ".join(type_tags)
 
-                    # 5. 마감일 추출
-                    deadline_tag = item.find(class_='cl_btm')
-                    deadline = "채용시"
-                    if deadline_tag:
-                        d_span = deadline_tag.find('span')
-                        if d_span: deadline = d_span.get_text(strip=True)
+                        # 4. 세부 정보 (경력, 학력 등)
+                        details = item.find_all('span')
+                        exp = "무관"
+                        edu = "무관"
+                        
+                        info_texts = [d.get_text(strip=True) for d in details if len(d.get_text(strip=True)) > 1]
+                        for text in info_texts:
+                            if "경력" in text or "신입" in text: exp = text
+                            elif "대졸" in text or "고졸" in text or "학력" in text: edu = text
 
-                    # 6. 데이터 담기 (ID는 나중에 부여)
-                    job_data = {
-                        "company": company,
-                        "type": type_str,
-                        "title": title,
-                        "exp": exp,
-                        "edu": edu,
-                        "deadline": deadline,
-                        "link": link
-                    }
-                    
-                    candidate_jobs.append(job_data)
-                    count_per_category += 1
-                    # 로그는 너무 많이 뜨면 지저분하니 10개 단위로만 출력
-                    if count_per_category % 10 == 0:
-                        print(f"      ...현재 카테고리에서 {count_per_category}개 확보 중")
+                        # 5. 마감일 추출
+                        deadline_tag = item.find(class_='cl_btm')
+                        deadline = "채용시"
+                        if deadline_tag:
+                            d_span = deadline_tag.find('span')
+                            if d_span: deadline = d_span.get_text(strip=True)
 
-                except Exception:
-                    continue 
-            
-            time.sleep(1) # 차단 방지
+                        # 6. 데이터 담기 (ID는 나중에 부여)
+                        job_data = {
+                            "company": company,
+                            "type": type_str,
+                            "title": title,
+                            "exp": exp,
+                            "edu": edu,
+                            "deadline": deadline,
+                            "link": link
+                        }
+                        
+                        candidate_jobs.append(job_data)
 
-        except Exception as e:
-            print(f"   ❌ URL 접속 오류: {e}")
-            continue
+                    except Exception:
+                        continue 
+                
+                # 한 페이지 긁은 후 잠시 대기 (차단 방지)
+                time.sleep(1) 
 
-    print(f"\n📊 1차 수집 완료: 총 {len(candidate_jobs)}개의 후보 공고 확보")
+            except Exception as e:
+                print(f"   ❌ 페이지 접속 오류: {e}")
+                continue
+
+    print(f"\n📊 수집 종료: 총 {len(candidate_jobs)}개의 후보 공고 확보")
     
     # [핵심 로직] 충분히 모은 후 랜덤으로 섞어서 30개만 자름 (다양성 확보)
     if len(candidate_jobs) > FINAL_TARGET_COUNT:
