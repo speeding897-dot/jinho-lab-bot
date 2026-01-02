@@ -26,16 +26,17 @@ EXCLUDE_KEYWORDS = ["공사", "공단", "재단", "협회", "진흥원", "시청
 FINAL_TARGET_COUNT = 30
 
 def collect_private_jobs_by_size():
-    print(f"🔥 [Collector] 인크루트 정밀 수집 시작 (타겟 수정: c_row)...")
+    print(f"🔥 [Collector] 중복 제거 및 완전 수집 모드 시작 (목표: {FINAL_TARGET_COUNT}개)...")
     
     candidate_jobs = []
+    seen_links = set() # ★ [추가] 중복 공고 방지용 체크리스트
     
     for base_url in TARGET_URLS:
         # 페이지 탐색 (1~3페이지)
         for page in range(1, 4):
             try:
-                # 목표량의 3배 이상 모이면 중단 (속도 최적화)
-                if len(candidate_jobs) >= FINAL_TARGET_COUNT * 3: break
+                # 목표량의 4배수 이상 모이면 중단 (필터링 고려 넉넉하게)
+                if len(candidate_jobs) >= FINAL_TARGET_COUNT * 4: break
 
                 target_url = f"{base_url}&page={page}"
                 print(f"   📡 접속: {target_url} ... ", end="")
@@ -44,36 +45,34 @@ def collect_private_jobs_by_size():
                 response.encoding = response.apparent_encoding 
                 soup = BeautifulSoup(response.text, 'html.parser')
                 
-                # ★★★ [수정 핵심 1] 일반 리스트 영역 (ul.c_row) ★★★
-                # 소장님이 주신 HTML 파일에 있는 정확한 태그 경로입니다.
-                list_area = soup.select('div.cBbslist_contenst ul.c_row')
+                # ★★★ [수정 핵심] 상단(Premium) + 하단(General) 모두 수집 ★★★
+                # 기존 코드의 'if not list_area' 로직을 삭제하고 둘 다 가져와서 합칩니다.
+                list_premium = soup.select('div.cPrdlists_rows div.cPrdlists_cols') # 상단
+                list_general = soup.select('div.cBbslist_contenst ul.c_row')        # 하단
                 
-                # ★★★ [수정 핵심 2] 프리미엄 공고 영역 (상단 박스형) ★★★
-                # 일반 리스트가 부족할 경우 상단 프리미엄 공고도 긁어옵니다.
-                if not list_area:
-                    print("   ⚠️ 일반 목록 없음, 상단 프리미엄 공고 확인 중...")
-                    list_area = soup.select('div.cPrdlists_rows div.cPrdlists_cols')
-
-                if not list_area:
+                # 두 리스트 합치기 (누락 방지)
+                all_items = list_premium + list_general
+                
+                if not all_items:
                     print("❌ 공고 못 찾음 (구조가 다르거나 차단됨)")
                     # 디버깅용: 페이지 제목 출력
                     print(f"      ㄴ 페이지 제목: {soup.title.text.strip() if soup.title else '없음'}")
-                    continue # 다음 페이지로 넘어감
+                    continue 
                 else:
-                    print(f"✅ {len(list_area)}개 발견!")
+                    print(f"✅ {len(all_items)}개 발견 (상단:{len(list_premium)} + 하단:{len(list_general)})")
 
-                for item in list_area:
+                for item in all_items:
                     try:
-                        # 1. 회사명 (class='cpname')
-                        comp_tag = item.select_one('.cpname')
+                        # 1. 회사명 (태그가 다를 수 있어 두 가지 다 확인)
+                        comp_tag = item.select_one('.cpname') or item.select_one('.cCpName')
                         if not comp_tag: continue
                         company = comp_tag.get_text(strip=True)
 
                         if any(k in company for k in EXCLUDE_KEYWORDS): continue
 
                         # 2. 제목 & 링크 
-                        # 일반형(.cell_mid)과 박스형(.cTitle) 구조가 다를 수 있어 두 가지 다 체크
-                        title_tag = item.select_one('.cell_mid .cl_top a') or item.select_one('.cTitle strong') or item.select_one('.cl_top a')
+                        # 상단/하단 구조 차이 대응
+                        title_tag = item.select_one('.cell_mid .cl_top a') or item.select_one('.cTitle strong') or item.select_one('.cTitle') or item.select_one('.cl_top a')
                         
                         if not title_tag: continue
 
@@ -88,11 +87,16 @@ def collect_private_jobs_by_size():
                         link = link_tag['href']
                         if link.startswith("/"): link = "https://job.incruit.com" + link
 
+                        # ★ [추가] 중복 방지 로직
+                        if link in seen_links:
+                            continue # 이미 수집한 링크면 패스
+                        seen_links.add(link)
+
                         # 3. 마감일
                         deadline = "채용시"
-                        # 일반 리스트 구조: .cell_last 안의 첫번째 span
+                        # 하단형 구조
                         d_tag = item.select_one('.cell_last .cl_btm span:first-child')
-                        # 프리미엄 리스트 구조: .cDate
+                        # 상단형 구조 (.cDate)
                         if not d_tag: d_tag = item.select_one('.cDate')
                         
                         if d_tag: deadline = d_tag.get_text(strip=True)
@@ -116,7 +120,7 @@ def collect_private_jobs_by_size():
                 print(f"   ❌ 에러: {e}")
                 continue
 
-    print(f"\n📊 [최종 결과] 수집된 데이터: {len(candidate_jobs)}건")
+    print(f"\n📊 [최종 결과] 중복 제거 후 확보된 공고: {len(candidate_jobs)}건")
     
     # 데이터가 없으면 비상 경고
     if not candidate_jobs:
