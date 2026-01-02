@@ -68,44 +68,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# ★ [NEW] 구글 뉴스 크롤링 함수 (30개 추출)
-# ==========================================
-def get_google_news(query):
-    # RSS 피드를 통해 가벼우면서도 정확한 뉴스 추출 (최신순 정렬 옵션 추가 가능)
-    encoded_query = urllib.parse.quote(query)
-    url = f"https://news.google.com/rss/search?q={encoded_query}&hl=ko&gl=KR&ceid=KR:ko"
-    
-    try:
-        res = requests.get(url, timeout=5)
-        # XML 파싱
-        soup = BeautifulSoup(res.content, 'html.parser') 
-        items = soup.find_all('item', limit=30) # ★ 요청하신대로 30개로 확장 ★
-        
-        news_data = []
-        for item in items:
-            title = item.title.text
-            link = item.link.text if item.link else "#"
-            pub_date = item.pubdate.text if item.pubdate else ""
-            
-            # 날짜 포맷팅 (Tue, 03 Jan 2026... -> 2026-01-03)
-            try:
-                dt = datetime.strptime(pub_date[:16], "%a, %d %b %Y")
-                clean_date = dt.strftime("%Y-%m-%d")
-            except:
-                clean_date = "최신"
-
-            news_data.append({
-                'title': title,
-                'link': link,
-                'date': clean_date
-            })
-        return news_data
-    except Exception as e:
-        print(f"    ⚠ 뉴스 수집 실패: {e}")
-        return []
-
-# ==========================================
-# 3. [개별 공고 페이지] 템플릿 (기능 확장)
+# 3. [개별 공고 페이지] 템플릿 (원본 유지)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -139,7 +102,7 @@ JOB_TEMPLATE = """
         }}
         .ai-ask-btn:hover {{ background: #2563eb; color: white; }}
 
-        /* 행동중심 강조 박스 스타일 */
+        /* [아이디어 반영] 행동중심 강조 박스 스타일 */
         .ai-preview-box {{ background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }}
         .ai-tag {{ background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }}
         .action-quote {{ 
@@ -147,34 +110,6 @@ JOB_TEMPLATE = """
             border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
         }}
         .cta-link {{ display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }}
-
-        /* ★ [NEW] 뉴스 섹션 스타일 (스크롤 적용) */
-        .news-container {{ 
-            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
-        }}
-        .news-header {{ 
-            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
-            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
-        }}
-        .news-scroll-box {{
-            max-height: 400px; overflow-y: auto; padding-right: 10px; /* 30개 뉴스 스크롤 처리 */
-        }}
-        .news-scroll-box::-webkit-scrollbar {{ width: 6px; }}
-        .news-scroll-box::-webkit-scrollbar-thumb {{ background: #cbd5e1; border-radius: 3px; }}
-        
-        .news-item {{ display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }}
-        .news-item:last-child {{ border-bottom: none; }}
-        .news-info {{ flex: 1; }}
-        .news-title {{ font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }}
-        .news-title:hover {{ text-decoration: underline; color: #2563eb; }}
-        .news-date {{ font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }}
-        .news-ai-btn {{ 
-            background: white; color: #d97706; border: 1px solid #d97706; 
-            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
-            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
-        }}
-        .news-ai-btn:hover {{ background: #fffbeb; transform: translateY(-2px); }}
 
         .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
@@ -245,16 +180,6 @@ JOB_TEMPLATE = """
                     </div>
                 </div>
                 <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
-            </div>
-
-            <div class="news-container">
-                <div class="news-header">
-                    <span>📰 {org_name} 실시간 이슈 TOP 30</span>
-                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
-                </div>
-                <div class="news-scroll-box">
-                    {news_area}
-                </div>
             </div>
 
             <div class="content-body">
@@ -382,15 +307,6 @@ JOB_TEMPLATE = """
             sendMsg();
         }}
 
-        // ★ [NEW] 뉴스 기반 AI 요청 함수
-        function askAiAboutNews(title, date) {{
-            toggleChat();
-            const msg = `[뉴스 기반 지원동기 작성 요청] \\n기업명: {org_name}\\n뉴스 제목: ` + title + `\\n뉴스 날짜: ` + date + `\\n\\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
-        }}
-
         async function sendMsg() {{
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
@@ -445,7 +361,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 크롤링 및 파일 생성 로직 (원본 유지 + 뉴스 통합)
+# 4. 크롤링 및 파일 생성 로직 (원본 유지)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -506,38 +422,18 @@ def create_job_page(url):
         for kw in keywords:
             keyword_chips_html += f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>'
         
-        # ★ [NEW] 뉴스 데이터 가져오기 (30개)
-        news_items = get_google_news(org_name)
-        news_area_html = ""
-        if news_items:
-            for n in news_items:
-                # [수정] HTML 에러 방지를 위해 따옴표를 아예 삭제합니다.
-                clean_n_title = n['title'].replace("'", "").replace('"', "")
-                news_area_html += f"""
-                <div class="news-item">
-                    <div class="news-info">
-                        <a href="{n['link']}" target="_blank" class="news-title">{n['title']}</a>
-                        <span class="news-date">{n['date']}</span>
-                    </div>
-                    <button class="news-ai-btn" onclick="askAiAboutNews('{clean_n_title}', '{n['date']}')">⚡ AI 지원동기 작성</button>
-                </div>
-                """
-        else:
-            news_area_html = "<div style='padding:15px; text-align:center; color:#64748b;'>최근 뉴스가 없거나 수집하지 못했습니다.</div>"
-
-        # JOB_TEMPLATE 포맷팅
+        # [아이디어 반영] JOB_TEMPLATE에 job_id도 넘겨줌 (중복 방지 제목용)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
             original_url=url, keyword_chips=keyword_chips_html,
             render_server_url=RENDER_SERVER_URL,
-            job_id=job_id,
-            news_area=news_area_html # ★ 뉴스 영역 주입
+            job_id=job_id 
         )
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
         save_history(job_id)
-        print(f"    ✅ 생성 완료: {filename} (뉴스 {len(news_items)}개 포함)")
+        print(f"    ✅ 생성 완료: {filename}")
         return True
 
     except Exception as e:
