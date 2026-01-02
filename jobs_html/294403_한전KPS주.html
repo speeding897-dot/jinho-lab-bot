@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[한전KPS(주)] 한전KPS(주)인천사업소 단기노무원 모집(경상 안전감시관) 합격자소서 공개 & 행동중심 면접 전략 (ID:294403)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        .ai-ask-btn { 
+            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        }
+        .ai-ask-btn:hover { background: #2563eb; color: white; }
+
+        /* 행동중심 강조 박스 스타일 */
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { 
+            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
+            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        /* ★ [NEW] 뉴스 섹션 스타일 (스크롤 적용) */
+        .news-container { 
+            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
+        }
+        .news-header { 
+            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
+            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
+        }
+        .news-scroll-box {
+            max-height: 400px; overflow-y: auto; padding-right: 10px; /* 30개 뉴스 스크롤 처리 */
+        }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { 
+            background: white; color: #d97706; border: 1px solid #d97706; 
+            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
+            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
+        }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">한전KPS(주)인천사업소 단기노무원 모집(경상 안전감시관)</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>한전KPS(주)</strong> | 마감일: 2025.12.24</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('안전')">#안전</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 한전KPS(주) 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">두산에너빌리티, 한전KPS와 해외 발전사업 개발 손잡았다 - 전기신문</a>
+                        <span class="news-date">2025-11-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('두산에너빌리티, 한전KPS와 해외 발전사업 개발 손잡았다 - 전기신문', '2025-11-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘주말 차량순시 정비보조’…한전KPS 서울경기전력지사 구리지점, 비정규직 2명 채용 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘주말 차량순시 정비보조’…한전KPS 서울경기전력지사 구리지점, 비정규직 2명 채용 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">두산에너빌리티, 한전KPS와 손잡고 해외 발전시장 공략 - 조선일보</a>
+                        <span class="news-date">2025-11-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('두산에너빌리티, 한전KPS와 손잡고 해외 발전시장 공략 - 조선일보', '2025-11-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[포토뉴스]한전KPS(주) 삼척사업소, 후원금 기탁 - 강원일보</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[포토뉴스]한전KPS(주) 삼척사업소, 후원금 기탁 - 강원일보', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">ESG 경영 혁신대상…한전KPS, AI ESG 특별상 수상 - 에너지타임즈</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('ESG 경영 혁신대상…한전KPS, AI ESG 특별상 수상 - 에너지타임즈', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 3년 연속 국제품질분임조대회 금상 수상 - 중도일보</a>
+                        <span class="news-date">2025-11-06</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 3년 연속 국제품질분임조대회 금상 수상 - 중도일보', '2025-11-06')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 우루과이 푼타 델 티그레 복합화력 O&M 연장계약 - 이투뉴스</a>
+                        <span class="news-date">2025-10-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 우루과이 푼타 델 티그레 복합화력 O&M 연장계약 - 이투뉴스', '2025-10-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘안전관리 전문인력’ 한전KPS(주), 하동사업처 단기노무원 19명 채용한다… - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘안전관리 전문인력’ 한전KPS(주), 하동사업처 단기노무원 19명 채용한다… - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, ESG 평가 4년 연속 ‘A등급’…지배구조 부문 상승 - 전기신문</a>
+                        <span class="news-date">2025-11-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, ESG 평가 4년 연속 ‘A등급’…지배구조 부문 상승 - 전기신문', '2025-11-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 에너지 스타트업과 손잡고 기술혁신 동반성장 박차 - 전기신문</a>
+                        <span class="news-date">2025-09-24</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 에너지 스타트업과 손잡고 기술혁신 동반성장 박차 - 전기신문', '2025-09-24')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 필리핀 발전소 성능개선공사 수주 발판 마련 - 전기신문</a>
+                        <span class="news-date">2025-09-26</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 필리핀 발전소 성능개선공사 수주 발판 마련 - 전기신문', '2025-09-26')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘울산 상주감시 단기노무원 모집’…한전KPS, 비정규직 1명 채용 나선다 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘울산 상주감시 단기노무원 모집’…한전KPS, 비정규직 1명 채용 나선다 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 미사용 물품기부 ‘굿사이클링 캠페인’ 전개 - 전기신문</a>
+                        <span class="news-date">2025-11-20</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 미사용 물품기부 ‘굿사이클링 캠페인’ 전개 - 전기신문', '2025-11-20')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘안전감시관 경력자 모집’…한전KPS(주) 서울사업소 단기노무원 채용 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘안전감시관 경력자 모집’…한전KPS(주) 서울사업소 단기노무원 채용 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘단기노무원 1명 채용’…한전KPS 산청양수사업소 전기·전자 인력 모집 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘단기노무원 1명 채용’…한전KPS 산청양수사업소 전기·전자 인력 모집 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">피폭 없는 원전검사…한전KPS, 미래형 장비 곧 투입 - 에너지타임즈</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('피폭 없는 원전검사…한전KPS, 미래형 장비 곧 투입 - 에너지타임즈', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">송전철탑 안전 사각지대 없앤다…한전KPS AI CCTV 도입 - 에너지타임즈</a>
+                        <span class="news-date">2026-01-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('송전철탑 안전 사각지대 없앤다…한전KPS AI CCTV 도입 - 에너지타임즈', '2026-01-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS(주) 한울3사업소, 울진지역아동센터에 정기·물품 후원 - 울진투데이</a>
+                        <span class="news-date">2025-12-27</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS(주) 한울3사업소, 울진지역아동센터에 정기·물품 후원 - 울진투데이', '2025-12-27')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전 요르단 발전소 매각, 경쟁입찰 대신 수의계약으로...한전KPS가 인수할 가능성 고려 - 조선비즈 - Chosunbiz</a>
+                        <span class="news-date">2025-07-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전 요르단 발전소 매각, 경쟁입찰 대신 수의계약으로...한전KPS가 인수할 가능성 고려 - 조선비즈 - Chosunbiz', '2025-07-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 전북TP 부안군 수소도시 수전해설비 공사 수행 - 이투뉴스</a>
+                        <span class="news-date">2025-10-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 전북TP 부안군 수소도시 수전해설비 공사 수행 - 이투뉴스', '2025-10-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS(주) 원자력연수원, 희망2026나눔캠페인 성금 전달 - 울산종합일보</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS(주) 원자력연수원, 희망2026나눔캠페인 성금 전달 - 울산종합일보', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 교육기부 참여 대상 확대…새 명칭 공모 - 전기신문</a>
+                        <span class="news-date">2025-09-12</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 교육기부 참여 대상 확대…새 명칭 공모 - 전기신문', '2025-09-12')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS㈜ 원자력연수원, 800만원 전달 - 울산신문</a>
+                        <span class="news-date">2025-12-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS㈜ 원자력연수원, 800만원 전달 - 울산신문', '2025-12-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">김충현씨 죽음 외면 안 한 법원 “한전 KPS, 비정규 불법파견 인정” - 경향신문</a>
+                        <span class="news-date">2025-08-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('김충현씨 죽음 외면 안 한 법원 “한전 KPS, 비정규 불법파견 인정” - 경향신문', '2025-08-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 민간기업 해외 동반진출 지원 강화한다 - 전기신문</a>
+                        <span class="news-date">2025-08-05</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 민간기업 해외 동반진출 지원 강화한다 - 전기신문', '2025-08-05')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS 원자력연수원 이웃돕기 성금 - 울산제일일보</a>
+                        <span class="news-date">2025-12-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS 원자력연수원 이웃돕기 성금 - 울산제일일보', '2025-12-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS, 민간기업 해외 동반진출 적극 지원 - 전기신문</a>
+                        <span class="news-date">2025-08-08</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS, 민간기업 해외 동반진출 적극 지원 - 전기신문', '2025-08-08')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한전KPS(주) 인천사업소, 생필품 기증 - 인천일보</a>
+                        <span class="news-date">2025-12-09</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한전KPS(주) 인천사업소, 생필품 기증 - 인천일보', '2025-12-09')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">사천시, 한전 KPS(주) 삼천포사업처 백미 기탁 - 경남경제</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('사천시, 한전 KPS(주) 삼천포사업처 백미 기탁 - 경남경제', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">울진고–한전KPS(주) 한울3사업소, 차상위계층 대학등록금 후원 - 경북신문</a>
+                        <span class="news-date">2025-12-16</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('울진고–한전KPS(주) 한울3사업소, 차상위계층 대학등록금 후원 - 경북신문', '2025-12-16')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>1. 채용예정일 즉시 근무가능한 자<br/>2. 안전관련 자격증 소지자 : 산업안전 또는 건설안전 산업기사 이상<br/>3. 다음 경력 요건 중 한 개를 충족하는 자(경력증명서 제출)<br/>  1) 안전보건관리(총괄)책임자 1년 이상 근무<br/>  2) 관리감독자 3년이상 근무<br/>  3) 발전소 또는 산업현장 안전관리 경력 10회 또는 1년이상 근무<br/>※지원자격이 직무수행에 필요한 이유 : 해당 직무수행을 위해 아래와 같은 지식,기술이 필요하며 이에 대한 자격 및 경력 필요<br/>  - 필요지식<br/>   산업안전보건법 해석 및 적용에 관한 지식<br/>   산업안전보건기준에 관한 규칙에 대한 지식<br/>   기계,설비별 특성 및 위험성에 대한 지식<br/>  - 필요기술<br/>   현장의 기계,기구,설비 및 작업공정의 유해,위험요인 파악 능력<br/>   산업안전관리 능력, 안전시설물에 대한 위험요소 및 작업자의 안전수칙 준수여부 파악 능력<br/> <br/></p>
+<h4>결격사유</h4>
+<p>1. 신체검사 결과 부적격으로 판정된 자<br/>2. 채용구비서류에 허위사실이 발견된 자<br/>3. 기타 채용기준상 부적격으로 판정된 자<br/></p>
+<h4>우대내용</h4>
+<p>보훈대상자 :각 전형단계별 가점부여(만점의 5~10% 부여)<br/>안전관련 기술사 및 지도사 자격증 : 각 전형단계별 가점부여(만점의 10%)<br/></p>
+<h4>전형절차/방법</h4>
+<p>1. 모집현황<br/>가. 모집인원 및 직종(주요업무)<br/>-안전감시관 : 2명 (안전점검)<br/>나. 근무지 : 인천 서구 중봉대로 405번길 411 (인천사업소 경상정비공사 현장)<br/>2. 채용조건<br/>가. 채용신분 : 단기노무원(일용근로자)<br/>※금번 채용 근로자는 "공공부분 정규직 전환 가이드라인('17.07.20)"상의 정규직 전환대상이 아님.<br/>나. 계약기간(예정) : '26.01.19 ~26.06.30(예정)<br/>※부득이한 사정으로 공사가 취소되거나 연기되는 경우 공사일정이나 작업공정이 변경되는 경우<br/>채용이 취소되거나 근무기간이 달라질 수 있음(회사 사정등에 따라 공사기간이 변경 가능하여 해당직무 투입기간 변경가능)<br/>※1년이내 회사 규정에 따른 신체검사 수검기록이 있는 경우 채용예정일보다 조기채용 될 수 있으며<br/>신체검사 결과 회신 일정에 따라 계약시작일 변경 가능함<br/>다. 보수/복리후생 : 일급 / 주차수당 지급 / 4대보험 가입<br/>라. 근무시간 : 1일 8시간(09:00~18:00), 주 5일 근무<br/>※잔업 또는 추가근무 발생시 관련법령 준수하여 시간외근무 시행<br/>3. 전형절차 및 지원방법<br/>가. 전형단계 : 서류전형 → 신체검사 → 합격자 발표<br/>나. 접수기간 및 접수방법<br/>○채용공고 및 서류접수기간 : 2025.12.24(수)~2026.01.07(수)<br/>○서류전형 심사 : 2026.01.08(목)(예정)<br/>○신체검사 : 2026.01.09(금)(예정)<br/>○채용예정일 : 2026.01.19(월)(예정)<br/>다. 접수처<br/>○이메일 접수 : EXCLUSIVE0814@KPS.CO.KR(안전팀)<br/>○방문 접수 : 인천광역시 서구 중봉대로 405번길 411<br/>○팩스 접수 : 070-4761-4914<br/>라. 문의처 : 070-4761-4925(안전팀)<br/>4. 제출서류<br/>가. 블라인드 입사지원서<br/>나. 개인정보 수집,이용,제공 동의서<br/>다. 안전관련 자격증 및 발전소 또는 안전관리 경력증명서<br/>라. 우대사항 증빙서류(합격시 제출)<br/>- 취업지원대상자 증명서 및 국가유공자증 사본(해당자에 한함)<br/>- 안전관련 기술사 및 지도사 자격증</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294403" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 한전KPS(주) 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[한전KPS(주)]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+
+        window.onload = function() {
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 30);
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map(item => {
+                    let displayContent = item.content.substring(0, 200) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }
+                    
+                    const cleanTitle = item.title.replace(/'/g, "\'");
+                    const cleanContent = item.content.substring(0,100).replace(/[\r\n]+/g, " ").replace(/'/g, "\'");
+
+                    return `
+                    <div class="db-card">
+                        <div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div>
+                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${cleanTitle}', '${cleanContent}')">
+                            ⚡ AI에게 이 데이터로 전략 묻기
+                        </button>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+
+        renderDB();
+
+        function searchDB(keyword) {
+            dbSearch.value = keyword;
+            renderDB(keyword);
+        }
+
+        function manualSearch() {
+            const val = document.getElementById('manualKeyword').value;
+            if(val) {
+                searchDB(val);
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
+            }
+        }
+
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        function askAiAboutDB(event, title, contentSnippet) {
+            event.stopPropagation();
+            toggleChat();
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        // ★ [NEW] 뉴스 기반 AI 요청 함수
+        function askAiAboutNews(title, date) {
+            toggleChat();
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 한전KPS(주)\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 한전KPS(주)\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>

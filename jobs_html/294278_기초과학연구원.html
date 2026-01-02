@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[기초과학연구원] 제2025-4회 기초과학연구원 순수물리이론 연구단(입자이론 및 우주론 그룹) 연구위원 채용 공고 합격자소서 공개 & 행동중심 면접 전략 (ID:294278)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        .ai-ask-btn { 
+            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        }
+        .ai-ask-btn:hover { background: #2563eb; color: white; }
+
+        /* 행동중심 강조 박스 스타일 */
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { 
+            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
+            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        /* ★ [NEW] 뉴스 섹션 스타일 (스크롤 적용) */
+        .news-container { 
+            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
+        }
+        .news-header { 
+            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
+            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
+        }
+        .news-scroll-box {
+            max-height: 400px; overflow-y: auto; padding-right: 10px; /* 30개 뉴스 스크롤 처리 */
+        }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { 
+            background: white; color: #d97706; border: 1px solid #d97706; 
+            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
+            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
+        }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">제2025-4회 기초과학연구원 순수물리이론 연구단(입자이론 및 우주론 그룹) 연구위원 채용 공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>기초과학연구원</strong> | 마감일: 2025.12.24</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('전문성')">#전문성</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 기초과학연구원 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘기초과학연구원 청년인턴 채용’…생명과학 연구직 2명 모집 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘기초과학연구원 청년인턴 채용’…생명과학 연구직 2명 모집 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">기초과학연구원, 전자 한 개씩 흘려보내는 원자전선 발견 - elec4</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('기초과학연구원, 전자 한 개씩 흘려보내는 원자전선 발견 - elec4', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">세계적 석학 김기환 교수, IBS서 양자정보과학 새 축 세운다 - 양자신문</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('세계적 석학 김기환 교수, IBS서 양자정보과학 새 축 세운다 - 양자신문', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">IBS 바이러스·생명 분야 신규 연구단 출범 - 머니투데이</a>
+                        <span class="news-date">2025-12-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('IBS 바이러스·생명 분야 신규 연구단 출범 - 머니투데이', '2025-12-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[보도참고] 기초과학연구원-이탈리아 국립핵물리연구소, 물리 연구협력 양해각서(MoU) 체결 - 서울Pn</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[보도참고] 기초과학연구원-이탈리아 국립핵물리연구소, 물리 연구협력 양해각서(MoU) 체결 - 서울Pn', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">"한국 양자과학 키우고 싶어…中서 귀환" - v.daum.net</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('\"한국 양자과학 키우고 싶어…中서 귀환\" - v.daum.net', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[단독]李정부 R&D 투자 늘리는데…기초과학연구원, 기강 해이로 혈세 날렸다 - 전자신문</a>
+                        <span class="news-date">2025-09-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[단독]李정부 R&D 투자 늘리는데…기초과학연구원, 기강 해이로 혈세 날렸다 - 전자신문', '2025-09-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">세계적 석학 김기환 교수 IBS 양자정보과학 이끈다 - 대전일보</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('세계적 석학 김기환 교수 IBS 양자정보과학 이끈다 - 대전일보', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">中서 귀환한 ‘한국 석학’… “양자 역학, 우리도 선두 가능” - 조선일보</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('中서 귀환한 ‘한국 석학’… “양자 역학, 우리도 선두 가능” - 조선일보', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">제주대 기초과학연구소, IBS 기초과학연구원 초청 제29회 연계기관 정기세미나 개최 - 교수신문</a>
+                        <span class="news-date">2025-09-24</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('제주대 기초과학연구소, IBS 기초과학연구원 초청 제29회 연계기관 정기세미나 개최 - 교수신문', '2025-09-24')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[사이언스게시판] IBS, '한국-프랑스 기초과학 리더십 포럼' 개최 外 - 동아사이언스</a>
+                        <span class="news-date">2025-06-20</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[사이언스게시판] IBS, \'한국-프랑스 기초과학 리더십 포럼\' 개최 外 - 동아사이언스', '2025-06-20')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">김기환 中 칭화대 교수, IBS 양자과학 연구단장으로 귀국 - 헬로디디</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('김기환 中 칭화대 교수, IBS 양자과학 연구단장으로 귀국 - 헬로디디', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">기초과학연구원(IBS)-막스플랑크, 나노의학 연구 위해 “맞손” - 대학지성 In&Out</a>
+                        <span class="news-date">2025-07-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('기초과학연구원(IBS)-막스플랑크, 나노의학 연구 위해 “맞손” - 대학지성 In&Out', '2025-07-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양자정보과학 석학 김기환, 中서 돌아와 IBS 연구단장으로 - 한국경제</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양자정보과학 석학 김기환, 中서 돌아와 IBS 연구단장으로 - 한국경제', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">김기환 中 칭화대 교수, IBS '트랩이온 양자과학 연구단장'에 선임 - v.daum.net</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('김기환 中 칭화대 교수, IBS \'트랩이온 양자과학 연구단장\'에 선임 - v.daum.net', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">"기초과학의 모든 것" 사이언스 슬램D에 동신과학고 "들썩" - 헬로디디</a>
+                        <span class="news-date">2025-08-14</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('\"기초과학의 모든 것\" 사이언스 슬램D에 동신과학고 \"들썩\" - 헬로디디', '2025-08-14')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘기초과학연구원 연구직 18명 채용’… 연구·석박사 지원 기회 - 퍼블릭타임스</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘기초과학연구원 연구직 18명 채용’… 연구·석박사 지원 기회 - 퍼블릭타임스', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">노도영 IBS 원장 "양자정보 연구단 올해 구축…기초과학, 혁신적 응용 토대" - 동아사이언스</a>
+                        <span class="news-date">2025-04-14</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('노도영 IBS 원장 \"양자정보 연구단 올해 구축…기초과학, 혁신적 응용 토대\" - 동아사이언스', '2025-04-14')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">켄텍-기초과학연구원, 중이온가속기 공동연구 MOU - BBS불교방송</a>
+                        <span class="news-date">2025-09-10</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('켄텍-기초과학연구원, 중이온가속기 공동연구 MOU - BBS불교방송', '2025-09-10')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">3000억대 과학연구시설 부실 공사로 건물 일부 철거 중 - 일요서울</a>
+                        <span class="news-date">2025-06-20</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('3000억대 과학연구시설 부실 공사로 건물 일부 철거 중 - 일요서울', '2025-06-20')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">IBS 찾은 하정우 AI수석 "97% 성공률? 연구 아닌 양산" - 헬로디디</a>
+                        <span class="news-date">2025-07-16</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('IBS 찾은 하정우 AI수석 \"97% 성공률? 연구 아닌 양산\" - 헬로디디', '2025-07-16')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[사이언스얼라이브2025] 과학기술 연구성과 홍보 비결은 '스토리텔링·직관성' - 동아사이언스</a>
+                        <span class="news-date">2025-12-11</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[사이언스얼라이브2025] 과학기술 연구성과 홍보 비결은 \'스토리텔링·직관성\' - 동아사이언스', '2025-12-11')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">"기초과학=국가경쟁력, 상용화로 인류 기여"치매·비만 정복 나선 과학자, 올해 대박 결실 예고 - 헬로디디</a>
+                        <span class="news-date">2025-09-24</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('\"기초과학=국가경쟁력, 상용화로 인류 기여\"치매·비만 정복 나선 과학자, 올해 대박 결실 예고 - 헬로디디', '2025-09-24')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양자정보 세계적 석학 김기환 교수, IBS 연구단장 선임 - TJB 대전방송</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양자정보 세계적 석학 김기환 교수, IBS 연구단장 선임 - TJB 대전방송', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">이자만 40억원 쌓인 GIST 미매입 부지…기초과학·인재 육성 발목 잡을까 - 동아사이언스</a>
+                        <span class="news-date">2025-06-10</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('이자만 40억원 쌓인 GIST 미매입 부지…기초과학·인재 육성 발목 잡을까 - 동아사이언스', '2025-06-10')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">中 칭화대서 국내 복귀… 세계적 석학 김기환 교수, IBS 연구단장 선임 - v.daum.net</a>
+                        <span class="news-date">2025-12-29</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('中 칭화대서 국내 복귀… 세계적 석학 김기환 교수, IBS 연구단장 선임 - v.daum.net', '2025-12-29')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">기존보다 30배 더 빠른 생명과학 데이터 분석도구 개발 - 지디넷코리아</a>
+                        <span class="news-date">2025-07-03</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('기존보다 30배 더 빠른 생명과학 데이터 분석도구 개발 - 지디넷코리아', '2025-07-03')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">'뇌과학자로 2주 살기'…IBS 고등학생 뇌과학 캠프 참가자 모집 - 동아사이언스</a>
+                        <span class="news-date">2025-06-18</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('\'뇌과학자로 2주 살기\'…IBS 고등학생 뇌과학 캠프 참가자 모집 - 동아사이언스', '2025-06-18')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">세계 최고 다투는 美中 출신 연구자가 한국에 온 사연 - 동아사이언스</a>
+                        <span class="news-date">2025-09-10</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('세계 최고 다투는 美中 출신 연구자가 한국에 온 사연 - 동아사이언스', '2025-09-10')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">체외서 나노로봇 조종해 체내 암세포만 제거…노벨상 산실 獨-英 연구기관과 협력 - 동아사이언스</a>
+                        <span class="news-date">2025-08-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('체외서 나노로봇 조종해 체내 암세포만 제거…노벨상 산실 獨-英 연구기관과 협력 - 동아사이언스', '2025-08-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>[채용분야 및 인원]<br/> <br/>ㅇ 직종/직급<br/> ① 연구직/연구위원<br/> <br/>ㅇ 분야 및 직무<br/> ① 입자물리이론, 우주론<br/> <br/>ㅇ 지원자격<br/> ① 임용예정일(‘26.04.01) 기준 관련 분야 박사학위 소지자<br/> <br/>ㅇ 근무지<br/> ① 순수물리이론 연구단 입자이론 및 우주론 그룹 (본원 , 대전)<br/> <br/>ㅇ 인원<br/> ① 2명<br/> <br/>[응시자격 공통]<br/> <br/>ㅇ「국가공무원법」제33조 및 연구원 규정에 의한 임용 결격사유가 없는 자<br/>ㅇ「부패방지 및 국민권익위원회의 설치와 운영에 관한 법률」제82조에 따른 비위면직자에 해당하지 않는 자<br/>ㅇ 해외여행에 결격사유가 없는 자로 남자의 경우 병역필 또는 면제자<br/> - 전문연구요원 지원 가능 공고인 경우, 전직자에 한해 지원 가능<br/>ㅇ 응시서류접수 마감일 기준 지원자격 충족자 </p>
+<h4>결격사유</h4>
+<p>다음 각 호의 어느 하나에 해당하는 자<br/>1. 「국가공무원법」 제33조의 각호에 해당하는 자<br/>2. 신체검사결과 신체 또는 정신상의 이상으로 장기요양이 필요한 자<br/>3. 「병역법」에 따른 병역의무를 기피하여 처벌을 받은 자<br/>4. 「부패방지 및 국민권익위원회의 설치와 운영에 관한 법률」 제82조에 따른 비위면직자 등 취업제한 적용을 받는 자<br/>5. 다른 공공기관에서 부정한 방법으로 채용된 사실이 적발되어 채용이 취소된 날로부터 5년이 경과하지 않은 자 </p>
+<h4>우대내용</h4>
+<p>ㅇ 「장애인고용촉진 및 직업재활법 시행령」제3조 및 제4조에 따른 장애인 및「국가유공자 등 예우 및 지원에 관한 법률」제29조에 따른 취업지원 대상자(전형별 가점 부여)<br/>  - 장애인으로 장애인증명서 제출자는 100점 만점 기준 5점 가점<br/>  - 국가보훈대상자로 취업보호대상증명서 제출자는 100점 만점 기준 5점/10점 가점<br/> ※「국가유공자 등 예우 및 지원에 관한 법률」제31조 제3항에 따라 취업지원 대상자는 전형별 평가점수가 40점 미만인 경우에 가점을 미적용하고, 3인 이하 모집분야의 경우 가점 미적용 함(단, 응시자 수가 선발예정인원 이하인 경우 그러지 아니함)<br/> ※ 가점이 중복될 경우에는 가점 중 높은 점수 하나만을 부여함<br/>ㅇ 「여성과학기술인 육성 및 지원에 관한 법률 시행령」 제2조에 따른 여성과학기술인 우대<br/></p>
+<h4>전형절차/방법</h4>
+<p>[전형절차]<br/> <br/>ㅇ 1단계 (서류전형)<br/> * (평가사항) 채용분야와의 적합성, 연구실적의 우수성, 전반적인 연구활동, 연구계획의 우수성 등<br/> * (합격기준) 고득점자 순으로 평균점수 80점 이상 채용 예정 인원 7배수 이내 선정<br/> ※ 결과 발표 안내 이메일 발송<br/> <br/>ㅇ 2단계 (면접전형)<br/> * (평가사항) 채용분야에 대한 전문성, 태도 및 의사소통 능력, 발표력 및 연구우수성, 발전가능성 및 잠재력 등<br/> * (합격기준) 채용 예정인원 내 고득점자 순으로 평균점수 80점 이상 선정<br/>※ 결과 발표 안내 이메일 발송<br/>※ 예비합격자 선정(분야별 채용인원 2배수 인원)<br/> <br/>[지원서 접수방법 및 기간]<br/>ㅇ 접수방법: 홈페이지 온라인 지원<br/>  - 홈페이지 주소: https://ibs.re.kr/prog/recruit/kor/sub04_01/list.do<br/>ㅇ 제출서류 (온라인 지원 시 PDF 형식으로 업로드)<br/> - 연구실적목록, 연구보고서, 추천서 3부, 개인정보 수집?이용 동의서 및 응시확인서(붙임)<br/>ㅇ 추천서의 경우, 온라인 지원 시 입력된 정보에 따라 추천인에게 제출 링크가 발송되며 추천인이 직접 제출한 추천서만 인정됨 <br/>    (제출기한: 2026.1.22., 23:59시까지(KST))<br/>   ※ 메일이 정상적으로 발송되지 않을 수 있으므로 추천인에게 별도 확인 필요<br/>ㅇ 공고기간 및 입원지원서 접수: 2025.12.24.~2026.01.22., 23:59시까지(KST)<br/></p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294278" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 기초과학연구원 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[기초과학연구원]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const part1 = typeof DB_PART_1 !== 'undefined' ? DB_PART_1 : [];
+        const part2 = typeof DB_PART_2 !== 'undefined' ? DB_PART_2 : [];
+        const dbData = part1.concat(part2);
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+
+        window.onload = function() {
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 30);
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map(item => {
+                    let displayContent = item.content.substring(0, 200) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }
+                    
+                    const cleanTitle = item.title.replace(/'/g, "\'");
+                    const cleanContent = item.content.substring(0,100).replace(/[\r\n]+/g, " ").replace(/'/g, "\'");
+
+                    return `
+                    <div class="db-card">
+                        <div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div>
+                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${cleanTitle}', '${cleanContent}')">
+                            ⚡ AI에게 이 데이터로 전략 묻기
+                        </button>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+
+        renderDB();
+
+        function searchDB(keyword) {
+            dbSearch.value = keyword;
+            renderDB(keyword);
+        }
+
+        function manualSearch() {
+            const val = document.getElementById('manualKeyword').value;
+            if(val) {
+                searchDB(val);
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
+            }
+        }
+
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        function askAiAboutDB(event, title, contentSnippet) {
+            event.stopPropagation();
+            toggleChat();
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        // ★ [NEW] 뉴스 기반 AI 요청 함수
+        function askAiAboutNews(title, date) {
+            toggleChat();
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 기초과학연구원\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 기초과학연구원\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
