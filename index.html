@@ -471,7 +471,8 @@
             <div class="logo">김진호<span>합격연구소</span></div>
             <a href="1.html" class="history-link" target="_blank">이력 보기</a>
             <a href="홍보지.html" target="_blank" class="history-link">단체 컨설팅 문의</a>
-            <a href="jobs.html" class="history-link" style="color:#d4af37; font-weight:800;" target="_blank">⚡실시간 채용+DB</a>
+            <a href="jobs.html" class="history-link" style="color:#d4af37; font-weight:800;" target="_blank">공기업 채용+DB</a>
+            <a href="jobs_private.html" class="history-link" style="color:#d4af37; font-weight:800;" target="_blank">사기업 채용+DB</a>
         </div>
         
         <a href="https://kimjinholab.pages.dev/consult.html" class="consult-btn" target="_blank">1:1 합격 상담 신청</a>
@@ -996,22 +997,7 @@
             });
        } // End of Particle System check
 
-        // 팝업 자동 실행 (접속 시)
-        window.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('promoModal');
-            if(modal) modal.style.display = 'flex';
-        });
-    </script>
-
-    <div id="promoModal" onclick="this.style.display='none'" style="display: none; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; align-items: center; justify-content: center; cursor: pointer;">
-        
-        <div onclick="event.stopPropagation()" style="position:relative; width:95%; max-width:800px; height:90%; background:#fff; border-radius:15px; overflow-y:auto; cursor:default; box-shadow: 0 0 30px rgba(0,0,0,0.5);">
-            
-            <button onclick="document.getElementById('promoModal').style.display='none'" style="position:absolute; top:15px; right:20px; font-size:45px; border:none; background:none; cursor:pointer; z-index:10001; color:#333; font-weight:bold; line-height:1;">×</button>
-            
-            <iframe src="홍보지.html" style="width:100%; height:100%; border:none; min-height:80vh;"></iframe>
-        </div>
-    </div>
+       
 <style>
     /* 호객 행위 말풍선 */
     #chatbot-bubble {

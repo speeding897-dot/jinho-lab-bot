@@ -511,8 +511,8 @@ def create_job_page(url):
         news_area_html = ""
         if news_items:
             for n in news_items:
-                # 자바스크립트 호출을 위한 이스케이프 처리
-                clean_n_title = n['title'].replace("'", "\\'").replace('"', '\\"')
+                # [수정] HTML 에러 방지를 위해 따옴표를 아예 삭제합니다.
+                clean_n_title = n['title'].replace("'", "").replace('"', "")
                 news_area_html += f"""
                 <div class="news-item">
                     <div class="news-info">
