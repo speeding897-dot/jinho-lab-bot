@@ -70,22 +70,25 @@ def export_db_to_js():
     print(f"✅ [시스템] DB 분할 완료: 총 {len(formatted_data)}건")
 
 def extract_keywords_from_text(text):
-    stop_words = ['경력', '신입', '무관', '채용', '모집', '업무', '지원', '사항', '우대', '능력', '가능자', '서울', '경기', '인천', '담당', '직무']
-    eng_keywords = re.findall(r'[a-zA-Z]{2,}', text) 
-    words = re.findall(r'[가-힣]{2,5}', text)
+    # [수정] 빈도수가 아니라, 기업 핵심 역량 사전을 기반으로 매칭
+    target_keywords = [
+        "소통", "협력", "도전", "책임", "열정", "창의", "혁신", "성장", "분석", 
+        "팀워크", "신뢰", "고객", "문제해결", "리더십", "글로벌", "전문성", 
+        "실행", "윤리", "안전", "배려", "성실", "끈기"
+    ]
     
-    clean_words = [w for w in words if w not in stop_words]
-    most_common = Counter(clean_words).most_common(10)
+    found_keywords = []
+    # 본문 내용을 기반으로 핵심 키워드가 있는지 검사
+    for kw in target_keywords:
+        if kw in text:
+            found_keywords.append(kw)
     
-    final_tags = []
-    if eng_keywords:
-        final_tags.extend([f"#{w.upper()}" for w in set(eng_keywords[:3])])
-    
-    for word, count in most_common:
-        if len(final_tags) >= 6: break
-        if f"#{word}" not in final_tags: final_tags.append(f"#{word}")
-            
-    return final_tags if final_tags else ["#직무역량", "#실무경험", "#합격전략"]
+    # 키워드가 없으면 랜덤으로 추천 키워드 반환
+    if not found_keywords:
+        return ["도전", "열정", "협력", "성장"]
+        
+    # 발견된 키워드 중 최대 6개만 반환 (앞에는 #을 붙이지 않음)
+    return found_keywords[:6]
 
 # ==========================================
 # ★ 구글 뉴스 크롤링 함수
@@ -494,6 +497,7 @@ def create_private_pages():
 
             # 키워드 추출
             keywords = extract_keywords_from_text(content_text)
+            # [수정] 화면에는 #을 붙여 보여주고, 검색 함수에는 단어만 전달하여 ## 중복 방지
             keyword_chips_html = "".join([f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>' for kw in keywords])
 
             # 뉴스 수집 (30개)
