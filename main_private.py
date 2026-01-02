@@ -7,9 +7,10 @@ from datetime import datetime
 import random
 import json
 import re
+from collections import Counter
 
 # ==========================================
-# 1. 설정 영역 (사기업 전용으로 변경)
+# 1. 설정 영역 (사기업 전용)
 # ==========================================
 MY_CONSULTING_LINK = "https://kimjinholab.pages.dev/consult.html"
 MY_HOME_LINK = "https://kimjinholab.pages.dev"
@@ -27,10 +28,11 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직 (공기업과 동일)
+# 2. DB 분할 저장 로직 (공기업과 동일 + 연동 수정)
 # ==========================================
 def export_db_to_js():
     data = []
+    # DB 파일 1, 2 병합 읽기
     for db_file in ['db1.json', 'db2.json']:
         if os.path.exists(db_file):
             try:
@@ -40,7 +42,7 @@ def export_db_to_js():
             except: pass
     
     if not data:
-        data = ["(기본 데이터) 성장과정: 책임감...", "(기본 데이터) 지원동기: ..."]
+        data = [{"title": "샘플 데이터", "content": "데이터가 없습니다."}]
     
     formatted_data = []
     for idx, item in enumerate(data):
@@ -59,17 +61,32 @@ def export_db_to_js():
     part1 = formatted_data[:half_index]
     part2 = formatted_data[half_index:]
 
+    # [수정] var로 선언하여 HTML에서 window 객체로 바로 접근 가능하게 함
     with open(f"{SAVE_DIR}/db_data1.js", "w", encoding="utf-8") as f:
-        f.write(f"const DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};")
+        f.write(f"var DB_PART_1 = {json.dumps(part1, ensure_ascii=False)};")
     with open(f"{SAVE_DIR}/db_data2.js", "w", encoding="utf-8") as f:
-        f.write(f"const DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};")
+        f.write(f"var DB_PART_2 = {json.dumps(part2, ensure_ascii=False)};")
     
     print(f"✅ [시스템] DB 분할 완료: 총 {len(formatted_data)}건")
 
 def extract_keywords_from_text(text):
-    target_keywords = ["소통", "협력", "도전", "책임", "분석", "성실", "윤리", "고객", "안전", "혁신", "창의", "전문성", "리더십", "글로벌", "직무", "경험"]
-    found = [word for word in target_keywords if word in text[:3000]]
-    return found[:6] if found else ["소통", "책임", "도전"]
+    # 빈도수 기반 키워드 추출
+    stop_words = ['경력', '신입', '무관', '채용', '모집', '업무', '지원', '사항', '우대', '능력', '가능자', '서울', '경기', '인천', '담당', '직무']
+    eng_keywords = re.findall(r'[a-zA-Z]{2,}', text) 
+    words = re.findall(r'[가-힣]{2,5}', text)
+    
+    clean_words = [w for w in words if w not in stop_words]
+    most_common = Counter(clean_words).most_common(10)
+    
+    final_tags = []
+    if eng_keywords:
+        final_tags.extend([f"#{w.upper()}" for w in set(eng_keywords[:3])])
+    
+    for word, count in most_common:
+        if len(final_tags) >= 6: break
+        if f"#{word}" not in final_tags: final_tags.append(f"#{word}")
+            
+    return final_tags if final_tags else ["#직무역량", "#실무경험", "#합격전략"]
 
 # ==========================================
 # ★ [공기업과 동일] 구글 뉴스 크롤링 함수
@@ -208,10 +225,7 @@ JOB_TEMPLATE = """
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
         <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
-               
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
@@ -269,9 +283,6 @@ JOB_TEMPLATE = """
         </div>
     </div>
 
-    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
-    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
-
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -280,21 +291,16 @@ JOB_TEMPLATE = """
             </div>
             <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
         </div>
-        <div id="chat-messages">
-            <div class="msg msg-ai">
-                안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
-                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
-                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
-            </div>
-        </div>
+        <div id="chat-messages"><div class="msg msg-ai">안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다. 궁금한 점을 물어봐 주세요.</div></div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
+    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
-        // ★★★ [수정완료] DB1, DB2 강제 병합 및 로드 체크 ★★★
+        // ★★★ [연동 수정완료] var로 선언된 변수 안전하게 병합 ★★★
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])
