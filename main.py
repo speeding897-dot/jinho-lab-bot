@@ -9,7 +9,7 @@ import json
 import re
 
 # ==========================================
-# 1. 설정 영역
+# 1. 설정 영역 (원본 유지)
 # ==========================================
 MY_CONSULTING_LINK = "https://kimjinholab.pages.dev/consult.html"
 MY_HOME_LINK = "https://kimjinholab.pages.dev"
@@ -25,7 +25,7 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직
+# 2. DB 분할 저장 로직 (원본 유지)
 # ==========================================
 def export_db_to_js():
     data = []
@@ -45,7 +45,9 @@ def export_db_to_js():
         content = item if isinstance(item, str) else str(item)
         title = f"합격 데이터 #{idx+1}"
         if len(content) > 50: title = content[:50] + "..."
-        formatted_data.append({"title": title, "content": content})
+        clean_content = content.replace('"', '\\"').replace("'", "\\'")
+        clean_title = title.replace('"', '\\"').replace("'", "\\'")
+        formatted_data.append({"title": clean_title, "content": clean_content})
     
     os.makedirs(SAVE_DIR, exist_ok=True)
     
@@ -66,7 +68,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (AI 로딩 안내 강화)
+# 3. [개별 공고 페이지] 템플릿 (아이디어 반영: 제목에 ID 추가, 행동중심 문구 추가)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -74,7 +76,7 @@ JOB_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{org_name} 합격 가이드 - 김진호 합격연구소</title>
+    <title>[{org_name}] {title} 합격자소서 공개 & 행동중심 면접 전략 (ID:{job_id})</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
     <script src="db_data1.js"></script>
@@ -89,24 +91,33 @@ JOB_TEMPLATE = """
         .main-content {{ flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }}
 
         .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }}
-        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }}
+        
+        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }}
         .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
         
-        /* [중요] 검색 하이라이트 스타일 (빨간색 강조) */
-        .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
+        .ai-ask-btn {{ 
+            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        }}
+        .ai-ask-btn:hover {{ background: #2563eb; color: white; }}
 
+        /* [아이디어 반영] 행동중심 강조 박스 스타일 */
+        .ai-preview-box {{ background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }}
+        .ai-tag {{ background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }}
+        .action-quote {{ 
+            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
+            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        }}
+        .cta-link {{ display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }}
+
+        .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
         .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
         .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }}
-        .keyword-chip:hover {{ background: var(--navy); color: white; }}
-        
-        /* 커스텀 검색창 스타일 */
         .custom-search-box {{ display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }}
-        .custom-search-box input {{ padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; transition: border-color 0.2s; }}
-        .custom-search-box input:focus {{ border-color: var(--navy); }}
-        .custom-search-box button {{ padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }}
-        .custom-search-box button:hover {{ background: #1e293b; }}
-
+        .custom-search-box input {{ padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }}
+        .custom-search-box button {{ padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }}
         .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
 
         #chatbot-bubble {{ position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }}
@@ -114,8 +125,7 @@ JOB_TEMPLATE = """
         @keyframes float {{ 0% {{transform: translateY(0);}} 50% {{transform: translateY(-10px);}} 100% {{transform: translateY(0);}} }}
         #chatbot-floater {{ position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }}
         #chatbot-floater:hover {{ transform: scale(1.1); }}
-        #chatbot-floater span {{ font-size: 32px; }}
-        #chatbot-window {{ display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; font-family: 'Pretendard', sans-serif; }}
+        #chatbot-window {{ display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }}
         .chat-header {{ background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }}
         #chat-messages {{ flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }}
         .msg {{ max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }}
@@ -144,21 +154,32 @@ JOB_TEMPLATE = """
 
     <div class="main-content">
         <div class="job-card">
-            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">채용공고</span>
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
             <h1 class="job-title">{title}</h1>
             <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>{org_name}</strong> | 마감일: {end_date}</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="{consult_link}" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
 
             <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
                 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
                     <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
                     {keyword_chips}
-                    
                     <div class="custom-search-box">
                         <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
                         <button onclick="manualSearch()">검색</button>
                     </div>
                 </div>
-                <div style="font-size:0.85rem; color:#64748b;">💡 위 키워드를 클릭하거나 직접 입력하면, 왼쪽 사이드바에서 <span style="color:red; font-weight:bold;">빨간색</span>으로 강조된 합격 데이터를 찾아줍니다.</div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
             </div>
 
             <div class="content-body">
@@ -189,8 +210,8 @@ JOB_TEMPLATE = """
         <div id="chat-messages">
             <div class="msg msg-ai">
                 안녕하세요! <strong>[{org_name}]</strong> 분석 AI입니다.<br>
-                현재 보고 계신 공고 내용에 대해 무엇이든 물어봐 주세요.<br>
-                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (참고: 첫 질문 시 AI 서버가 깨어나느라 <strong>약 30초~1분</strong> 정도 걸릴 수 있습니다. 조금만 기다려주세요!)</span>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
             </div>
         </div>
         <div class="chat-input-area">
@@ -206,6 +227,13 @@ JOB_TEMPLATE = """
         const dbContainer = document.getElementById('dbContainer');
         const dbSearch = document.getElementById('dbSearch');
 
+        window.onload = function() {{
+            if(dbData.length > 0) {{
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }}
+        }};
+
         function renderDB(filter = "") {{
             let filtered = dbData;
             if (filter) {{
@@ -216,7 +244,7 @@ JOB_TEMPLATE = """
             filtered = filtered.slice(0, 30);
             if(filtered.length > 0) {{
                 dbContainer.innerHTML = filtered.map(item => {{
-                    let displayContent = item.content.substring(0, 320) + "...";
+                    let displayContent = item.content.substring(0, 200) + "...";
                     let displayTitle = item.title;
                     if (filter) {{
                         const regex = new RegExp(filter, "gi");
@@ -224,10 +252,17 @@ JOB_TEMPLATE = """
                         displayTitle = displayTitle.replace(regex, highlightStr);
                         displayContent = displayContent.replace(regex, highlightStr);
                     }}
+                    
+                    const cleanTitle = item.title.replace(/'/g, "\\'");
+                    const cleanContent = item.content.substring(0,100).replace(/[\\r\\n]+/g, " ").replace(/'/g, "\\'");
+
                     return `
-                    <div class="db-card" onclick="alert('데이터를 참고하여 자소서를 작성해보세요!')">
+                    <div class="db-card">
                         <div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div>
                         <div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div>
+                        <button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">
+                            ⚡ AI에게 이 데이터로 전략 묻기
+                        </button>
                     </div>`;
                 }}).join('');
             }} else {{
@@ -246,7 +281,7 @@ JOB_TEMPLATE = """
             const val = document.getElementById('manualKeyword').value;
             if(val) {{
                 searchDB(val);
-                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. 빨간색 글씨를 확인하세요!");
+                alert("왼쪽 사이드바에서 '" + val + "' 관련 내용을 찾아드렸습니다. AI 버튼을 눌러보세요!");
             }}
         }}
 
@@ -262,6 +297,16 @@ JOB_TEMPLATE = """
             }}
         }}
 
+        function askAiAboutDB(event, title, contentSnippet) {{
+            event.stopPropagation();
+            toggleChat();
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
+            const input = document.getElementById('chatInput');
+            input.value = msg;
+            sendMsg();
+        }}
+
         async function sendMsg() {{
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
@@ -269,7 +314,6 @@ JOB_TEMPLATE = """
             addBubble(msg, 'user');
             input.value = '';
             
-            // [수정 포인트] 로딩 멘트 변경
             const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
@@ -317,7 +361,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 크롤링 및 파일 생성 로직
+# 4. 크롤링 및 파일 생성 로직 (원본 유지 + 제목 ID 추가)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -378,11 +422,13 @@ def create_job_page(url):
         for kw in keywords:
             keyword_chips_html += f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>'
         
+        # [아이디어 반영] JOB_TEMPLATE에 job_id도 넘겨줌 (중복 방지 제목용)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
             original_url=url, keyword_chips=keyword_chips_html,
-            render_server_url=RENDER_SERVER_URL 
+            render_server_url=RENDER_SERVER_URL,
+            job_id=job_id 
         )
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
@@ -395,7 +441,7 @@ def create_job_page(url):
         return False
 
 # ==========================================
-# 5. 메인 실행 루프
+# 5. 메인 실행 루프 (원본 유지)
 # ==========================================
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
@@ -453,9 +499,10 @@ if __name__ == "__main__":
     <div id="jobList">
 """
         
+        # [아이디어 반영] 목록 제목 뒤에 '합격자소서 공개' 문구 추가
         for f in files:
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
-            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name}</h3><p>합격 DB 분석 | 전문가 첨삭 가이드</p></a>'
+            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name} 합격자소서 공개 & 행동중심 면접 전략</h3><p>🎯 전담 AI의 실시간 합격 전략 및 데이터 확인</p></a>'
         
         list_html += """
     </div>
@@ -481,7 +528,7 @@ if __name__ == "__main__":
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
         # ==========================================
-        # ★ [NEW] 검색 최적화용 sitemap.xml 자동 생성
+        # ★ [NEW] 검색 최적화용 sitemap.xml 자동 생성 (원본 유지)
         # ==========================================
         print("\n🗺️ [SEO] 검색 로봇용 Sitemap 생성 중...")
         sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
