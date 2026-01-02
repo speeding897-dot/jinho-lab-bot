@@ -9,7 +9,7 @@ import json
 import re
 
 # ==========================================
-# 1. 설정 영역
+# 1. 설정 영역 (원본 유지)
 # ==========================================
 MY_CONSULTING_LINK = "https://kimjinholab.pages.dev/consult.html"
 MY_HOME_LINK = "https://kimjinholab.pages.dev"
@@ -25,7 +25,7 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직
+# 2. DB 분할 저장 로직 (원본 유지)
 # ==========================================
 def export_db_to_js():
     data = []
@@ -45,7 +45,6 @@ def export_db_to_js():
         content = item if isinstance(item, str) else str(item)
         title = f"합격 데이터 #{idx+1}"
         if len(content) > 50: title = content[:50] + "..."
-        # 자바스크립트 문자열 오류 방지를 위해 특수문자 처리
         clean_content = content.replace('"', '\\"').replace("'", "\\'")
         clean_title = title.replace('"', '\\"').replace("'", "\\'")
         formatted_data.append({"title": clean_title, "content": clean_content})
@@ -69,7 +68,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (제목 수정 완료: 맛보기 -> 공개)
+# 3. [개별 공고 페이지] 템플릿 (아이디어 반영: 제목에 ID 추가, 행동중심 문구 추가)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -77,7 +76,7 @@ JOB_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{org_name} 합격자소서 공개 | AI 분석 가이드 - 김진호 합격연구소</title>
+    <title>[{org_name}] {title} 합격자소서 공개 & 행동중심 면접 전략 (ID:{job_id})</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
     <script src="db_data1.js"></script>
@@ -95,6 +94,7 @@ JOB_TEMPLATE = """
         
         .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }}
         .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
+        
         .ai-ask-btn {{ 
             display: block; width: 100%; margin-top: 10px; padding: 8px; 
             background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
@@ -102,7 +102,7 @@ JOB_TEMPLATE = """
         }}
         .ai-ask-btn:hover {{ background: #2563eb; color: white; }}
 
-        /* AI 섹션 스타일 */
+        /* [아이디어 반영] 행동중심 강조 박스 스타일 */
         .ai-preview-box {{ background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }}
         .ai-tag {{ background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }}
         .action-quote {{ 
@@ -111,7 +111,6 @@ JOB_TEMPLATE = """
         }}
         .cta-link {{ display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }}
 
-        /* 기존 스타일 */
         .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
         .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
@@ -121,7 +120,6 @@ JOB_TEMPLATE = """
         .custom-search-box button {{ padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }}
         .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
 
-        /* 챗봇 스타일 */
         #chatbot-bubble {{ position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }}
         #chatbot-bubble::after {{ content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }}
         @keyframes float {{ 0% {{transform: translateY(0);}} 50% {{transform: translateY(-10px);}} 100% {{transform: translateY(0);}} }}
@@ -363,7 +361,7 @@ JOB_TEMPLATE = """
 """
 
 # ==========================================
-# 4. 크롤링 및 파일 생성 로직
+# 4. 크롤링 및 파일 생성 로직 (원본 유지 + 제목 ID 추가)
 # ==========================================
 def load_history():
     if not os.path.exists(HISTORY_FILE): return []
@@ -424,11 +422,13 @@ def create_job_page(url):
         for kw in keywords:
             keyword_chips_html += f'<span class="keyword-chip" onclick="searchDB(\'{kw}\')">#{kw}</span>'
         
+        # [아이디어 반영] JOB_TEMPLATE에 job_id도 넘겨줌 (중복 방지 제목용)
         html = JOB_TEMPLATE.format(
             org_name=org_name, title=title, end_date=end_date, content=content,
             consult_link=MY_CONSULTING_LINK, home_link=MY_HOME_LINK, 
             original_url=url, keyword_chips=keyword_chips_html,
-            render_server_url=RENDER_SERVER_URL 
+            render_server_url=RENDER_SERVER_URL,
+            job_id=job_id 
         )
         
         with open(filename, 'w', encoding='utf-8') as f: f.write(html)
@@ -441,7 +441,7 @@ def create_job_page(url):
         return False
 
 # ==========================================
-# 5. 메인 실행 루프
+# 5. 메인 실행 루프 (원본 유지)
 # ==========================================
 if __name__ == "__main__":
     print(f"🤖 김진호 합격연구소 로봇 가동 (목표: 신규 {TARGET_NEW_FILES}개)")
@@ -499,10 +499,10 @@ if __name__ == "__main__":
     <div id="jobList">
 """
         
-        # [★ 수정 완료] 누락되었던 핵심 코드가 복구되었습니다.
+        # [아이디어 반영] 목록 제목 뒤에 '합격자소서 공개' 문구 추가
         for f in files:
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
-            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name} 합격자소서 공개 & AI 분석 가이드</h3><p>🎯 전담 AI의 실시간 합격 전략 및 데이터 확인</p></a>'
+            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name} 합격자소서 공개 & 행동중심 면접 전략</h3><p>🎯 전담 AI의 실시간 합격 전략 및 데이터 확인</p></a>'
         
         list_html += """
     </div>
@@ -528,7 +528,7 @@ if __name__ == "__main__":
         with open("jobs.html", "w", encoding="utf-8") as f: f.write(list_html)
 
         # ==========================================
-        # ★ [NEW] 검색 최적화용 sitemap.xml 자동 생성
+        # ★ [NEW] 검색 최적화용 sitemap.xml 자동 생성 (원본 유지)
         # ==========================================
         print("\n🗺️ [SEO] 검색 로봇용 Sitemap 생성 중...")
         sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
