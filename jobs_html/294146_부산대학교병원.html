@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[부산대학교병원] 2025년도 블라인드 공개채용 계약직 (보건직, 연구직(수의사), 행정직, 간호조무직, 원무직, 업무(시설)지원직) 모집 공고 합격자소서 공개 & 행동중심 면접 전략 (ID:294146)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        
+        .ai-ask-btn { 
+            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        }
+        .ai-ask-btn:hover { background: #2563eb; color: white; }
+
+        /* 행동중심 강조 박스 스타일 */
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { 
+            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
+            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        /* ★ [NEW] 뉴스 섹션 스타일 (스크롤 적용) */
+        .news-container { 
+            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
+        }
+        .news-header { 
+            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
+            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
+        }
+        .news-scroll-box {
+            max-height: 400px; overflow-y: auto; padding-right: 10px; /* 30개 뉴스 스크롤 처리 */
+        }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { 
+            background: white; color: #d97706; border: 1px solid #d97706; 
+            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
+            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
+        }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">2025년도 블라인드 공개채용 계약직 (보건직, 연구직(수의사), 행정직, 간호조무직, 원무직, 업무(시설)지원직) 모집 공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>부산대학교병원</strong> | 마감일: 2025.12.19</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('책임')">#책임</span><span class="keyword-chip" onclick="searchDB('도전')">#도전</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 부산대학교병원 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘보철과 전문의 진료교수 모집’…부산대병원 치과진료센터 비정규직 채용 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘보철과 전문의 진료교수 모집’…부산대병원 치과진료센터 비정규직 채용 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">박완수 지사, 새해 첫날 응급의료 현장 등 찾아 - 오마이뉴스</a>
+                        <span class="news-date">2026-01-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('박완수 지사, 새해 첫날 응급의료 현장 등 찾아 - 오마이뉴스', '2026-01-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">박완수 경남도지사, 새해 첫날 응급의료 현장 점검 - 뉴시스</a>
+                        <span class="news-date">2026-01-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('박완수 경남도지사, 새해 첫날 응급의료 현장 점검 - 뉴시스', '2026-01-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">박완수 경남도지사, 새해 첫날 응급의료 현장 점검 - 코리아이글뉴스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('박완수 경남도지사, 새해 첫날 응급의료 현장 점검 - 코리아이글뉴스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">행복한 책읽기- /듀얼 브레인/조원호 부산대학교 의과대학 학장 - knn.co.kr</a>
+                        <span class="news-date">2025-12-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('행복한 책읽기- /듀얼 브레인/조원호 부산대학교 의과대학 학장 - knn.co.kr', '2025-12-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원, 지역완결형 메디컬센터 추진 ‘박차’ - 후생신보</a>
+                        <span class="news-date">2025-11-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원, 지역완결형 메디컬센터 추진 ‘박차’ - 후생신보', '2025-11-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원, 개원 69주년 '미래사업에 모든 노력 집중' - 의학신문</a>
+                        <span class="news-date">2025-11-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원, 개원 69주년 미래사업에 모든 노력 집중 - 의학신문', '2025-11-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">﻿필수의료 공백 속 '빛난' 양산부산대병원 - 데일리메디</a>
+                        <span class="news-date">2025-11-05</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('﻿필수의료 공백 속 빛난 양산부산대병원 - 데일리메디', '2025-11-05')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대학교병원, 지역 최초 다빈치 로봇수술 5,000례 달성 - 헬스미디어뉴스</a>
+                        <span class="news-date">2025-10-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대학교병원, 지역 최초 다빈치 로봇수술 5,000례 달성 - 헬스미디어뉴스', '2025-10-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대학교 병원, AI로 현장 변화… 맞춤형 서비스로 혁신 - 디지틀조선일보</a>
+                        <span class="news-date">2025-07-11</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대학교 병원, AI로 현장 변화… 맞춤형 서비스로 혁신 - 디지틀조선일보', '2025-07-11')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원 전종근 교수, 첨단재생의료 공로로 복지부장관 표창 수상 - 메드월드뉴스</a>
+                        <span class="news-date">2025-10-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원 전종근 교수, 첨단재생의료 공로로 복지부장관 표창 수상 - 메드월드뉴스', '2025-10-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원 김기훈 교수 연구팀, 성확정 호르몬 치료 심혈관 안전성 연구 국제학술지 게재 - 인디포커스</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원 김기훈 교수 연구팀, 성확정 호르몬 치료 심혈관 안전성 연구 국제학술지 게재 - 인디포커스', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원, 신뢰·헌신 개원 69주년 기념식 - 의협신문</a>
+                        <span class="news-date">2025-11-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원, 신뢰·헌신 개원 69주년 기념식 - 의협신문', '2025-11-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">국내 최초 파브리센터 연 양산부산대병원, 해외서도 "모범" 주목 - 청년의사</a>
+                        <span class="news-date">2025-08-25</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('국내 최초 파브리센터 연 양산부산대병원, 해외서도 모범 주목 - 청년의사', '2025-08-25')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">‘약사 면허 소지자’ 블라인드 채용…부산대학교병원, 양산서 약무직 신입 10명 선발 - 퍼블릭타임스</a>
+                        <span class="news-date">2026-01-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('‘약사 면허 소지자’ 블라인드 채용…부산대학교병원, 양산서 약무직 신입 10명 선발 - 퍼블릭타임스', '2026-01-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원, 공공보건의료사업 유공 도지사 표창 - 뉴시스</a>
+                        <span class="news-date">2025-12-31</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원, 공공보건의료사업 유공 도지사 표창 - 뉴시스', '2025-12-31')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대학교병원, 시민 맞춤형 건강관리앱 공식 오픈 - 의학신문</a>
+                        <span class="news-date">2025-09-24</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대학교병원, 시민 맞춤형 건강관리앱 공식 오픈 - 의학신문', '2025-09-24')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원, 지역완결형 메디컬센터 추진 속도 - 데일리메디</a>
+                        <span class="news-date">2025-11-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원, 지역완결형 메디컬센터 추진 속도 - 데일리메디', '2025-11-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">﻿양산부산대병원 "스마트 보조기기 개발·상용화" - 데일리메디</a>
+                        <span class="news-date">2025-10-22</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('﻿양산부산대병원 스마트 보조기기 개발·상용화 - 데일리메디', '2025-10-22')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원 "명절에도 환자 곁 지켰다" - 데일리메디</a>
+                        <span class="news-date">2025-10-13</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원 명절에도 환자 곁 지켰다 - 데일리메디', '2025-10-13')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원, 스마트병원 구현 위한 산학병 업무협약 체결 - 의학신문</a>
+                        <span class="news-date">2025-08-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원, 스마트병원 구현 위한 산학병 업무협약 체결 - 의학신문', '2025-08-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원 외과, 로봇수술 1000례 - 의협신문</a>
+                        <span class="news-date">2025-09-03</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원 외과, 로봇수술 1000례 - 의협신문', '2025-09-03')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원, 연명의료결정제도 홍보 캠페인 - 데일리메디</a>
+                        <span class="news-date">2025-11-02</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원, 연명의료결정제도 홍보 캠페인 - 데일리메디', '2025-11-02')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">양산부산대병원 "스마트 보조기기 개발·상용화" - 데일리메디</a>
+                        <span class="news-date">2025-10-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('양산부산대병원 스마트 보조기기 개발·상용화 - 데일리메디', '2025-10-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대치과병원, 종합학술대회 성료 - 건치신문</a>
+                        <span class="news-date">2025-12-08</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대치과병원, 종합학술대회 성료 - 건치신문', '2025-12-08')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[이 시각, 이 병원] 부산대병원 보수 공사 한창 - 데일리메디</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[이 시각, 이 병원] 부산대병원 보수 공사 한창 - 데일리메디', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원 ECMO센터, 세계학회 '최고 등급' - 의협신문</a>
+                        <span class="news-date">2025-06-10</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원 ECMO센터, 세계학회 최고 등급 - 의협신문', '2025-06-10')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">부산대병원 '난치성 자궁내막증 치료' 합심 - 의협신문</a>
+                        <span class="news-date">2025-06-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('부산대병원 난치성 자궁내막증 치료 합심 - 의협신문', '2025-06-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">지역의료데이터 기반 연구 강화한다 - 의협신문</a>
+                        <span class="news-date">2025-11-06</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('지역의료데이터 기반 연구 강화한다 - 의협신문', '2025-11-06')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">﻿부산대병원 추진 지역완결형 메디칼센터 주목 - 데일리메디</a>
+                        <span class="news-date">2025-07-17</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('﻿부산대병원 추진 지역완결형 메디칼센터 주목 - 데일리메디', '2025-07-17')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>업무(시설)지원직_목마공(시설관리팀)국가기술자격법 시행규칙 [별표2]에 의한 병원 업무 구분 중 건축관련 분야 자격증 소지자(공고문하단참고),<br/>원무직_업무지원:해당사항없음,  보건직_물리치료사(재활의학과) : 물리치료사 면허증 소지자로서 아래 관련 교육 중 1개 이상 이수자&lt;관련 교육 과정&gt;-대한재활의학회 중추신경계 발달 재활치료 연수교육-한국보바스협회 보바스 베이직 코스-대한고유수용성신경근촉진법학회 PNF level 1,2 또는 Advance교육, 보건직_방사선사(영상의학과):방사선사 면허증 소지자,보건직_임상병리사(건강증진센터):임상병리사 면허증 소지자,보건직_임상병리사(뇌신경센터):임상병리사 면허증 소지자,보건직_임상병리사(병리과):임상병리사 면허증 소지자,보건직_임상병리사(소아청소년과):임상병리사 면허증 소지자,보건직_임상병리사(직업환경의학과):임상병리사 면허증 소지자,보건직_임상병리사(진단검사의학과):임상병리사 면허증 소지자,연구직_수의사(의생명융합연구원):수의사 면허증 소지자,행정직_일반행정: 워드프로세서 또는 컴퓨터활용능력 자격증 소지자, 간호조무직_간호조무사(간호부): 간호조무사 자격증 소지자</p>
+<h4>결격사유</h4>
+<p>1. 피성년후견인, 피한정후견인 또는 피특정후견인<br/>2. 파산선고를 받은 자로서 복권되지 아니한 자<br/>3. 금고이상의 형을 받고 그 집행이 종료되거나 또는 집행을 받지 아니하기로 확정된 후 5년을 경과하지 아니한 자<br/>4. 금고이상의 형을 받고 그 집행유예의 기간이 만료된 날로 부터 2년을 경과하지 아니한 자<br/>5. 금고이상의 형의 선고유예를 받고 그 선고유예기간 중에 있는 자<br/>6. 법원의 판결 또는 다른 법률에 따라 자격이 상실되거나 정지된 자<br/>6의2. 공무원으로 재직기간 중 직무와 관련하여 「형법」 제355조 및 제356조에 규정된 죄를 범한 자로서 300만원 이상의 벌금형을 선고받고 그 형이 확정된 후 2년이 지나지 아니한 자<br/>6의3. 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 규정된 죄를 범한 사람으로서 100만원 이상의 벌금형을 선고받고 그 형이 확정된 후 3년이 지나지 아니한 사람<br/>6의4. 미성년자에 대한 다음 각 목의 어느 하나에 해당하는 죄를 저질러 파면ㆍ해임되거나 형 또는 치료감호를 선고받아 그 형 또는 치료감호가 확정된 사람(집행유예를 선고받은 후 그 집행유예기간이 경과한 사람을 포함한다)<br/>가. 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 따른 성폭력범죄<br/>나. 「아동ㆍ청소년의 성보호에 관한 법률」 제2조제2호에 따른 아동ㆍ청소년대상 성범죄<br/>7. 병역의무자로서 병역을 기피한 자<br/>8. 징계로 파면처분을 받은 때부터 5년이 지나지 아니하거나, 징계로 해임처분을 받은 때부터 3년이 지나지 아니한 자<br/>9. 사상이 불온 하거나 소행이 불량한 자로 인정되는 자<br/>10. 폐결핵 등 전염성 질환이 있는 자<br/>11.기타 병원업무 수행에 부적합 하다고 인정되는 자<br/>12. 다른 공공기관에서 부정한 방법으로 채용된 사실이 적발되어 채용이 취소된 자</p>
+<h4>우대내용</h4>
+<p>취업지원대상자(보훈대상자), 장애인: 전형단계별 5~10%가점부여</p>
+<h4>전형절차/방법</h4>
+<p>1. 전형절차 : 1차 서류전형 -&gt; 2차 면접전형 -&gt; 최종합격자발표<br/>2. 전형단계별 선발예정 배수 및 평가방법<br/>- 1차(서류전형) : 선발예정인원의 최대 5배수 범위 내, 입사지원서(적/부)<br/>- 2차(면접전형) : 선발예정인원의 1배수, 임원 면접점수<br/>- 최종합격자 발표 : 제출서류 적격 확인<br/></p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294146" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 부산대학교병원 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[부산대학교병원]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        // [수정완료] DB1, DB2 강제 병합 및 로드 체크
+        const dbData = [
+            ...(window.DB_PART_1 || []), 
+            ...(window.DB_PART_2 || [])
+        ];
+        console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+
+        window.onload = function() {
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 30);
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map(item => {
+                    let displayContent = item.content.substring(0, 200) + "...";
+                    let displayTitle = item.title;
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        displayTitle = displayTitle.replace(regex, highlightStr);
+                        displayContent = displayContent.replace(regex, highlightStr);
+                    }
+                    const cleanTitle = item.title.replace(/'/g, "\'");
+                    const cleanContent = item.content.substring(0,100).replace(/[\r\n]+/g, " ").replace(/'/g, "\'");
+                    return `<div class="db-card"><div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div><div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${cleanTitle}', '${cleanContent}')">⚡ AI에게 전략 묻기</button></div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+        renderDB();
+
+        function searchDB(keyword) { dbSearch.value = keyword; renderDB(keyword); }
+        function manualSearch() { const val = document.getElementById('manualKeyword').value; if(val) { searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); } }
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        function askAiAboutDB(event, title, contentSnippet) {
+            event.stopPropagation();
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해줘.
+
+※ 필독 지시사항: 답변 마지막에 반드시 '최근 AI 채용 도입으로 합격 자소서 평가는 행동(Action) 중심으로 이루어집니다. 본인의 에피소드를 행동 중심으로 완벽하게 다듬고 싶다면 전문가의 첨삭을 꼭 받아보세요.'라는 문구를 포함해줘.`;
+            const input = document.getElementById('chatInput');
+            if(input) {
+                input.value = msg;
+                input.focus();
+                sendMsg();
+            }
+        }
+
+        function askAiAboutNews(title, date) {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
+            const msg = `[뉴스 기반 지원동기 작성 요청] 
+기업명: 부산대학교병원
+뉴스 제목: ` + title + `
+뉴스 날짜: ` + date + `
+
+1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
+2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+            const input = document.getElementById('chatInput');
+            if(input) {
+                input.value = msg;
+                input.focus();
+                sendMsg();
+            }
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 부산대학교병원\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
