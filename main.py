@@ -69,7 +69,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿 (AI 맛보기 & 영업 기능 추가)
+# 3. [개별 공고 페이지] 템플릿 (제목 수정 완료: 맛보기 -> 공개)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -77,7 +77,7 @@ JOB_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{org_name} 합격자소서 맛보기 | AI 분석 가이드 - 김진호 합격연구소</title>
+    <title>{org_name} 합격자소서 공개 | AI 분석 가이드 - 김진호 합격연구소</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
     <script src="db_data1.js"></script>
@@ -93,7 +93,6 @@ JOB_TEMPLATE = """
 
         .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }}
         
-        /* DB 카드 스타일 수정 (버튼 추가 공간) */
         .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }}
         .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
         .ai-ask-btn {{ 
@@ -103,7 +102,7 @@ JOB_TEMPLATE = """
         }}
         .ai-ask-btn:hover {{ background: #2563eb; color: white; }}
 
-        /* [NEW] AI 맛보기 섹션 스타일 */
+        /* AI 섹션 스타일 */
         .ai-preview-box {{ background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }}
         .ai-tag {{ background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }}
         .action-quote {{ 
@@ -112,7 +111,7 @@ JOB_TEMPLATE = """
         }}
         .cta-link {{ display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }}
 
-        /* 기존 스타일 유지 */
+        /* 기존 스타일 */
         .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
         .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
         .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
@@ -157,12 +156,12 @@ JOB_TEMPLATE = """
 
     <div class="main-content">
         <div class="job-card">
-            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 맛보기</span>
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
             <h1 class="job-title">{title}</h1>
             <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>{org_name}</strong> | 마감일: {end_date}</div>
 
             <div class="ai-preview-box">
-                <div class="ai-tag">🔥 합격자소서 맛보기 (AI 분석 중...)</div>
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
                 <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
                     데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
                 </div>
@@ -230,7 +229,6 @@ JOB_TEMPLATE = """
         const dbContainer = document.getElementById('dbContainer');
         const dbSearch = document.getElementById('dbSearch');
 
-        // [NEW] 맛보기 섹션에 랜덤 데이터 뿌리기
         window.onload = function() {{
             if(dbData.length > 0) {{
                 const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
@@ -257,7 +255,6 @@ JOB_TEMPLATE = """
                         displayContent = displayContent.replace(regex, highlightStr);
                     }}
                     
-                    // 특수문자 이스케이프 (버튼 클릭 시 오류 방지)
                     const cleanTitle = item.title.replace(/'/g, "\\'");
                     const cleanContent = item.content.substring(0,100).replace(/[\\r\\n]+/g, " ").replace(/'/g, "\\'");
 
@@ -302,17 +299,14 @@ JOB_TEMPLATE = """
             }}
         }}
 
-        // [NEW] DB 버튼 클릭 시 AI에게 질문 던지기
         function askAiAboutDB(event, title, contentSnippet) {{
-            event.stopPropagation(); // 카드 클릭 이벤트 방지
+            event.stopPropagation();
             toggleChat();
-            
             const jobTitle = document.querySelector('.job-title').innerText;
             const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해주고, 면접 필승 전략 알려줘. (참고내용: ` + contentSnippet + `...)`;
-            
             const input = document.getElementById('chatInput');
             input.value = msg;
-            sendMsg(); // 자동 전송
+            sendMsg();
         }}
 
         async function sendMsg() {{
@@ -505,10 +499,10 @@ if __name__ == "__main__":
     <div id="jobList">
 """
         
+        # [★ 수정 완료] 누락되었던 핵심 코드가 복구되었습니다.
         for f in files:
             name = f.replace(".html", "").split("_", 1)[1] if "_" in f else f
-            # [SEO] 제목에 합격자소서 맛보기 키워드 추가
-            
+            list_html += f'<a href="{SAVE_DIR}/{f}" class="card" target="_blank"><h3>{name} 합격자소서 공개 & AI 분석 가이드</h3><p>🎯 전담 AI의 실시간 합격 전략 및 데이터 확인</p></a>'
         
         list_html += """
     </div>
