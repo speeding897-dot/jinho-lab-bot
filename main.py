@@ -69,7 +69,7 @@ def extract_keywords_from_text(text):
     return found[:6] if found else ["소통", "책임", "도전"]
 
 # ==========================================
-# ★ 구글 뉴스 크롤링 함수 (원본 유지)
+# ★ 구글 뉴스 크롤링 함수 (수정: html.parser 사용)
 # ==========================================
 def get_google_news(query):
     encoded_query = urllib.parse.quote(query)
@@ -77,7 +77,8 @@ def get_google_news(query):
     
     try:
         res = requests.get(url, timeout=5) 
-        soup = BeautifulSoup(res.content, 'lxml-xml', from_encoding='utf-8')
+        # [수정] lxml 파서 대신 기본 html.parser 사용 (호환성 증대)
+        soup = BeautifulSoup(res.content, 'html.parser', from_encoding='utf-8')
         items = soup.find_all('item', limit=30)
         
         news_data = []
