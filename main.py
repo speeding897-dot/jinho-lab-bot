@@ -370,7 +370,7 @@ JOB_TEMPLATE = """
                     <div style="white-space: pre-wrap;">${{fullText}}</div>
                     <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
                         <p style="font-size:18px; color:#64748b;">이 데이터는 합격 데이터입니다.</p>
-                        <a href="{consult_link}" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ 나도 이렇게 쓰고 싶다면? (첨삭 신청)</a>
+                        <a href="{consult_link}" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ AI시대 자소서의 기준이 문잔력에서 실제 행동으로 바뀌었습니다.</a>
                     </div>
                 </div>
             `;
@@ -396,21 +396,43 @@ JOB_TEMPLATE = """
             }}
         }}
 
-        function askAiAboutNews(title, date) {{
-            const win = document.getElementById('chatbot-window');
-            const bubble = document.getElementById('chatbot-bubble');
-            if(win) win.style.display = 'flex'; 
-            if(bubble) bubble.style.display = 'none';
+        function askAiAboutNews(title, date) {
+    const win = document.getElementById('chatbot-window');
+    const bubble = document.getElementById('chatbot-bubble');
+    if(win) win.style.display = 'flex'; 
+    if(bubble) bubble.style.display = 'none';
 
-            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
-            const input = document.getElementById('chatInput');
-            if(input) {{
-                input.value = msg;
-                input.focus();
-                sendMsg();
-            }}
-        }}
+    // 1. 사용자에게 보여줄 안내 멘트 (채팅창에 기록됨)
+    const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기를 분석하고 있습니다.";
+    addBubble(displayMsg, 'user');
 
+    // 2. AI에게만 전달할 비밀 지시사항 (채팅창 노출 안 됨)
+    const secretMsg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+
+    // 3. 로딩 표시
+    const loadingId = addBubble("⏳ 분석 전략 수립 중... (약 30초 소요)", 'ai');
+    const loadingElement = document.getElementById(loadingId); 
+
+    // 4. 서버와 직접 통신 (비밀 메시지 전송)
+    const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
+    const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+    fetch('{render_server_url}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            message: secretMsg,
+            context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${jobTitle}\\n공고내용요약: ${jobContent}...`
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }
+    })
+    .catch(err => {
+        if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 지연. 잠시 후 다시 시도해 주세요."; }
+    });
+}
         async function sendMsg() {{
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
