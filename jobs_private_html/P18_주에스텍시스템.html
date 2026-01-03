@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[(주) 에스텍시스템] 에스텍시스템 천안직산(세메스) 보안정규직 신입/경력 채용(교대근무) 합격자소서 공개 & 행동중심 면접 전략 (ID:P18)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 480px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        /* [소장님 지시] 사이드바 디자인 혁신: 18px 대왕 글자 & 중복 제거 */
+        .db-card { 
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px; 
+            padding: 20px; margin-bottom: 15px; transition: 0.2s; position: relative; cursor: pointer;
+        }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* [소장님 지시] 일치율 배지 */
+        .match-badge { 
+            display: inline-block; background: #fee2e2; color: #ef4444; 
+            padding: 5px 12px; border-radius: 20px; font-weight: 800; 
+            font-size: 14px; margin-bottom: 12px; border: 1px solid #fecaca;
+        }
+
+        /* [소장님 지시] 사이드바 텍스트 18px */
+        .db-text { 
+            font-size: 18px; line-height: 1.6; color: #334155; 
+            word-break: break-all;
+        }
+        
+        /* [소장님 지시] 중앙 확대 리포트 스타일 (22px) */
+        .full-report-view {
+            background: white; padding: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 22px; line-height: 2.0; color: #1e293b;
+        }
+        .full-report-title {
+            font-size: 28px; font-weight: 800; color: var(--navy); 
+            border-bottom: 3px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 40px;
+        }
+        .back-btn {
+            display: inline-block; margin-bottom: 20px; padding: 10px 20px; 
+            background: #e2e8f0; color: #475569; border-radius: 30px; 
+            font-weight: bold; cursor: pointer; font-size: 16px; border: none;
+        }
+        .back-btn:hover { background: #cbd5e1; }
+
+        .ai-ask-btn { display: none; } 
+
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { font-size: 1.05rem; font-weight: 800; color: #1e40af; border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5; }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        .news-container { margin: 30px 0; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .news-header { font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px; }
+        .news-scroll-box { max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { background: white; color: #d97706; border: 1px solid #d97706; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s; }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { background-color: #fef08a; font-weight: 900; border-bottom: 3px solid #facc15; padding: 0 2px; }
+        
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px; font-size:18px;">📚 합격 자기소개서 DB</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content" id="mainContentArea">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">에스텍시스템 천안직산(세메스) 보안정규직 신입/경력 채용(교대근무)</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>(주) 에스텍시스템</strong> | 마감일: ~01.22 (목)</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('도전')">#도전</span><span class="keyword-chip" onclick="searchDB('열정')">#열정</span><span class="keyword-chip" onclick="searchDB('협력')">#협력</span><span class="keyword-chip" onclick="searchDB('성장')">#성장</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 (주) 에스텍시스템 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템, FK-5-1-12 60㍴ 가스계소화설비 성능인증 - 소방방재신문</a>
+                            <span class="news-date">2025-08-26</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템, FK-5-1-12 60㍴ 가스계소화설비 성능인증 - 소방방재신문', '2025-08-26')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">보안-시설관리 선도 기업… 반세기 넘어 100년을 향한 도약 - 동아일보</a>
+                            <span class="news-date">2025-03-27</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('보안-시설관리 선도 기업… 반세기 넘어 100년을 향한 도약 - 동아일보', '2025-03-27')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템 ‘에어돔’ 스포츠 복합시설 개발·운영 신사업 진출 - 헤럴드경제</a>
+                            <span class="news-date">2025-03-27</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템 ‘에어돔’ 스포츠 복합시설 개발·운영 신사업 진출 - 헤럴드경제', '2025-03-27')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">아마노코리아, 에스텍시스템과 MOU 체결...보안 및 주차관리 협력 - 보안뉴스</a>
+                            <span class="news-date">2025-05-28</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('아마노코리아, 에스텍시스템과 MOU 체결...보안 및 주차관리 협력 - 보안뉴스', '2025-05-28')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">중부대, (주)에스텍시스템과 경호인력 양성 업무협약 - 한국대학신문</a>
+                            <span class="news-date">2014-05-09</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('중부대, (주)에스텍시스템과 경호인력 양성 업무협약 - 한국대학신문', '2014-05-09')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 삼성 꼬리표 떼고 업계 1위 도약 - 한국경제</a>
+                            <span class="news-date">2022-07-05</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 삼성 꼬리표 떼고 업계 1위 도약 - 한국경제', '2022-07-05')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 외식기업 유니쉐프와 업무협약 체결 - 전라일보</a>
+                            <span class="news-date">2023-05-12</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 외식기업 유니쉐프와 업무협약 체결 - 전라일보', '2023-05-12')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">비엠코퍼레이션, 에스텍시스템과 전속 임차 대행 계약 체결… 웰니스 매장 확장 본격화 - sedaily.com</a>
+                            <span class="news-date">2025-10-21</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('비엠코퍼레이션, 에스텍시스템과 전속 임차 대행 계약 체결… 웰니스 매장 확장 본격화 - sedaily.com', '2025-10-21')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 여주쌀로 직원 사기 진작 - 여주신문</a>
+                            <span class="news-date">2024-06-12</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 여주쌀로 직원 사기 진작 - 여주신문', '2024-06-12')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 투썸플레이스 위생환경 조성 나선다 - 매일경제</a>
+                            <span class="news-date">2023-04-10</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 투썸플레이스 위생환경 조성 나선다 - 매일경제', '2023-04-10')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템, 베트남에 현지 공장 세운다 - 소방방재신문</a>
+                            <span class="news-date">2018-08-24</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템, 베트남에 현지 공장 세운다 - 소방방재신문', '2018-08-24')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">K소방으로 베트남 시장 80% 장악…'불 끄는 한류' 만든 에스텍 - 한국경제</a>
+                            <span class="news-date">2025-09-16</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('K소방으로 베트남 시장 80% 장악…불 끄는 한류 만든 에스텍 - 한국경제', '2025-09-16')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 친환경 소화약제 적용 소화설비 성능인증 획득 - 헤럴드경제</a>
+                            <span class="news-date">2025-08-27</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 친환경 소화약제 적용 소화설비 성능인증 획득 - 헤럴드경제', '2025-08-27')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템, NOVEC 1230 소화설비 출시 - 소방방재신문</a>
+                            <span class="news-date">2019-02-18</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템, NOVEC 1230 소화설비 출시 - 소방방재신문', '2019-02-18')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 일식점 백소정과 안심 환경 조성 '맞손' - 한국경제</a>
+                            <span class="news-date">2023-09-20</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 일식점 백소정과 안심 환경 조성 맞손 - 한국경제', '2023-09-20')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템 IG-100 청정소화설비 출시 - 소방방재신문</a>
+                            <span class="news-date">2015-07-25</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템 IG-100 청정소화설비 출시 - 소방방재신문', '2015-07-25')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템, 청정소화설비 최초 FILK인증 획득 - 소방방재신문</a>
+                            <span class="news-date">2014-11-10</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템, 청정소화설비 최초 FILK인증 획득 - 소방방재신문', '2014-11-10')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">[2016 Fire EXPO] 청정소화설비 전문기업 에스텍시스템 - 소방방재신문</a>
+                            <span class="news-date">2016-04-25</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('[2016 Fire EXPO] 청정소화설비 전문기업 에스텍시스템 - 소방방재신문', '2016-04-25')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">"군 출신 인재 적합"…﻿에스텍시스템, 4회 연속 '고용 우수' 인증 [김병근의 남다른中企] - 한국경제</a>
+                            <span class="news-date">2023-11-01</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('군 출신 인재 적합…﻿에스텍시스템, 4회 연속 고용 우수 인증 [김병근의 남다른中企] - 한국경제', '2023-11-01')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 베트남 수해 복구에 1억 1000만원 기부 - 뉴스1</a>
+                            <span class="news-date">2025-12-15</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 베트남 수해 복구에 1억 1000만원 기부 - 뉴스1', '2025-12-15')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 일산 아파트 입주민 ‘불법 사찰’ 의혹...이병화 대표 인건비 비리 은폐 정황까지 - 전국뉴스</a>
+                            <span class="news-date">2025-11-11</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 일산 아파트 입주민 ‘불법 사찰’ 의혹...이병화 대표 인건비 비리 은폐 정황까지 - 전국뉴스', '2025-11-11')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 서비스혁신 공로 국무총리상 수상 - 헤럴드경제</a>
+                            <span class="news-date">2024-11-21</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 서비스혁신 공로 국무총리상 수상 - 헤럴드경제', '2024-11-21')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">“경비보안 외 신사업 확장...내년 매출 1조 기업으로” - 헤럴드경제</a>
+                            <span class="news-date">2023-09-14</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('“경비보안 외 신사업 확장...내년 매출 1조 기업으로” - 헤럴드경제', '2023-09-14')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 친환경 가스소화약제 'AnyFire' 차별화 선언! - 소방방재신문</a>
+                            <span class="news-date">2006-12-27</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 친환경 가스소화약제 AnyFire 차별화 선언! - 소방방재신문', '2006-12-27')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">(주)에스텍시스템 박철원 대표이사 - 여성신문</a>
+                            <span class="news-date">2007-11-30</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('(주)에스텍시스템 박철원 대표이사 - 여성신문', '2007-11-30')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 무인카페 ‘사람없는 커피어때’와 위생관리 협력 - 매일경제</a>
+                            <span class="news-date">2024-07-04</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 무인카페 ‘사람없는 커피어때’와 위생관리 협력 - 매일경제', '2024-07-04')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, 베트남 MB뱅크에 통합 보안운영 서비스 - 뉴스1</a>
+                            <span class="news-date">2025-12-10</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, 베트남 MB뱅크에 통합 보안운영 서비스 - 뉴스1', '2025-12-10')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">㈜에스텍시스템, 친환경 소화설비시스템 선보여 - 안전신문</a>
+                            <span class="news-date">2019-03-18</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('㈜에스텍시스템, 친환경 소화설비시스템 선보여 - 안전신문', '2019-03-18')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">에스텍시스템, BM코퍼레이션과 웰니스 사업 전속 임차 대행 계약 체결 - sedaily.com</a>
+                            <span class="news-date">2025-10-16</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('에스텍시스템, BM코퍼레이션과 웰니스 사업 전속 임차 대행 계약 체결 - sedaily.com', '2025-10-16')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">중부대·(주)에스텍시스템, 경호인력 양성 MOU - fnnews.com</a>
+                            <span class="news-date">2014-05-09</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('중부대·(주)에스텍시스템, 경호인력 양성 MOU - fnnews.com', '2014-05-09')">⚡ AI 지원동기 작성</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <p>상세 내용은 아래 '원문 공고 확인하기'를 통해 확인해 주세요.</p>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.incruit.com/jobdb_info/jobpost.asp?job=2512230000520" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 (주) 에스텍시스템 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[(주) 에스텍시스템]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const dbData = [
+            ...(window.DB_PART_1 || []), 
+            ...(window.DB_PART_2 || [])
+        ];
+        console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+        const mainContentArea = document.getElementById('mainContentArea');
+        let originalMainContent = ""; 
+
+        window.onload = function() {
+            originalMainContent = mainContentArea.innerHTML; // 초기 공고 내용 백업
+            
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 50); // 사이드바 성능 위해 50개 제한
+            
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map((item, index) => {
+                    // [소장님 지시] 사이드바: 500자 요약 노출 & 중복 제목 제거
+                    let summaryContent = item.content.substring(0, 500) + "...";
+                    let fullContent = item.content.replace(/'/g, "\'"); 
+                    
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        summaryContent = summaryContent.replace(regex, highlightStr);
+                    }
+
+                    // [소장님 지시] 제목 삭제 후 배지 + 500자 내용만 표시
+                    return `
+                    <div class="db-card" onclick="showFullReport('${fullContent}')">
+                        <div class="match-badge">🎯 </div>
+                        <div class="db-text">${summaryContent}</div>
+                        <div style="text-align:right; margin-top:10px; color:#2563eb; font-size:0.8rem; font-weight:bold;">👉 클릭하여 전체보기 (확대)</div>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+        renderDB();
+
+        // [소장님 지시] 클릭 시 중앙 화면을 22px 대왕 리포트로 교체 (1200자 전문)
+        function showFullReport(fullText) {
+            mainContentArea.innerHTML = `
+                <div class="full-report-view">
+                    <button class="back-btn" onclick="restoreOriginalContent()">↩ 공고문으로 돌아가기</button>
+                    <div class="full-report-title">📄 합격 자기소개서 심층 분석 (전문)</div>
+                    <div style="white-space: pre-wrap;">${fullText}</div>
+                    <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
+                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격  데이터입니다.</p>
+                        <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡AI시대, 자서소의 기준이 문장력에서 실제행동으로 바뀌었습니다.</a>
+                    </div>
+                </div>
+            `;
+            mainContentArea.scrollTop = 0;
+        }
+
+        function restoreOriginalContent() {
+            mainContentArea.innerHTML = originalMainContent;
+        }
+
+        function searchDB(keyword) { dbSearch.value = keyword; renderDB(keyword); }
+        function manualSearch() { const val = document.getElementById('manualKeyword').value; if(val) { searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); } }
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+function askAiAboutNews(title, date) {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기 초안을 분석합니다.";
+            addBubble(displayMsg, 'user');
+
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+기업명: (주) 에스텍시스템
+뉴스 제목: ` + title + `
+뉴스 날짜: ` + date + `
+
+1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
+2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+
+            const loadingId = addBubble("⏳ 전문가 AI가 분석 전략을 수립 중입니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '사기업 공고 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]\n기업명: (주) 에스텍시스템\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 문제로 분석에 실패했습니다."; }
+            });
+        }
+
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '합격자소서 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: (주) 에스텍시스템\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>      
+            
+     
+</body>
+</html>
