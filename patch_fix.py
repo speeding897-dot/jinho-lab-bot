@@ -1,40 +1,35 @@
 import os
+import re
 
 # ==========================================
-# [설정] 소장님 환경 완벽 반영
+# [설정] 수정할 대상 폴더 및 서버 주소
 # ==========================================
-# 1. 수정 대상 폴더 (공기업/사기업 폴더명)
 TARGET_FOLDERS = ["jobs_html", "jobs_private_html"]
-
-# 2. 소장님 AI 서버 주소 (app.py 기준)
 SERVER_URL = "https://jinho-lab-bot.onrender.com/chat"
 
-# 3. 교체 대상 (기존의 문제되는 함수 시작 부분)
-OLD_CODE_SIGNATURE = "function askAiAboutNews(title, date) {"
-
-# 4. [교체용] 완벽 보안 함수 (지시사항 노출 차단 + 서버 직송)
-NEW_JS_FUNCTION = f"""
+# [교체할 보안 자바스크립트 코드]
+# 소장님의 지시사항을 사용자 눈에는 안 보이게 하고, 서버로만 보냅니다.
+NEW_JS_CODE = f"""
         function askAiAboutNews(title, date) {{
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            // [보안 1] 사용자에게 보여줄 안내 멘트 (지시사항 노출 X)
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
             const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
             addBubble(displayMsg, 'user');
 
-            // [보안 2] HTML 화면에 적힌 기업명을 자동으로 가져옵니다 (에러 방지)
+            // 2. [자동 감지] HTML에서 기업명 추출
             let orgName = "이 기업";
             try {{
-                // job-card 안의 기관명 텍스트 추출 시도
                 const orgText = document.querySelector('.job-card div').innerText;
                 if(orgText.includes('기관명')) {{
                     orgName = orgText.split('|')[0].replace('기관명:', '').trim();
                 }}
-            }} catch(e) {{ console.log('기업명 추출 실패, 기본값 사용'); }}
+            }} catch(e) {{ console.log('기업명 추출 실패'); }}
 
-            // [보안 3] 소장님의 영업비밀 지시사항 (사용자 화면엔 절대 안 나옴)
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
             const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
             기업명: ${{orgName}}
             뉴스 제목: ${{title}}
@@ -50,17 +45,13 @@ NEW_JS_FUNCTION = f"""
             const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
-            // 공고 본문 요약 (컨텍스트)
-            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
-            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
-
-            // [보안 4] fetch를 통해 뒷단에서 서버로 전송 (채팅창 입력 X)
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
             fetch('{SERVER_URL}', {{
                 method: 'POST',
                 headers: {{ 'Content-Type': 'application/json' }},
                 body: JSON.stringify({{ 
                     message: secretMsg,
-                    context: `[현재 공고 정보]\\n기업명: ${{orgName}}\\n공고제목: ${{jobTitle}}\\n공고내용요약: ${{jobContent}}...`
+                    context: `[현재 공고 정보]\\n기업명: ${{orgName}}...`
                 }})
             }})
             .then(res => res.json())
@@ -73,17 +64,16 @@ NEW_JS_FUNCTION = f"""
         }}
 """
 
-def apply_patch():
-    print("🛡️ [보안 패치] 소장님의 지시사항 노출 문제를 수정합니다...")
+def apply_strong_patch():
+    print("🛡️ [강력 패치] 기존 파일들의 보안 구멍을 강제로 막습니다...")
     
-    total_fixed = 0
+    # 정규표현식: function askAiAboutNews 부터 async function sendMsg 바로 앞까지 잡음
+    # (띄어쓰기, 줄바꿈 상관없이 잡아냄)
+    pattern = re.compile(r'function\s+askAiAboutNews\s*\(.*?\)\s*\{[\s\S]*?(?=\s*async\s+function\s+sendMsg)', re.MULTILINE)
+
+    count = 0
     for folder in TARGET_FOLDERS:
-        if not os.path.exists(folder):
-            print(f"⚠ 폴더 없음 (건너뜀): {folder}")
-            continue
-            
-        print(f"\n📂 '{folder}' 폴더 스캔 중...")
-        count = 0
+        if not os.path.exists(folder): continue
         
         for filename in os.listdir(folder):
             if filename.endswith(".html"):
@@ -93,30 +83,20 @@ def apply_patch():
                     with open(filepath, 'r', encoding='utf-8') as f:
                         content = f.read()
                     
-                    # 기존 함수가 있는지 확인
-                    if OLD_CODE_SIGNATURE in content:
-                        # 함수 시작점 찾기
-                        start_idx = content.find(OLD_CODE_SIGNATURE)
+                    # 패턴이 발견되면 교체
+                    if pattern.search(content):
+                        new_content = pattern.sub(NEW_JS_CODE + "\n\n        ", content)
                         
-                        # 함수 끝점 찾기 (다음 함수인 async function sendMsg() 바로 앞까지)
-                        next_func_sig = "async function sendMsg() {"
-                        end_idx = content.find(next_func_sig)
+                        with open(filepath, 'w', encoding='utf-8') as f:
+                            f.write(new_content)
+                        count += 1
+                        print(f"  ✅ 수정됨: {filename}")
                         
-                        if start_idx != -1 and end_idx != -1:
-                            # 기존 함수 도려내고 새 함수 끼워넣기
-                            new_content = content[:start_idx] + NEW_JS_FUNCTION + "\n\n        " + content[end_idx:]
-                            
-                            with open(filepath, 'w', encoding='utf-8') as f:
-                                f.write(new_content)
-                            count += 1
                 except Exception as e:
-                    print(f"  ❌ 에러 발생 ({filename}): {e}")
+                    print(f"  ❌ 에러 ({filename}): {e}")
 
-        print(f"✅ {folder}: {count}개 파일 수정 완료.")
-        total_fixed += count
-
-    print(f"\n🎉 총 {total_fixed}개 파일의 보안 패치가 완료되었습니다.")
-    print("❗ [필수] 브라우저에서 사이트를 열고 'Ctrl + F5'를 눌러 캐시를 삭제해야 적용된 화면이 보입니다.")
+    print(f"\n🎉 총 {count}개 파일의 보안 패치가 완료되었습니다.")
+    print("❗ [필수] 브라우저에서 'Ctrl + F5'를 눌러야 사용자에게 반영됩니다!")
 
 if __name__ == "__main__":
-    apply_patch()
+    apply_strong_patch()
