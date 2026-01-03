@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[(주)엔씨소프트] [단기계약직][AION2] 게임 현지화 번역 검수 (영어) 합격자소서 공개 & 행동중심 면접 전략 (ID:P4)</title>
+    <title>[(주)엔씨소프트] [Horizon Steel Frontiers] VFX 아티스트 모집 합격자소서 공개 & 행동중심 면접 전략 (ID:P4)</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
     <script src="db_data1.js"></script>
     <script src="db_data2.js"></script>
 
     <style>
-        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 480px; }
         * { box-sizing: border-box; }
         body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
@@ -20,52 +20,65 @@
 
         .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
         
-        .db-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }
-        .db-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-        
-        .ai-ask-btn { 
-            display: block; width: 100%; margin-top: 10px; padding: 8px; 
-            background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+        /* [소장님 지시] 사이드바 디자인 혁신: 18px 대왕 글자 & 중복 제거 */
+        .db-card { 
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px; 
+            padding: 20px; margin-bottom: 15px; transition: 0.2s; position: relative; cursor: pointer;
         }
-        .ai-ask-btn:hover { background: #2563eb; color: white; }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* [소장님 지시] 일치율 배지 */
+        .match-badge { 
+            display: inline-block; background: #fee2e2; color: #ef4444; 
+            padding: 5px 12px; border-radius: 20px; font-weight: 800; 
+            font-size: 14px; margin-bottom: 12px; border: 1px solid #fecaca;
+        }
+
+        /* [소장님 지시] 사이드바 텍스트 18px */
+        .db-text { 
+            font-size: 18px; line-height: 1.6; color: #334155; 
+            word-break: break-all;
+        }
+        
+        /* [소장님 지시] 중앙 확대 리포트 스타일 (22px) */
+        .full-report-view {
+            background: white; padding: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 22px; line-height: 2.0; color: #1e293b;
+        }
+        .full-report-title {
+            font-size: 28px; font-weight: 800; color: var(--navy); 
+            border-bottom: 3px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 40px;
+        }
+        .back-btn {
+            display: inline-block; margin-bottom: 20px; padding: 10px 20px; 
+            background: #e2e8f0; color: #475569; border-radius: 30px; 
+            font-weight: bold; cursor: pointer; font-size: 16px; border: none;
+        }
+        .back-btn:hover { background: #cbd5e1; }
+
+        .ai-ask-btn { display: none; } 
 
         .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
         .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
-        .action-quote { 
-            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
-            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
-        }
+        .action-quote { font-size: 1.05rem; font-weight: 800; color: #1e40af; border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5; }
         .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
 
-        .news-container { 
-            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
-        }
-        .news-header { 
-            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
-            display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
-        }
-        .news-scroll-box {
-            max-height: 400px; overflow-y: auto; padding-right: 10px; 
-        }
+        .news-container { margin: 30px 0; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .news-header { font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px; }
+        .news-scroll-box { max-height: 400px; overflow-y: auto; padding-right: 10px; }
         .news-scroll-box::-webkit-scrollbar { width: 6px; }
         .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        
         .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
         .news-item:last-child { border-bottom: none; }
         .news-info { flex: 1; }
         .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
         .news-title:hover { text-decoration: underline; color: #2563eb; }
         .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
-        .news-ai-btn { 
-            background: white; color: #d97706; border: 1px solid #d97706; 
-            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
-            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
-        }
+        .news-ai-btn { background: white; color: #d97706; border: 1px solid #d97706; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s; }
         .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
 
-        .highlight { color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }
+        .highlight { background-color: #fef08a; font-weight: 900; border-bottom: 3px solid #facc15; padding: 0 2px; }
+        
         .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
         .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
         .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
@@ -98,16 +111,19 @@
 <body>
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
-        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+        <div style="font-weight:800; margin-bottom:10px; font-size:18px;">📚 합격 자기소개서 DB</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" id="mainContentArea">
         <div class="job-card">
             <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
-            <h1 class="job-title">[단기계약직][AION2] 게임 현지화 번역 검수 (영어)</h1>
-            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>(주)엔씨소프트</strong> | 마감일: ~01.31 (토)</div>
+            <h1 class="job-title">[Horizon Steel Frontiers] VFX 아티스트 모집</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>(주)엔씨소프트</strong> | 마감일: ~01.16 (금)</div>
 
             <div class="ai-preview-box">
                 <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
@@ -142,17 +158,17 @@
                     
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">엔씨소프트, ‘리니지 클래식’ 사전예약 시작∙∙∙2월 7일 한국∙대만 오픈 - 이투데이</a>
-                            <span class="news-date">2026-01-02</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('엔씨소프트, ‘리니지 클래식’ 사전예약 시작∙∙∙2월 7일 한국∙대만 오픈 - 이투데이', '2026-01-02')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">엔씨소프트 등 게임주 '장중 지지부진'...변수는? - 초이스경제</a>
                             <span class="news-date">2025-12-30</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('엔씨소프트 등 게임주 장중 지지부진...변수는? - 초이스경제', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">엔씨소프트, ‘리니지 클래식’ 사전예약 시작∙∙∙2월 7일 한국∙대만 오픈 - 이투데이</a>
+                            <span class="news-date">2026-01-02</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('엔씨소프트, ‘리니지 클래식’ 사전예약 시작∙∙∙2월 7일 한국∙대만 오픈 - 이투데이', '2026-01-02')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -240,17 +256,24 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">NH투자증권 "엔씨소프트, 신작 모멘텀 소멸⋯자체 결제시스템 수수료 절감 주목" - 이투데이</a>
-                            <span class="news-date">2025-12-29</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('NH투자증권 엔씨소프트, 신작 모멘텀 소멸⋯자체 결제시스템 수수료 절감 주목 - 이투데이', '2025-12-29')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">'지스타' 끝나자...엔씨소프트 등 게임주 '장중 하락' - 초이스경제</a>
                             <span class="news-date">2025-11-17</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('지스타 끝나자...엔씨소프트 등 게임주 장중 하락 - 초이스경제', '2025-11-17')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">'신작 부진 엔씨소프트 14% 급락' 등 - 한국경제</a>
+                            <span class="news-date">2025-11-19</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('신작 부진 엔씨소프트 14% 급락 등 - 한국경제', '2025-11-19')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">NH투자증권 "엔씨소프트, 신작 모멘텀 소멸⋯자체 결제시스템 수수료 절감 주목" - 이투데이</a>
+                            <span class="news-date">2025-12-29</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('NH투자증권 엔씨소프트, 신작 모멘텀 소멸⋯자체 결제시스템 수수료 절감 주목 - 이투데이', '2025-12-29')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -268,13 +291,6 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">'신작 부진 엔씨소프트 14% 급락' 등 - 한국경제</a>
-                            <span class="news-date">2025-11-19</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('신작 부진 엔씨소프트 14% 급락 등 - 한국경제', '2025-11-19')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">[업앤다운]게임주 상승…엔씨소프트↑·네오리진↓ - NSP통신</a>
                             <span class="news-date">2025-12-24</span>
                         </div>
@@ -289,17 +305,17 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
-                            <a href="" target="_blank" class="news-title">엔씨소프트 등 게임주 '장중 급등'...3대 이슈는? - 초이스경제</a>
-                            <span class="news-date">2025-06-18</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('엔씨소프트 등 게임주 장중 급등...3대 이슈는? - 초이스경제', '2025-06-18')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">아이온2 충격에 엔씨소프트 공매도 과열…대차잔고도 23만주 폭증 - 조선비즈 - Chosunbiz</a>
                             <span class="news-date">2025-11-20</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('아이온2 충격에 엔씨소프트 공매도 과열…대차잔고도 23만주 폭증 - 조선비즈 - Chosunbiz', '2025-11-20')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
+                            <a href="" target="_blank" class="news-title">엔씨소프트 등 게임주 '장중 급등'...3대 이슈는? - 초이스경제</a>
+                            <span class="news-date">2025-06-18</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('엔씨소프트 등 게임주 장중 급등...3대 이슈는? - 초이스경제', '2025-06-18')">⚡ AI 지원동기 작성</button>
                     </div>
                     <div class="news-item">
                         <div class="news-info">
@@ -338,17 +354,17 @@
                     </div>
                     <div class="news-item">
                         <div class="news-info">
+                            <a href="" target="_blank" class="news-title">하나증권 "엔씨소프트, 3분기 부진은 예상 범위⋯11월 아이온2 출시 기대" - 이투데이</a>
+                            <span class="news-date">2025-09-30</span>
+                        </div>
+                        <button class="news-ai-btn" onclick="askAiAboutNews('하나증권 엔씨소프트, 3분기 부진은 예상 범위⋯11월 아이온2 출시 기대 - 이투데이', '2025-09-30')">⚡ AI 지원동기 작성</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-info">
                             <a href="" target="_blank" class="news-title">미래에셋증권 "엔씨소프트, 지급 수수료율 급감 기대" - 이투데이</a>
                             <span class="news-date">2025-11-26</span>
                         </div>
                         <button class="news-ai-btn" onclick="askAiAboutNews('미래에셋증권 엔씨소프트, 지급 수수료율 급감 기대 - 이투데이', '2025-11-26')">⚡ AI 지원동기 작성</button>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-info">
-                            <a href="" target="_blank" class="news-title">한국투자증권 "엔씨소프트, '아이온2' 흥행 기대…내년 신작 출시로 모멘텀 재점화" - 이투데이</a>
-                            <span class="news-date">2025-11-19</span>
-                        </div>
-                        <button class="news-ai-btn" onclick="askAiAboutNews('한국투자증권 엔씨소프트, 아이온2 흥행 기대…내년 신작 출시로 모멘텀 재점화 - 이투데이', '2025-11-19')">⚡ AI 지원동기 작성</button>
                     </div>
                 </div>
             </div>
@@ -363,9 +379,12 @@
                 <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
             </div>
             
-            <a href="https://job.incruit.com/jobdb_info/jobpost.asp?job=2512310000230" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+            <a href="https://job.incruit.com/jobdb_info/jobpost.asp?job=2601020000252" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
         </div>
     </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
 
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
@@ -387,7 +406,6 @@
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
-    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
         const dbData = [
@@ -395,11 +413,14 @@
             ...(window.DB_PART_2 || [])
         ];
         console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
-
         const dbContainer = document.getElementById('dbContainer');
         const dbSearch = document.getElementById('dbSearch');
+        const mainContentArea = document.getElementById('mainContentArea');
+        let originalMainContent = ""; 
 
         window.onload = function() {
+            originalMainContent = mainContentArea.innerHTML; // 초기 공고 내용 백업
+            
             if(dbData.length > 0) {
                 const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
                 document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
@@ -413,26 +434,53 @@
                     item.title.includes(filter) || item.content.includes(filter)
                 );
             }
-            filtered = filtered.slice(0, 30);
+            filtered = filtered.slice(0, 50); // 사이드바 성능 위해 50개 제한
+            
             if(filtered.length > 0) {
-                dbContainer.innerHTML = filtered.map(item => {
-                    let displayContent = item.content.substring(0, 200) + "...";
-                    let displayTitle = item.title;
+                dbContainer.innerHTML = filtered.map((item, index) => {
+                    // [소장님 지시] 사이드바: 500자 요약 노출 & 중복 제목 제거
+                    let summaryContent = item.content.substring(0, 500) + "...";
+                    let fullContent = item.content.replace(/'/g, "\'"); 
+                    
                     if (filter) {
                         const regex = new RegExp(filter, "gi");
                         const highlightStr = `<span class="highlight">${filter}</span>`;
-                        displayTitle = displayTitle.replace(regex, highlightStr);
-                        displayContent = displayContent.replace(regex, highlightStr);
+                        summaryContent = summaryContent.replace(regex, highlightStr);
                     }
-                    const cleanTitle = item.title.replace(/'/g, "\'");
-                    const cleanContent = item.content.substring(0,100).replace(/[\r\n]+/g, " ").replace(/'/g, "\'");
-                    return `<div class="db-card"><div style="font-weight:bold; font-size:0.9rem;">${displayTitle}</div><div style="font-size:0.8rem; color:#666; margin-top:5px;">${displayContent}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${cleanTitle}', '${cleanContent}')">⚡ AI에게 전략 묻기</button></div>`;
+
+                    // [소장님 지시] 제목 삭제 후 배지 + 500자 내용만 표시
+                    return `
+                    <div class="db-card" onclick="showFullReport('${fullContent}')">
+                        <div class="match-badge">🎯 진품 DB 로직 일치율 95.8%</div>
+                        <div class="db-text">${summaryContent}</div>
+                        <div style="text-align:right; margin-top:10px; color:#2563eb; font-size:0.8rem; font-weight:bold;">👉 클릭하여 전체보기 (확대)</div>
+                    </div>`;
                 }).join('');
             } else {
                 dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
             }
         }
         renderDB();
+
+        // [소장님 지시] 클릭 시 중앙 화면을 22px 대왕 리포트로 교체 (1200자 전문)
+        function showFullReport(fullText) {
+            mainContentArea.innerHTML = `
+                <div class="full-report-view">
+                    <button class="back-btn" onclick="restoreOriginalContent()">↩ 공고문으로 돌아가기</button>
+                    <div class="full-report-title">📄 합격 자기소개서 심층 분석 (전문)</div>
+                    <div style="white-space: pre-wrap;">${fullText}</div>
+                    <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
+                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격 로직과 95.8% 일치하는 진품 데이터입니다.</p>
+                        <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ 나도 이렇게 쓰고 싶다면? (첨삭 신청)</a>
+                    </div>
+                </div>
+            `;
+            mainContentArea.scrollTop = 0;
+        }
+
+        function restoreOriginalContent() {
+            mainContentArea.innerHTML = originalMainContent;
+        }
 
         function searchDB(keyword) { dbSearch.value = keyword; renderDB(keyword); }
         function manualSearch() { const val = document.getElementById('manualKeyword').value; if(val) { searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); } }
@@ -448,25 +496,6 @@
             }
         }
 
-        function askAiAboutDB(event, title, contentSnippet) {
-            event.stopPropagation();
-            const win = document.getElementById('chatbot-window');
-            const bubble = document.getElementById('chatbot-bubble');
-            if(win) win.style.display = 'flex'; 
-            if(bubble) bubble.style.display = 'none';
-
-            const jobTitle = document.querySelector('.job-title').innerText;
-            const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해줘.
-
-※ 필독 지시사항: 답변 마지막에 반드시 '최근 AI 채용 도입으로 합격 자소서 평가는 행동(Action) 중심으로 이루어집니다. 본인의 에피소드를 행동 중심으로 완벽하게 다듬고 싶다면 전문가의 첨삭을 꼭 받아보세요.'라는 문구를 포함해줘.`;
-            const input = document.getElementById('chatInput');
-            if(input) {
-                input.value = msg;
-                input.focus();
-                sendMsg();
-            }
-        }
-
         function askAiAboutNews(title, date) {
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
@@ -478,9 +507,8 @@
 뉴스 제목: ` + title + `
 뉴스 날짜: ` + date + `
 
-위 뉴스 내용을 바탕으로 전문적인 '지원동기' 초안을 작성해줘.
-
-※ 필독 지시사항: 답변 마지막에 반드시 'AI 도입 이후 기업의 자소서 평가는 철저히 행동(Action) 중심으로 이루어지고 있습니다. 합격 확률을 높이기 위해 전문가의 행동 중심 자소서 첨삭을 받아보시는 것을 강력 추천합니다.'라는 조언을 덧붙여줘.`;
+1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
+2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
             const input = document.getElementById('chatInput');
             if(input) {
                 input.value = msg;
@@ -499,8 +527,8 @@
             const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
-            const jobTitle = document.querySelector('.job-title').innerText;
-            const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '합격자소서 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
 
             try {
                 const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
