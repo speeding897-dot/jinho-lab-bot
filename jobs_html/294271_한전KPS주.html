@@ -393,11 +393,22 @@
 <h4>응시자격</h4>
 <p>-채용예정일 즉시 근무 가능한 자</p>
 <h4>결격사유</h4>
-<p>- 신체검사 부적격으로 판정된 자<br/>- 채용구비서류에 허위사실이 발견된 자<br/>- 기타 채용기준상 부적격으로 판정된 자</p>
+<p>- 신체검사 부적격으로 판정된 자
+<br/>- 채용구비서류에 허위사실이 발견된 자
+<br/>- 기타 채용기준상 부적격으로 판정된 자</p>
 <h4>우대내용</h4>
 <p>보훈대상자, 장애인</p>
 <h4>전형절차/방법</h4>
-<p>□ 근무지 : 충남 당진시 석문면 교로길 30(한전KPS 당진사업처)<br/> <br/>□ 전형일자<br/>가. 전형절차 : 서류접수 &gt; 서류전형 &gt; 신체검사 후 합격자발표<br/>나. 서류접수기간 : 2025.12.23.~2025.12.26. 10:00 마감<br/>다. 서류전형 : 2025.12.30.<br/>라. 신체검사 : 2025.12.31.<br/>마. 합격자발표 : 2026.01.09.<br/>바. 접수방법 및 문의처 : 이메일(ahtifal@kps.co.kr) 이메일 접수, 방문접수(10시 접수분까지)<br/>(한전KPS 당진사업처 기계1부) / 041-350-7262<br/>*일정은 회사사정에 따라 변경될 수 있음</p>
+<p>□ 근무지 : 충남 당진시 석문면 교로길 30(한전KPS 당진사업처)
+<br/> <br/>□ 전형일자
+<br/>가. 전형절차 : 서류접수 &gt; 서류전형 &gt; 신체검사 후 합격자발표
+<br/>나. 서류접수기간 : 2025.12.23.~2025.12.26. 10:00 마감
+<br/>다. 서류전형 : 2025.12.30.
+<br/>라. 신체검사 : 2025.12.31.
+<br/>마. 합격자발표 : 2026.01.09.
+<br/>바. 접수방법 및 문의처 : 이메일(ahtifal@kps.co.kr) 이메일 접수, 방문접수(10시 접수분까지)
+<br/>(한전KPS 당진사업처 기계1부) / 041-350-7262
+<br/>*일정은 회사사정에 따라 변경될 수 있음</p>
 </div>
             </div>
 
@@ -526,13 +537,64 @@
         }
 
         // ★ [NEW] 뉴스 기반 AI 요청 함수
+        
         function askAiAboutNews(title, date) {
-            toggleChat();
-            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 한전KPS(주)\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
+
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');

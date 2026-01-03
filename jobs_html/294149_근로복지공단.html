@@ -391,13 +391,28 @@
             <div class="content-body">
                 <div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>ㅇ 채용분야별 응시자격 : 직업환경의학과 전문의 자격 소지자<br/>* 응시자격은 응시원서 마감일 기준<br/>ㅇ 병역사항: 「병역법」 제76조에서 정한 병역의무 불이행 사실이 없는자<br/>※ 현재 군복무 중인 경우 임용예정일 이전 전역이 가능한자<br/>ㅇ 기타: 임용예정일 즉시 근무가 가능한 자<br/>※ 임용예정일은 공단 사정에 따라 변경될 수 있음<br/>ㅇ 연령요건 : 제한없음</p>
+<p>ㅇ 채용분야별 응시자격 : 직업환경의학과 전문의 자격 소지자
+<br/>* 응시자격은 응시원서 마감일 기준
+<br/>ㅇ 병역사항: 「병역법」 제76조에서 정한 병역의무 불이행 사실이 없는자
+<br/>※ 현재 군복무 중인 경우 임용예정일 이전 전역이 가능한자
+<br/>ㅇ 기타: 임용예정일 즉시 근무가 가능한 자
+<br/>※ 임용예정일은 공단 사정에 따라 변경될 수 있음
+<br/>ㅇ 연령요건 : 제한없음</p>
 <h4>결격사유</h4>
-<p>ㅇ 공단 인사규정 제14조에서 정한 결격사유가 없는 자<br/>ㅇ 국가공무원법 제33조의 규정에 저촉되지 않는 자<br/>ㅇ 노인복지법 제39조의17(노인관련기관의 취업제한 등) 규정에 저촉되지 않는 자<br/>ㅇ 장애인복지법 제59조의3(장애인관련기관의 취업제한 등) 규정에 저촉되지 않는 자</p>
+<p>ㅇ 공단 인사규정 제14조에서 정한 결격사유가 없는 자
+<br/>ㅇ 국가공무원법 제33조의 규정에 저촉되지 않는 자
+<br/>ㅇ 노인복지법 제39조의17(노인관련기관의 취업제한 등) 규정에 저촉되지 않는 자
+<br/>ㅇ 장애인복지법 제59조의3(장애인관련기관의 취업제한 등) 규정에 저촉되지 않는 자</p>
 <h4>우대내용</h4>
-<p>ㅇ 『국가유공자 등 예우 및 지원에 관한 법률』 제29조에 따른 취업지원대상자<br/> <br/>ㅇ 취업지원대상자에 대한 우대는 「국가유공자 등 예우 및 지원에 관한 법률」 제31조에 따름<br/>- 모집단위별(경쟁유형·직렬·권역) 선발예정인원이 4명 이상일 경우(예외: 4명 미만이라도 응시자가 선발예정인원과 같거나 적을 경우) 가점 부여, 그 외에는 동점자 발생 시 우선순위 부여<br/>※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.</p>
+<p>ㅇ 『국가유공자 등 예우 및 지원에 관한 법률』 제29조에 따른 취업지원대상자
+<br/> <br/>ㅇ 취업지원대상자에 대한 우대는 「국가유공자 등 예우 및 지원에 관한 법률」 제31조에 따름
+<br/>- 모집단위별(경쟁유형·직렬·권역) 선발예정인원이 4명 이상일 경우(예외: 4명 미만이라도 응시자가 선발예정인원과 같거나 적을 경우) 가점 부여, 그 외에는 동점자 발생 시 우선순위 부여
+<br/>※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.</p>
 <h4>전형절차/방법</h4>
-<p>ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차)<br/>- 1차 : 응시 자격기준 해당자 전원 합격 처리<br/>- 2차 : 개별 면접 실시(내부 및 외부위원 구성)<br/>* 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.</p>
+<p>ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차)
+<br/>- 1차 : 응시 자격기준 해당자 전원 합격 처리
+<br/>- 2차 : 개별 면접 실시(내부 및 외부위원 구성)
+<br/>* 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.</p>
 </div>
             </div>
 
@@ -513,27 +528,64 @@
             }
         }
 
+        
         function askAiAboutNews(title, date) {
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
-            const msg = `[뉴스 기반 지원동기 작성 요청] 
-기업명: 근로복지공단
-뉴스 제목: ` + title + `
-뉴스 날짜: ` + date + `
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
 
-1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
-2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
-            const input = document.getElementById('chatInput');
-            if(input) {
-                input.value = msg;
-                input.focus();
-                sendMsg();
-            }
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');

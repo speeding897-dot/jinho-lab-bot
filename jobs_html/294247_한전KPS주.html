@@ -393,11 +393,22 @@
 <h4>응시자격</h4>
 <p>채용예정일 즉시 근무 가능</p>
 <h4>결격사유</h4>
-<p>1. 신체검사결과 결격사유가 있는 자<br/>2. 채용구비서류에 허위사실이 발견된 자<br/>3. 기타 채용기준상 부적격으로 판정된 자</p>
+<p>1. 신체검사결과 결격사유가 있는 자
+<br/>2. 채용구비서류에 허위사실이 발견된 자
+<br/>3. 기타 채용기준상 부적격으로 판정된 자</p>
 <h4>우대내용</h4>
-<p>1. 보훈대상자 : 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보조 대상자, 각 전형단계별 가점부여 (만점의 5%~10%)<br/>※ 국가유공자 등 예우 및 지원에 관한 법률 제31조 제3항에 의거, 채용인원 3명 이하인 경우 보훈대상자 미적용 (단 응시자의 수가 같거나 그보다 적은 경우에는 그러하지 아니함)<br/>2. 장애인 : 장애인고용촉진및직업재활법 제2조 제1호의 규정에 의한 장애인으로 발전소 현장 정비 업무 수행이 가능한자, 각 전형단계별 가점부여 (만점의 10%)</p>
+<p>1. 보훈대상자 : 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보조 대상자, 각 전형단계별 가점부여 (만점의 5%~10%)
+<br/>※ 국가유공자 등 예우 및 지원에 관한 법률 제31조 제3항에 의거, 채용인원 3명 이하인 경우 보훈대상자 미적용 (단 응시자의 수가 같거나 그보다 적은 경우에는 그러하지 아니함)
+<br/>2. 장애인 : 장애인고용촉진및직업재활법 제2조 제1호의 규정에 의한 장애인으로 발전소 현장 정비 업무 수행이 가능한자, 각 전형단계별 가점부여 (만점의 10%)</p>
 <h4>전형절차/방법</h4>
-<p>1. 모집인원 : 전기정비보조 16명<br/>2. 전형단계 : 서류전형-&gt;신체검사(적부판정)-&gt;합격자 발표(개인별 통보)<br/>3. 접수기간 : 2025.12.22.~2026.01.06.<br/>4. 접수방법 : 이메일 , 팩스, 방문 접수<br/>- 이메일 : PECKAY@KPS.CO.KR<br/>- 팩스 : 055-880-7503<br/>5. 문의처<br/>- 055-880-7556(전기부)</p>
+<p>1. 모집인원 : 전기정비보조 16명
+<br/>2. 전형단계 : 서류전형-&gt;신체검사(적부판정)-&gt;합격자 발표(개인별 통보)
+<br/>3. 접수기간 : 2025.12.22.~2026.01.06.
+<br/>4. 접수방법 : 이메일 , 팩스, 방문 접수
+<br/>- 이메일 : PECKAY@KPS.CO.KR
+<br/>- 팩스 : 055-880-7503
+<br/>5. 문의처
+<br/>- 055-880-7556(전기부)</p>
 </div>
             </div>
 
@@ -526,13 +537,64 @@
         }
 
         // ★ [NEW] 뉴스 기반 AI 요청 함수
+        
         function askAiAboutNews(title, date) {
-            toggleChat();
-            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 한전KPS(주)\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
+
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');

@@ -391,13 +391,35 @@
             <div class="content-body">
                 <div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>○ 아래 각호 중 하나 이상에 해당하는 자<br/> - 안전관련 자격증 소지자 <br/> - 산업현장/건설현장 안전관리 또는<br/>   안전감시단 경력 2년 이상인 자</p>
+<p>○ 아래 각호 중 하나 이상에 해당하는 자
+<br/> - 안전관련 자격증 소지자 
+<br/> - 산업현장/건설현장 안전관리 또는
+<br/>   안전감시단 경력 2년 이상인 자</p>
 <h4>결격사유</h4>
-<p>○ 신체검사결과 부적격으로 판정된 자<br/>○ 채용구비서류에 허위사실이 발견된 자 <br/>○ 기타 채용기준상 부적격으로 판정된 자</p>
+<p>○ 신체검사결과 부적격으로 판정된 자
+<br/>○ 채용구비서류에 허위사실이 발견된 자 
+<br/>○ 기타 채용기준상 부적격으로 판정된 자</p>
 <h4>우대내용</h4>
-<p>○ 보훈대상자(각 전형단계별 만점의 5% 또는 10% 가점)<br/>    - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보호대상자<br/>○ 안전관련 기술사 자격증</p>
+<p>○ 보훈대상자(각 전형단계별 만점의 5% 또는 10% 가점)
+<br/>    - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보호대상자
+<br/>○ 안전관련 기술사 자격증</p>
 <h4>전형절차/방법</h4>
-<p>1. 채용인원 : 2명<br/>2. 수행직무 : 안전감시관<br/>3. 고용형태 : 비정규직<br/>4. 채용구분 : 신입+경력<br/>5. 근무지 : 전북 군산시 구암3.1로 91-5<br/> <br/>6. 지원방법 :안전팀 (KSJHGO@kps.co.kr) 이메일 접수, 팩스접수(063-440-3519), 방문 접수<br/>7. 근무기간 '26.01.05~'26.06.30<br/>: 공사 기간 변동에 따라 근무 계약 기간은 변동 될 수 있음<br/>8. 전형절차 : 서류심사('25.12.24)→ 신체검사('25. 12. 25 ~ '25.12.30) → 합격자발표('25.12.31)<br/>: 상기 채용 일정은 회사 사정에 의해 변동 될 수 있음<br/>9. 제출서류 : 블라인드 입사지원서 1부, 개인정보동의서1부, 우대사항 증빙서류 1부(해당시), 지원자격 해당 자격증 또는 해당 경력 증명서 1부<br/> <br/>10. 기타<br/>: 입사지원서에 개인 인적사항(출신 지역, 가족 관계, 신체 조건, 학력 등) 및 사진 부착 불가<br/>: 금번 채용되는 단기노무원은 "공공부문 정규직 전환 가이드라인('17.07.20)"상 정규직 전환대상이 아님<br/>11. 문의사항 : 안전팀 063-440-3521<br/></p>
+<p>1. 채용인원 : 2명
+<br/>2. 수행직무 : 안전감시관
+<br/>3. 고용형태 : 비정규직
+<br/>4. 채용구분 : 신입+경력
+<br/>5. 근무지 : 전북 군산시 구암3.1로 91-5
+<br/> <br/>6. 지원방법 :안전팀 (KSJHGO@kps.co.kr) 이메일 접수, 팩스접수(063-440-3519), 방문 접수
+<br/>7. 근무기간 '26.01.05~'26.06.30
+<br/>: 공사 기간 변동에 따라 근무 계약 기간은 변동 될 수 있음
+<br/>8. 전형절차 : 서류심사('25.12.24)→ 신체검사('25. 12. 25 ~ '25.12.30) → 합격자발표('25.12.31)
+<br/>: 상기 채용 일정은 회사 사정에 의해 변동 될 수 있음
+<br/>9. 제출서류 : 블라인드 입사지원서 1부, 개인정보동의서1부, 우대사항 증빙서류 1부(해당시), 지원자격 해당 자격증 또는 해당 경력 증명서 1부
+<br/> <br/>10. 기타
+<br/>: 입사지원서에 개인 인적사항(출신 지역, 가족 관계, 신체 조건, 학력 등) 및 사진 부착 불가
+<br/>: 금번 채용되는 단기노무원은 "공공부문 정규직 전환 가이드라인('17.07.20)"상 정규직 전환대상이 아님
+<br/>11. 문의사항 : 안전팀 063-440-3521
+<br/></p>
 </div>
             </div>
 
@@ -513,27 +535,64 @@
             }
         }
 
+        
         function askAiAboutNews(title, date) {
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
-            const msg = `[뉴스 기반 지원동기 작성 요청] 
-기업명: 한전KPS(주)
-뉴스 제목: ` + title + `
-뉴스 날짜: ` + date + `
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
 
-1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
-2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
-            const input = document.getElementById('chatInput');
-            if(input) {
-                input.value = msg;
-                input.focus();
-                sendMsg();
-            }
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');

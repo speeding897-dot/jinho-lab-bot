@@ -391,13 +391,26 @@
             <div class="content-body">
                 <div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>- 산업체 10년 이상 경력이 있는 자로 산업체 경력범위는 「대학교원 자격기준 등에 관한 규정」제4조에 따른 연구기관 등의 지정에 관한 고시 준용<br/>- 만 65세 미만</p>
+<p>- 산업체 10년 이상 경력이 있는 자로 산업체 경력범위는 「대학교원 자격기준 등에 관한 규정」제4조에 따른 연구기관 등의 지정에 관한 고시 준용
+<br/>- 만 65세 미만</p>
 <h4>결격사유</h4>
-<p>○ 자격제한 사항<br/>   - ?국가공무원법? 제33조(결격사유), 학교법인 한국폴리텍 인사규정 <br/>     제19조(결격사유)에 해당하는 자<br/>   - ?아동·청소년의 성보호에 관한 법률? 제56조(아동·청소년 관련기관 <br/>     등에의 취업제한 등) 제1항에 해당하는 자<br/>   - 기타 관계 법령에 따라 임용 결격사유가 있는 자</p>
+<p>○ 자격제한 사항
+<br/>   - ?국가공무원법? 제33조(결격사유), 학교법인 한국폴리텍 인사규정 
+<br/>     제19조(결격사유)에 해당하는 자
+<br/>   - ?아동·청소년의 성보호에 관한 법률? 제56조(아동·청소년 관련기관 
+<br/>     등에의 취업제한 등) 제1항에 해당하는 자
+<br/>   - 기타 관계 법령에 따라 임용 결격사유가 있는 자</p>
 <h4>우대내용</h4>
-<p> <br/> <br/>- 명장, 숙련기술인, 기술사, 기능장: 서류전형 만점의 5%<br/></p>
+<p> <br/> <br/>- 명장, 숙련기술인, 기술사, 기능장: 서류전형 만점의 5%
+<br/></p>
 <h4>전형절차/방법</h4>
-<p>? (1차 서류심사) 응시자격, 학력, 강의경력, 산업체 경력 등 심사<br/>   - 합격자 결정 : 심사위원별 점수를 합산하여 평균점수 60점 이상<br/>     득점자 중에서 고득점자 순으로 임용예정 인원의 3배수이내 선발 <br/> <br/>? (2차 면접심사) 전공 관련 전문성, 교육관 등에 대한 종합심층면접<br/>   - 심사위원별 점수를 합산하여 평균점수 60점 이상 득점자 중에서 <br/>     고득점자 순으로 임용예정 <br/></p>
+<p>? (1차 서류심사) 응시자격, 학력, 강의경력, 산업체 경력 등 심사
+<br/>   - 합격자 결정 : 심사위원별 점수를 합산하여 평균점수 60점 이상
+<br/>     득점자 중에서 고득점자 순으로 임용예정 인원의 3배수이내 선발 
+<br/> <br/>? (2차 면접심사) 전공 관련 전문성, 교육관 등에 대한 종합심층면접
+<br/>   - 심사위원별 점수를 합산하여 평균점수 60점 이상 득점자 중에서 
+<br/>     고득점자 순으로 임용예정 
+<br/></p>
 </div>
             </div>
 
@@ -526,13 +539,64 @@
         }
 
         // ★ [NEW] 뉴스 기반 AI 요청 함수
+        
         function askAiAboutNews(title, date) {
-            toggleChat();
-            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: 학교법인한국폴리텍\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n이 뉴스를 활용해서 합격 확률 높은 '지원동기' 초안을 작성해줘. 그리고 왜 전문가의 1:1 첨삭을 받아야 하는지 이유도 설명해줘.`;
-            const input = document.getElementById('chatInput');
-            input.value = msg;
-            sendMsg();
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
+
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');

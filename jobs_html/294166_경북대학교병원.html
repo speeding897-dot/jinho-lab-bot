@@ -391,13 +391,28 @@
             <div class="content-body">
                 <div class="tab-content current" id="tab-1">
 <h4>응시자격</h4>
-<p>  1) 별정(사회복지사)<br/>      (필수1) 사회복지사 1급 자격증 소지자<br/>      (필수2) 사회복지사 1급 자격증 취득 후 경력 3년 이상<br/>  2) 간호사: 간호사 면허 소지자<br/>  3) 의료기사(방사선사): 방사선사 면허증 소지자</p>
+<p>  1) 별정(사회복지사)
+<br/>      (필수1) 사회복지사 1급 자격증 소지자
+<br/>      (필수2) 사회복지사 1급 자격증 취득 후 경력 3년 이상
+<br/>  2) 간호사: 간호사 면허 소지자
+<br/>  3) 의료기사(방사선사): 방사선사 면허증 소지자</p>
 <h4>결격사유</h4>
 <p>※ 경북대병원 인사규정제12조에 따름</p>
 <h4>우대내용</h4>
-<p>  1) 별정(사회복지사): 해당 없음<br/>  2) 간호사: 종합병원 이상 근무 경력 3년 이상인 자<br/>  3) 의료기사(방사선사): 해당 없음<br/> <br/>※ 공통<br/>국가유공자(보훈대상자): 서류 및 면접전형 시 만점의 10% 또는 5% 가산<br/>장애인: 서류 및 면접전형 시 만점의 10% 가산</p>
+<p>  1) 별정(사회복지사): 해당 없음
+<br/>  2) 간호사: 종합병원 이상 근무 경력 3년 이상인 자
+<br/>  3) 의료기사(방사선사): 해당 없음
+<br/> <br/>※ 공통
+<br/>국가유공자(보훈대상자): 서류 및 면접전형 시 만점의 10% 또는 5% 가산
+<br/>장애인: 서류 및 면접전형 시 만점의 10% 가산</p>
 <h4>전형절차/방법</h4>
-<p>1. 서류전형(모집인원별 배수 구분에 따라 진행)<br/>- 적격자 기준<br/>가. 적격자 1명: 10배수 이내일 경우 자격적·부 확인, 10배수 이상 서류전형 실시 선발예정인원의 5배수 선발<br/>나. 적격자 2~4명: 5배수 이내일 경우 자격적·부 확인, 5배수 이상 서류전형 실시 선발예정인원의 5배수 선발<br/>다. 적격자 5~9명: 3배수 이내일 경우 자격적·부 확인, 3배수 이상 서류전형 실시 선발예정인원의 5배수 선발<br/>라. 적격자 10명 이상: 2배수 이내일 경우 자격적·부 확인, 2배수 이상 서류전형 실시 선발예정인원의 5배수 선발<br/>2. 면접전형(최종)</p>
+<p>1. 서류전형(모집인원별 배수 구분에 따라 진행)
+<br/>- 적격자 기준
+<br/>가. 적격자 1명: 10배수 이내일 경우 자격적·부 확인, 10배수 이상 서류전형 실시 선발예정인원의 5배수 선발
+<br/>나. 적격자 2~4명: 5배수 이내일 경우 자격적·부 확인, 5배수 이상 서류전형 실시 선발예정인원의 5배수 선발
+<br/>다. 적격자 5~9명: 3배수 이내일 경우 자격적·부 확인, 3배수 이상 서류전형 실시 선발예정인원의 5배수 선발
+<br/>라. 적격자 10명 이상: 2배수 이내일 경우 자격적·부 확인, 2배수 이상 서류전형 실시 선발예정인원의 5배수 선발
+<br/>2. 면접전형(최종)</p>
 </div>
             </div>
 
@@ -513,27 +528,64 @@
             }
         }
 
+        
         function askAiAboutNews(title, date) {
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
-            const msg = `[뉴스 기반 지원동기 작성 요청] 
-기업명: 경북대학교병원
-뉴스 제목: ` + title + `
-뉴스 날짜: ` + date + `
+            // 1. [보안] 사용자에게는 안내 멘트만 보여줌
+            const displayMsg = "📢 [" + title + "] 기사를 토대로 합격 전략을 분석 중입니다...";
+            addBubble(displayMsg, 'user');
 
-1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
-2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
-            const input = document.getElementById('chatInput');
-            if(input) {
-                input.value = msg;
-                input.focus();
-                sendMsg();
-            }
+            // 2. [자동 감지] HTML에서 기업명 추출
+            let orgName = "이 기업";
+            try {
+                const orgText = document.querySelector('.job-card div').innerText;
+                if(orgText.includes('기관명')) {
+                    orgName = orgText.split('|')[0].replace('기관명:', '').trim();
+                }
+            } catch(e) { console.log('기업명 추출 실패'); }
+
+            // 3. [비밀] 서버로 보낼 진짜 지시사항 (화면 노출 X)
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+            기업명: ${orgName}
+            뉴스 제목: ${title}
+            뉴스 날짜: ${date}
+
+            [지시사항]
+            1. 위 뉴스를 분석하여 기업의 현재 상황과 위기/기회 요인을 정리해줘.
+            2. 과거 합격 자소서(DB)의 데이터를 참고하여, 지원자가 어떤 '행동(Action)'을 강조해야 합격할 수 있는지 연결해줘.
+            3. 답변 마지막에는 반드시 아래 문구로 마무리해서 첨삭을 유도해줘:
+            "AI 채용 시대, 합격의 기준은 화려한 문장이 아니라 '검증 가능한 행동 데이터'입니다. 본인만의 행동 중심 에피소드를 설계하세요. (전문가 첨삭 신청)"`;
+
+            // 로딩 표시
+            const loadingId = addBubble("⏳ AI 수석 컨설턴트가 데이터를 분석하고 있습니다...", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. [핵심] fetch로 서버 직송 (채팅창 입력 방지)
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]
+기업명: ${orgName}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/
+/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ AI 서버 연결 상태를 확인해주세요."; }
+            });
         }
+
+
+        
 
         async function sendMsg() {
             const input = document.getElementById('chatInput');
