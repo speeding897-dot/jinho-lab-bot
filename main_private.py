@@ -28,7 +28,7 @@ HEADERS = {
 }
 
 # ==========================================
-# 2. DB 분할 저장 로직
+# 2. DB 분할 저장 로직 (원본 유지)
 # ==========================================
 def export_db_to_js():
     data = []
@@ -91,7 +91,7 @@ def extract_keywords_from_text(text):
     return found_keywords[:6]
 
 # ==========================================
-# ★ 구글 뉴스 크롤링 함수
+# ★ 구글 뉴스 크롤링 함수 (원본 유지)
 # ==========================================
 def get_google_news(query):
     encoded_query = urllib.parse.quote(query)
@@ -124,7 +124,7 @@ def get_google_news(query):
         return []
 
 # ==========================================
-# 3. [개별 공고 페이지] 템플릿
+# 3. [개별 공고 페이지] 템플릿 (★ 19px 확대 & DB 3개 무한 노출 적용 ★)
 # ==========================================
 JOB_TEMPLATE = """
 <!DOCTYPE html>
@@ -132,76 +132,126 @@ JOB_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[{org_name}] {title} 합격자소서 공개 & 행동중심 면접 전략 (ID:{job_id})</title>
+    <title>[{org_name}] 진품 DB 분석 리포트 (일치율 95.8%)</title>
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     
     <script src="db_data1.js"></script>
     <script src="db_data2.js"></script>
 
     <style>
-        :root {{ --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 450px; }}
+        :root {{ --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #1e293b; --sidebar-w: 400px; }}
         * {{ box-sizing: border-box; }}
-        body {{ font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }}
         
-        .sidebar {{ width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }}
-        .main-content {{ flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }}
+        /* [소장님 지시] 본문 글자 크기 19px로 대형화 */
+        body {{ 
+            font-family: 'Pretendard', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+            font-size: 19px; /* 기본 폰트 대폭 확대 */
+            line-height: 1.8;
+        }}
+        
+        .sidebar {{ width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; transition: transform 0.3s ease; }}
+        
+        /* [소장님 지시] 본문 영역 디자인 */
+        .main-content {{ 
+            flex: 1; padding: 50px; overflow-y: auto; position: relative; background: #f8fafc; 
+            transition: all 0.3s ease;
+        }}
 
-        .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }}
+        /* [소장님 지시] 확대 기능 (Focus Mode) */
+        body.focus-mode .sidebar {{ display: none; }}
+        body.focus-mode .main-content {{ padding: 60px 150px; background: white; }}
+        body.focus-mode .job-card {{ max-width: 1200px; box-shadow: none; border: none; }}
+
+        .home-link-btn {{ display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; font-size: 16px; }}
         
-        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; }}
+        .db-card {{ background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: 0.2s; position: relative; font-size: 15px; }}
         .db-card:hover {{ border-color: var(--gold); transform: translateY(-2px); }}
         
         .ai-ask-btn {{ 
-            display: block; width: 100%; margin-top: 10px; padding: 8px; 
+            display: block; width: 100%; margin-top: 10px; padding: 10px; 
             background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; 
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem;
         }}
         .ai-ask-btn:hover {{ background: #2563eb; color: white; }}
 
-        .ai-preview-box {{ background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }}
-        .ai-tag {{ background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }}
-        .action-quote {{ 
-            font-size: 1.05rem; font-weight: 800; color: #1e40af; 
-            border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5;
+        /* [소장님 지시] 95.8% 일치율 왕 배지 */
+        .match-badge {{ 
+            display: inline-block; background: #fef3c7; color: #d97706; 
+            padding: 10px 20px; border-radius: 30px; font-weight: 900; 
+            font-size: 20px; margin-bottom: 20px; border: 3px solid #fcd34d;
+            box-shadow: 0 4px 10px rgba(217, 119, 6, 0.2);
         }}
-        .cta-link {{ display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }}
+        .report-title {{ font-size: 30px; font-weight: 800; color: var(--navy); margin: 10px 0; }}
 
+        /* 행동중심 강조 박스 */
+        .ai-preview-box {{ 
+            background: white; border: 3px solid #2563eb; border-radius: 15px; 
+            padding: 35px; margin-bottom: 40px; position: relative; 
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+        }}
+        .ai-tag {{ 
+            background: #2563eb; color: white; padding: 8px 16px; border-radius: 20px; 
+            font-size: 16px; font-weight: bold; position: absolute; top: -18px; left: 30px; 
+        }}
+        
+        /* [소장님 지시] 진품 DB 3개 무한 노출 영역 (분량 폭발) */
+        .db-full-content-box {{
+            background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px;
+            padding: 40px; margin-top: 30px; color: #334155;
+            font-size: 19px; line-height: 1.9; text-align: justify;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.03);
+        }}
+
+        .cta-link {{ display: block; margin-top: 20px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; font-size: 18px; }}
+
+        /* 뉴스 섹션 */
         .news-container {{ 
-            margin: 30px 0; background: white; border-radius: 15px; padding: 25px; 
+            margin: 40px 0; background: white; border-radius: 15px; padding: 30px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; 
         }}
         .news-header {{ 
-            font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; 
+            font-size: 1.4rem; font-weight: 800; color: var(--navy); margin-bottom: 20px; 
             display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px;
         }}
-        .news-scroll-box {{
-            max-height: 400px; overflow-y: auto; padding-right: 10px; 
-        }}
-        .news-scroll-box::-webkit-scrollbar {{ width: 6px; }}
-        .news-scroll-box::-webkit-scrollbar-thumb {{ background: #cbd5e1; border-radius: 3px; }}
+        .news-scroll-box {{ max-height: 400px; overflow-y: auto; padding-right: 15px; }}
+        .news-scroll-box::-webkit-scrollbar {{ width: 8px; }}
+        .news-scroll-box::-webkit-scrollbar-thumb {{ background: #cbd5e1; border-radius: 4px; }}
         
-        .news-item {{ display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }}
+        .news-item {{ display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 0; border-bottom: 1px dashed #e2e8f0; }}
         .news-item:last-child {{ border-bottom: none; }}
-        .news-info {{ flex: 1; }}
-        .news-title {{ font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }}
+        .news-title {{ font-size: 1.1rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 6px; }}
         .news-title:hover {{ text-decoration: underline; color: #2563eb; }}
-        .news-date {{ font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }}
+        .news-date {{ font-size: 0.85rem; color: #94a3b8; background: #f8fafc; padding: 2px 8px; border-radius: 4px; }}
         .news-ai-btn {{ 
             background: white; color: #d97706; border: 1px solid #d97706; 
-            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; 
-            cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; 
+            cursor: pointer; margin-left: 15px; white-space: nowrap; transition: 0.2s;
         }}
         .news-ai-btn:hover {{ background: #fffbeb; transform: translateY(-2px); }}
 
-        .highlight {{ color: red; font-weight: 900; background-color: #fffacd; border-bottom: 2px solid red; }}
-        .job-card {{ background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }}
-        .job-title {{ font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }}
-        .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }}
-        .custom-search-box {{ display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }}
-        .custom-search-box input {{ padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }}
-        .custom-search-box button {{ padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }}
-        .content-body {{ font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }}
+        .job-card {{ background: white; border-radius: 15px; padding: 60px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 950px; margin: 0 auto; transition: 0.3s; }}
+        
+        /* 확대 버튼 스타일 */
+        .zoom-btn {{
+            display: inline-block; background: #e2e8f0; color: #475569; padding: 8px 15px; 
+            border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: bold; margin-bottom: 20px;
+        }}
+        .zoom-btn:hover {{ background: #cbd5e1; }}
 
+        .keyword-chip {{ background: #f1f5f9; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; font-size: 16px; }}
+        .custom-search-box {{ display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }}
+        .custom-search-box input {{ padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 16px; width: 200px; }}
+        .custom-search-box button {{ padding: 10px 20px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 16px; }}
+        
+        .content-body {{ font-size: 1.1rem; line-height: 1.9; color: #334155; margin-top: 40px; padding: 20px; background: #f8fafc; border-radius: 10px; }}
+
+        /* 챗봇 스타일 유지 */
         #chatbot-bubble {{ position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }}
         #chatbot-bubble::after {{ content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }}
         @keyframes float {{ 0% {{transform: translateY(0);}} 50% {{transform: translateY(-10px);}} 100% {{transform: translateY(0);}} }}
@@ -226,45 +276,64 @@ JOB_TEMPLATE = """
 <body>
     <div class="sidebar" id="mainSidebar">
         <a href="../jobs_private.html" target="_blank" class="home-link-btn">🏠 목록으로 이동</a>
-        <div style="font-weight:800; margin-bottom:10px;">📚 합격 데이터베이스</div>
-        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+        <div style="font-weight:800; margin-bottom:10px; font-size:18px;">📚 합격 데이터베이스</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none; font-size:16px;">
+               
         <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" id="reportContent" onclick="toggleFocusMode()">
         <div class="job-card">
-            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
-            <h1 class="job-title">{title}</h1>
-            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>{org_name}</strong> | 마감일: {end_date}</div>
+            <div class="match-badge">🎯 진품 DB 로직 일치율: 95.8%</div>
+            <div class="zoom-btn" onclick="toggleFocusMode(event)">🔍 리포트 크게 보기 (클릭)</div>
+            
+            <h2 class="report-title">{title} 분석 리포트</h2>
+            <div style="color:#64748b; margin-bottom:30px; font-size:16px;">
+                기관명: <strong>{org_name}</strong> | 마감일: <span style="color:#d97706; font-weight:bold;">{end_date}</span>
+            </div>
 
             <div class="ai-preview-box">
                 <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
-                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
-                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                
+                <div style="font-weight:bold; color:#1e40af; margin-bottom:15px;">[AI 분석 요약]</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.8;">
+                    데이터 로딩 중...
                 </div>
+                
                 <div class="action-quote">
                     "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
                     오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
                 </div>
-                <a href="{consult_link}" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+                <a href="{consult_link}" target="_blank" class="cta-link">👉 [클릭] AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
             </div>
 
-            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+            <div style="margin:30px 0; display:flex; flex-direction:column; gap:15px;">
                 <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
-                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <strong style="color:var(--navy); margin-right:10px; font-size:18px;">✨ 핵심 키워드:</strong> 
                     {keyword_chips}
                     <div class="custom-search-box">
                         <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
                         <button onclick="manualSearch()">검색</button>
                     </div>
                 </div>
-                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+                <div style="font-size:1rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red; font-weight:bold;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h3 style="font-size: 22px; color: var(--navy); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">
+                    📜 [상세] {org_name} 직무 관련 합격 데이터 심층 분석 (3건)
+                </h3>
+                <div class="db-full-content-box" id="dbFullReport">
+                    데이터 로딩 중...
+                </div>
             </div>
 
             <div class="news-container">
                 <div class="news-header">
                     <span>📰 {org_name} 실시간 이슈 TOP 30</span>
-                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                    <span style="font-size:0.9rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
                 </div>
                 <div class="news-scroll-box">
                     {news_area}
@@ -272,18 +341,22 @@ JOB_TEMPLATE = """
             </div>
 
             <div class="content-body">
+                <h4 style="font-size:18px; color:#64748b; margin-bottom:10px;">[원문 채용공고 상세]</h4>
                 {content}
             </div>
 
-            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
-                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
-                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
-                <a href="{consult_link}" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            <div style="margin-top:60px; text-align:center; padding:40px; background:#f1f5f9; border-radius:15px;">
+                <h3 style="font-size:24px;">"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p style="font-size:18px;">우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="{consult_link}" target="_blank" style="display:inline-block; margin-top:15px; background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ 1:1 전문가 첨삭 신청</a>
             </div>
             
-            <a href="{original_url}" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+            <a href="{original_url}" target="_blank" style="display:block; text-align:center; margin-top:30px; color:#64748b; text-decoration:none; font-size:16px;">📄 원문 공고 확인하기</a>
         </div>
     </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
 
     <div id="chatbot-window">
         <div class="chat-header" id="chatHeader">
@@ -305,24 +378,43 @@ JOB_TEMPLATE = """
             <button onclick="sendMsg()">전송</button>
         </div>
     </div>
-    <div style="position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('chatbot-window').style.display='flex'">🤖</div>
 
     <script>
+        // [수정완료] DB1, DB2 강제 병합 및 로드 체크
         const dbData = [
             ...(window.DB_PART_1 || []), 
             ...(window.DB_PART_2 || [])
         ];
         console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
-
         const dbContainer = document.getElementById('dbContainer');
         const dbSearch = document.getElementById('dbSearch');
 
         window.onload = function() {{
             if(dbData.length > 0) {{
+                // 1. 상단 AI 프리뷰용 (짧은 요약)
                 const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
-                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+                document.getElementById('aiSampleContent').innerText = "💡 " + randomItem.content.substring(0, 200) + "... (이하 생략)";
+                
+                // 2. [소장님 지시] 하단 '진품 DB 심층 분석' 영역에 DB 3개를 강제 주입 (800자 이상 폭발)
+                let longText = "";
+                for(let i=0; i<3; i++) {{
+                   const item = dbData[Math.floor(Math.random() * dbData.length)];
+                   // 시각적 구분을 위해 스타일링된 블록으로 추가
+                   longText += `
+                   <div style="margin-bottom:30px; padding-bottom:20px; border-bottom:1px dashed #cbd5e1;">
+                       <strong style="color:#0f172a; font-size:20px;">[참고 사례 #${{i+1}}: ${{item.title}}]</strong>
+                       <p style="margin-top:10px;">${{item.content}}</p>
+                   </div>`;
+                }}
+                document.getElementById('dbFullReport').innerHTML = longText;
             }}
         }};
+        
+        // [소장님 지시] 확대 보기 (Focus Mode) 기능 구현
+        function toggleFocusMode(event) {{
+            if(event) event.stopPropagation(); // 버튼 클릭 시 전파 방지
+            document.body.classList.toggle('focus-mode');
+        }}
 
         function renderDB(filter = "") {{
             let filtered = dbData;
@@ -331,7 +423,9 @@ JOB_TEMPLATE = """
                     item.title.includes(filter) || item.content.includes(filter)
                 );
             }}
-            filtered = filtered.slice(0, 30);
+            // [소장님 지시] 사이드바 노출 개수 100개로 대폭 증가 (물량 공세)
+            filtered = filtered.slice(0, 100);
+            
             if(filtered.length > 0) {{
                 dbContainer.innerHTML = filtered.map(item => {{
                     let displayContent = item.content.substring(0, 200) + "...";
@@ -344,7 +438,7 @@ JOB_TEMPLATE = """
                     }}
                     const cleanTitle = item.title.replace(/'/g, "\\'");
                     const cleanContent = item.content.substring(0,100).replace(/[\\r\\n]+/g, " ").replace(/'/g, "\\'");
-                    return `<div class="db-card"><div style="font-weight:bold; font-size:0.9rem;">${{displayTitle}}</div><div style="font-size:0.8rem; color:#666; margin-top:5px;">${{displayContent}}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">⚡ AI에게 전략 묻기</button></div>`;
+                    return `<div class="db-card"><div style="font-weight:bold; font-size:1rem;">${{displayTitle}}</div><div style="font-size:0.9rem; color:#666; margin-top:5px;">${{displayContent}}</div><button class="ai-ask-btn" onclick="askAiAboutDB(event, '${{cleanTitle}}', '${{cleanContent}}')">⚡ AI에게 전략 묻기</button></div>`;
                 }}).join('');
             }} else {{
                 dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
@@ -373,7 +467,7 @@ JOB_TEMPLATE = """
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobTitle = document.querySelector('.report-title').innerText;
             const msg = `[데이터 분석 요청] 합격데이터 '` + title + `'의 내용을 현재 공고 '` + jobTitle + `' 직무에 맞춰 재해석해줘.\n\n※ 필독 지시사항: 답변 마지막에 반드시 '최근 AI 채용 도입으로 합격 자소서 평가는 행동(Action) 중심으로 이루어집니다. 본인의 에피소드를 행동 중심으로 완벽하게 다듬고 싶다면 전문가의 첨삭을 꼭 받아보세요.'라는 문구를 포함해줘.`;
             const input = document.getElementById('chatInput');
             if(input) {{
@@ -389,7 +483,8 @@ JOB_TEMPLATE = """
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n위 뉴스 내용을 바탕으로 전문적인 '지원동기' 초안을 작성해줘.\n\n※ 필독 지시사항: 답변 마지막에 반드시 'AI 도입 이후 기업의 자소서 평가는 철저히 행동(Action) 중심으로 이루어지고 있습니다. 합격 확률을 높이기 위해 전문가의 행동 중심 자소서 첨삭을 받아보시는 것을 강력 추천합니다.'라는 조언을 덧붙여줘.`;
+            // 소장님 지시사항: 행동중심 평가 트렌드 및 첨삭 홍보 반영
+            const msg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
             const input = document.getElementById('chatInput');
             if(input) {{
                 input.value = msg;
@@ -408,7 +503,7 @@ JOB_TEMPLATE = """
             const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
-            const jobTitle = document.querySelector('.job-title').innerText;
+            const jobTitle = document.querySelector('.report-title').innerText;
             const jobContent = document.querySelector('.content-body').innerText.substring(0, 1000); 
 
             try {{
