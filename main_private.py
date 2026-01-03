@@ -412,44 +412,39 @@ JOB_TEMPLATE = """
             }}
         }}
 
-        /* 수정 후 코드 (이걸로 덮어씌우세요) */
-function askAiAboutNews(title, date) {
+function askAiAboutNews(title, date) {{
             const win = document.getElementById('chatbot-window');
             const bubble = document.getElementById('chatbot-bubble');
             if(win) win.style.display = 'flex'; 
             if(bubble) bubble.style.display = 'none';
 
-            // 1. 가짜 안내 메시지 노출
-            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기 초안을 분석하고 있습니다.";
+            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기 초안을 분석합니다.";
             addBubble(displayMsg, 'user');
 
-            // 2. 비밀 지시사항 생성
             const secretMsg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
 
-            // 3. 로딩 표시
             const loadingId = addBubble("⏳ 전문가 AI가 분석 전략을 수립 중입니다...", 'ai');
             const loadingElement = document.getElementById(loadingId); 
 
             const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '사기업 공고 분석';
             const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
 
-            // 4. 입력창 노출 없이 서버로 직접 비밀 전송
-            fetch('{render_server_url}', {
+            fetch('{render_server_url}', {{
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
+                headers: {{ 'Content-Type': 'application/json' }},
+                body: JSON.stringify({{ 
                     message: secretMsg,
-                    context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${jobTitle}\\n공고내용요약: ${jobContent}...`
-                })
-            })
+                    context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${{jobTitle}}\\n공고내용요약: ${{jobContent}}...`
+                }})
+            }})
             .then(res => res.json())
-            .then(data => {
-                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }
-            })
-            .catch(err => {
-                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 문제로 분석에 실패했습니다."; }
-            });
-        }
+            .then(data => {{
+                if (loadingElement) {{ loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }}
+            }})
+            .catch(err => {{
+                if (loadingElement) {{ loadingElement.innerText = "⚠ 서버 연결 문제로 분석에 실패했습니다."; }}
+            }});
+        }}
 
         async function sendMsg() {{
             const input = document.getElementById('chatInput');
@@ -499,7 +494,9 @@ function askAiAboutNews(title, date) {
             function elementDrag(e) {{ e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }}
             function closeDragElement() {{ document.onmouseup = null; document.onmousemove = null; }}
         }}
-    </script>
+    </script>      
+            
+     
 </body>
 </html>
 """

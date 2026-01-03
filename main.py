@@ -76,8 +76,8 @@ def get_google_news(query):
     url = f"https://news.google.com/rss/search?q={encoded_query}&hl=ko&gl=KR&ceid=KR:ko"
     
     try:
-        res = requests.get(url, timeout=5)
-        soup = BeautifulSoup(res.content, 'html.parser') 
+        res = requests.get(url, timeout=5) 
+        soup = BeautifulSoup(res.content, 'lxml-xml', from_encoding='utf-8')
         items = soup.find_all('item', limit=30)
         
         news_data = []
@@ -396,43 +396,46 @@ JOB_TEMPLATE = """
             }}
         }}
 
-        function askAiAboutNews(title, date) {
-    const win = document.getElementById('chatbot-window');
-    const bubble = document.getElementById('chatbot-bubble');
-    if(win) win.style.display = 'flex'; 
-    if(bubble) bubble.style.display = 'none';
+        /* ========== [여기로 붙여넣으세요] ========== */
+        function askAiAboutNews(title, date) {{
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
 
-    // 1. 사용자에게 보여줄 안내 멘트 (채팅창에 기록됨)
-    const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기를 분석하고 있습니다.";
-    addBubble(displayMsg, 'user');
+            // 1. 사용자에게 보여줄 안내 멘트 (채팅창에 기록됨)
+            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기를 분석하고 있습니다.";
+            addBubble(displayMsg, 'user');
 
-    // 2. AI에게만 전달할 비밀 지시사항 (채팅창 노출 안 됨)
-    const secretMsg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+            // 2. AI에게만 전달할 비밀 지시사항 (채팅창 노출 안 됨)
+            // {org_name}은 파이썬 변수이므로 하나만 씁니다.
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] \n기업명: {org_name}\n뉴스 제목: ` + title + `\n뉴스 날짜: ` + date + `\n\n1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.\n2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
 
-    // 3. 로딩 표시
-    const loadingId = addBubble("⏳ 분석 전략 수립 중... (약 30초 소요)", 'ai');
-    const loadingElement = document.getElementById(loadingId); 
+            // 3. 로딩 표시
+            const loadingId = addBubble("⏳ 분석 전략 수립 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
 
-    // 4. 서버와 직접 통신 (비밀 메시지 전송)
-    const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
-    const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+            // 4. 서버와 직접 통신 (비밀 메시지 전송)
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
 
-    fetch('{render_server_url}', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            message: secretMsg,
-            context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${jobTitle}\\n공고내용요약: ${jobContent}...`
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }
-    })
-    .catch(err => {
-        if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 지연. 잠시 후 다시 시도해 주세요."; }
-    });
-}
+            // fetch 안의 중괄호는 자바스크립트용이므로 두 번 겹쳐 씁니다 {{ }}
+            fetch('{render_server_url}', {{
+                method: 'POST',
+                headers: {{ 'Content-Type': 'application/json' }},
+                body: JSON.stringify({{ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]\\n기업명: {org_name}\\n공고제목: ${{jobTitle}}\\n공고내용요약: ${{jobContent}}...`
+                }})
+            }})
+            .then(res => res.json())
+            .then(data => {{
+                if (loadingElement) {{ loadingElement.innerHTML = data.response.replace(/\\n/g, '<br>'); }}
+            }})
+            .catch(err => {{
+                if (loadingElement) {{ loadingElement.innerText = "⚠ 서버 연결 지연. 잠시 후 다시 시도해 주세요."; }}
+            }});
+        }}
         async function sendMsg() {{
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
@@ -519,7 +522,7 @@ def create_job_page(url):
     print(f"🔄 [신규수집] ID: {job_id} 데이터 요청 중...")
     try:
         res = requests.get(url, headers=HEADERS, timeout=10)
-        soup = BeautifulSoup(res.text, 'html.parser')
+        soup = BeautifulSoup(res.content, 'html.parser', from_encoding='utf-8')
         
         try:
             org_name = soup.select_one('.topInfo h2').text.strip()
