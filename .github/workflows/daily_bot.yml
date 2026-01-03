@@ -5,7 +5,7 @@ on:
     - cron: '0 22 * * *'  # 매일 한국시간 오전 7시
   workflow_dispatch:      # 수동 실행 버튼
 
-# [추가] 깃허브 로봇에게 파일 쓰기 권한을 부여합니다.
+# [필수] 깃허브 로봇에게 파일 쓰기 권한 부여
 permissions:
   contents: write
 
@@ -34,11 +34,16 @@ jobs:
       - name: 3. 사기업 채용공고 갱신 (main_private.py)
         run: python main_private.py
 
-      - name: 결과 깃허브에 반영 (Commit & Push)
+      - name: 결과 깃허브에 반영 (강제 업로드)
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add .
-          # 변경된 모든 파일(html, json, txt)을 강제로 포함시킵니다.
-          git commit -m "🚀 공기업/사기업 채용공고 자동 업데이트 [$(date)]" || echo "변경사항 없음"
+          
+          # [핵심 수정] 삭제후 재생성된 파일까지 모조리 잡아서 올립니다.
+          git add --all
+          
+          # 변경사항이 있으면 커밋하고, 없으면 넘어갑니다 (에러 방지)
+          git commit -m "🚀 채용공고 전체 재생성 및 복구 완료 [$(date)]" || echo "변경사항 없음"
+          
+          # 메인 브랜치로 강제 전송
           git push
