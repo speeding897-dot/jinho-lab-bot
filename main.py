@@ -349,7 +349,7 @@ JOB_TEMPLATE = """
                     // [소장님 지시] 중복 제목 제거: 제목 div 아예 삭제하고 배지와 본문만 표시
                     return `
                     <div class="db-card" onclick="showFullReport('${{fullContent}}')">
-                        <div class="match-badge">🎯 진품 DB 로직 일치율 95.8%</div>
+                        <div class="match-badge">🎯 </div>
                         <div class="db-text">${{summaryContent}}</div>
                         <div style="text-align:right; margin-top:10px; color:#2563eb; font-size:0.8rem; font-weight:bold;">👉 클릭하여 전체보기 (확대)</div>
                     </div>`;
@@ -369,7 +369,7 @@ JOB_TEMPLATE = """
                     <div class="full-report-title">📄 합격 자기소개서 심층 분석 (전문)</div>
                     <div style="white-space: pre-wrap;">${{fullText}}</div>
                     <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
-                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격 로직과 95.8% 일치하는 진품 데이터입니다.</p>
+                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격 데이터입니다.</p>
                         <a href="{consult_link}" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ 나도 이렇게 쓰고 싶다면? (첨삭 신청)</a>
                     </div>
                 </div>
