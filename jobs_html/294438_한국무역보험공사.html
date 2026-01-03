@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, user-scalable=yes">
+    <title>[한국무역보험공사] 합격 자기소개서 리포트 (ID:294438)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 480px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        /* [소장님 지시] 사이드바 디자인 혁신: 18px 대왕 글자 & 중복 제거 */
+        .db-card { 
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px; 
+            padding: 20px; margin-bottom: 15px; transition: 0.2s; position: relative; cursor: pointer;
+        }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* [소장님 지시] 일치율 배지 */
+        .match-badge { 
+            display: inline-block; background: #fee2e2; color: #ef4444; 
+            padding: 5px 12px; border-radius: 20px; font-weight: 800; 
+            font-size: 14px; margin-bottom: 12px; border: 1px solid #fecaca;
+        }
+
+        /* [소장님 지시] 사이드바 텍스트 18px */
+        .db-text { 
+            font-size: 18px; line-height: 1.6; color: #334155; 
+            word-break: break-all;
+        }
+        
+        /* [소장님 지시] 중앙 확대 리포트 스타일 (22px) */
+        .full-report-view {
+            background: white; padding: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 22px; line-height: 2.0; color: #1e293b;
+        }
+        .full-report-title {
+            font-size: 28px; font-weight: 800; color: var(--navy); 
+            border-bottom: 3px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 40px;
+        }
+        .back-btn {
+            display: inline-block; margin-bottom: 20px; padding: 10px 20px; 
+            background: #e2e8f0; color: #475569; border-radius: 30px; 
+            font-weight: bold; cursor: pointer; font-size: 16px; border: none;
+        }
+        .back-btn:hover { background: #cbd5e1; }
+
+        .ai-ask-btn { display: none; } /* 사이드바에서는 텍스트 클릭 유도를 위해 버튼 숨김 (카드 전체 클릭) */
+
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { font-size: 1.05rem; font-weight: 800; color: #1e40af; border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5; }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        .news-container { margin: 30px 0; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .news-header { font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px; }
+        .news-scroll-box { max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { background: white; color: #d97706; border: 1px solid #d97706; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s; }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { background-color: #fef08a; font-weight: 900; border-bottom: 3px solid #facc15; padding: 0 2px; }
+        
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px; font-size:18px;">📚 합격 자기소개서 DB</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content" id="mainContentArea">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">한국무역보험공사 2025년 개방형 계약직(안전관리역) 채용공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>한국무역보험공사</strong> | 마감일: 취업지원대상자, 장애인, 비수도권 지역인재, 기초생활수급자, 차상위계층, 한부모가족지원대상자, 다문화가족 구성원, 북한이탈주민, 직무관련 자격증 보유자(보다 자세한 내용은 첨부파일 [첨부1] 한국무역보험공사 2025년 개방형 계약직(안전관리역) 채용공고 내 '4. 우대사항' 참조)</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('소통')">#소통</span><span class="keyword-chip" onclick="searchDB('성실')">#성실</span><span class="keyword-chip" onclick="searchDB('안전')">#안전</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 한국무역보험공사 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[인사] 한국무역보험공사 - 전자신문</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[인사] 한국무역보험공사 - 전자신문', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[인사] 한국무역보험공사 - S-저널</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[인사] 한국무역보험공사 - S-저널', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[인사] 한국무역보험공사 - 동양일보</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[인사] 한국무역보험공사 - 동양일보', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">오늘의 인사-국토부, 기후부, 문체부, 과기부, 무역보험공사, 언론중재위 외 - 경향신문</a>
+                        <span class="news-date">2025-12-30</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('오늘의 인사-국토부, 기후부, 문체부, 과기부, 무역보험공사, 언론중재위 외 - 경향신문', '2025-12-30')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 연합뉴스</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 연합뉴스', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 연합뉴스 한민족센터</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 연합뉴스 한민족센터', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">주택금융·무역보험공사도 새도약기금에 연체 채권 매각 - 조선비즈 - Chosunbiz</a>
+                        <span class="news-date">2025-12-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('주택금융·무역보험공사도 새도약기금에 연체 채권 매각 - 조선비즈 - Chosunbiz', '2025-12-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한국무역보험공사, 수출지원 위한 제2회 '은행나무포럼' 개최 - 금융경제신문</a>
+                        <span class="news-date">2025-12-11</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한국무역보험공사, 수출지원 위한 제2회 은행나무포럼 개최 - 금융경제신문', '2025-12-11')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[단독] '팔면 손해' 무역보험공사 단체보험 방만 경영…5년째 손해율 100% 웃돌아 - 법률신문</a>
+                        <span class="news-date">2025-10-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[단독] 팔면 손해 무역보험공사 단체보험 방만 경영…5년째 손해율 100% 웃돌아 - 법률신문', '2025-10-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 아시아경제</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 아시아경제', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">DX KOREA 조직위원회-한국무역보험공사, ‘K-방산’ 해외 진출 돕는다 - 매일경제</a>
+                        <span class="news-date">2025-12-09</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('DX KOREA 조직위원회-한국무역보험공사, ‘K-방산’ 해외 진출 돕는다 - 매일경제', '2025-12-09')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[부음] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 전자신문</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[부음] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 전자신문', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">한국무역보험공사-건설공제조합 업무협약식 - 연합뉴스</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('한국무역보험공사-건설공제조합 업무협약식 - 연합뉴스', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 한국경제</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 한국경제', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무보, 美버라이즌의 삼성 휴대전화 등 구매에 17억달러 금융지원 - 연합뉴스</a>
+                        <span class="news-date">2025-12-18</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무보, 美버라이즌의 삼성 휴대전화 등 구매에 17억달러 금융지원 - 연합뉴스', '2025-12-18')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무보 '수출성장 플래닛' 23곳 신규선발…작년 1조 무역보험 지원 - 연합뉴스</a>
+                        <span class="news-date">2025-11-04</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무보 수출성장 플래닛 23곳 신규선발…작년 1조 무역보험 지원 - 연합뉴스', '2025-11-04')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무역보험공사 사장 "수출기업 57% 무역보험 이용중" - 연합뉴스</a>
+                        <span class="news-date">2025-10-16</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무역보험공사 사장 수출기업 57% 무역보험 이용중 - 연합뉴스', '2025-10-16')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무보, 해외 건설 수주 '지원사격'…건설공제조합과 업무협약 - 연합뉴스</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무보, 해외 건설 수주 지원사격…건설공제조합과 업무협약 - 연합뉴스', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무역보험공사 해외서 떼인 돈 1.6조원…"매년 지적에도 미개선" - 연합뉴스</a>
+                        <span class="news-date">2025-09-28</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무역보험공사 해외서 떼인 돈 1.6조원…매년 지적에도 미개선 - 연합뉴스', '2025-09-28')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[이번 주 공공사업] 257억원 한국무역보험공사 ‘IT시스템 통합유지관리’ 사업 - 아이티데일리</a>
+                        <span class="news-date">2025-09-24</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[이번 주 공공사업] 257억원 한국무역보험공사 ‘IT시스템 통합유지관리’ 사업 - 아이티데일리', '2025-09-24')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">건설공제조합·무역보험공사, 해외건설 보증 지원 확대 업무협약 - 뉴시스</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('건설공제조합·무역보험공사, 해외건설 보증 지원 확대 업무협약 - 뉴시스', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">건설공제조합, 무역보험공사와 해외 건설 수주 지원 업무협약 - 기계설비신문</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('건설공제조합, 무역보험공사와 해외 건설 수주 지원 업무협약 - 기계설비신문', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">건설공제조합–한국무역보험공사, 해외 건설 프로젝트 수주 지원 맞손 - 글로벌경제신문</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('건설공제조합–한국무역보험공사, 해외 건설 프로젝트 수주 지원 맞손 - 글로벌경제신문', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무역보험공사, 韓기업의 아시아 시장 진출 지원 위해 ADB CGIF와 '맞손'…"금융비용 절감 및 생산적 금융 확대" - 뉴스스페이스</a>
+                        <span class="news-date">2025-12-14</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무역보험공사, 韓기업의 아시아 시장 진출 지원 위해 ADB CGIF와 맞손…금융비용 절감 및 생산적 금융 확대 - 뉴스스페이스', '2025-12-14')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 이코노믹데일리</a>
+                        <span class="news-date">2025-12-21</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[부고] 주현진(한국무역보험공사 고객만족팀장)씨 부친상 - 이코노믹데일리', '2025-12-21')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[국감] 정진욱 한국무역보험공사에 비판···무용지물 해외 채권 회수 지원 서비스 - 여성경제신문</a>
+                        <span class="news-date">2025-09-25</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[국감] 정진욱 한국무역보험공사에 비판···무용지물 해외 채권 회수 지원 서비스 - 여성경제신문', '2025-09-25')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무보, 올해 중소기업 지원실적 첫 100조 돌파 전망 - 한국무역협회-KITA.NET</a>
+                        <span class="news-date">2025-12-17</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무보, 올해 중소기업 지원실적 첫 100조 돌파 전망 - 한국무역협회-KITA.NET', '2025-12-17')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무역보험공사, 해외 건설 수주 금융지원 강화 - 코리아포스트 한글판</a>
+                        <span class="news-date">2025-12-23</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무역보험공사, 해외 건설 수주 금융지원 강화 - 코리아포스트 한글판', '2025-12-23')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">무역보험공사, UAE 국영에너지기업에 20억달러 금융 지원 - 한국경제</a>
+                        <span class="news-date">2025-12-01</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('무역보험공사, UAE 국영에너지기업에 20억달러 금융 지원 - 한국경제', '2025-12-01')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-info">
+                        <a href="" target="_blank" class="news-title">[인사] 한국무역보험공사 - 연합뉴스</a>
+                        <span class="news-date">2025-06-26</span>
+                    </div>
+                    <button class="news-ai-btn" onclick="askAiAboutNews('[인사] 한국무역보험공사 - 연합뉴스', '2025-06-26')">⚡ AI 지원동기 작성</button>
+                </div>
+                
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>ㅇ 학력, 연령, 성별, 전공 제한 없는 열린 채용<br/>- 단, 연령의 경우 만 60세 미만인 자<br/>ㅇ 남성의 경우 병역필(`26.2.15(포함) 이전 전역예정자 포함) 또는 면제자<br/>ㅇ 공사 내규상 결격사유에 해당하지 않는 자 (첨부파일 [첨부4] 채용결격사유 참조)<br/>ㅇ 모든 채용전형, 연수에 참여가 가능하고, 채용시(`26.2월 예정) 즉시 근무가 가능한 자<br/>※ 채용공고 마감일(`26.1.12(월)) 기준, 현직 공무원 및 공공기관 재직자와 퇴직 후 3년 미만인 공무원 및 공공기관 근무경력(개방형 계약직 등으로 채용된 경력은 제외)자는 지원 불가<br/>ㅇ 다음 중 하나의 자격증 소지자로서, 「산업안전보건법 시행령」 제18조에 따른 안전관련 업무를 7년 이상* 담당한 자(채용공고 마감일 `26.1.12(월) 기준)<br/>- 「산업안전보건법」에 따른 산업안전지도사 또는 「국가기술자격법」에 따른 산업안전기사<br/> * ‘5. 증빙서류 제출’에 제시된 담당업무·기간 등 필수사항이 명시되고 발급기관의 관인/날인된 경력(재직)증명서 제출이 가능한 경력만 인정(시간제 근무경력은 전일제 기준으로 환산)</p>
+<h4>결격사유</h4>
+<p>1) 국가공무원법 제33조에 해당하는 자<br/>국가공무원법 제33조(결격사유)<br/>1. 피성년후견인<br/>2. 파산선고를 받고 복권되지 아니한 자<br/>3. 금고 이상의 실형을 선고받고 그 집행이 끝나거나(집행이 끝난 것으로 보는 경우를 포함한다) 집행이 면제된 날부터 5년이 지나지 아니한 자<br/>4. 금고 이상의 형의 집행유예를 선고받고 그 유예기간이 끝난 날부터 2년이 지나지 아니한 자<br/>5. 금고 이상의 형의 선고유예를 받은 경우에 그 선고유예 기간 중에 있는 자<br/>6. 법원의 판결 또는 다른 법률에 따라 자격이 상실되거나 정지된 자<br/>6의2. 공무원으로 재직기간 중 직무와 관련하여 「형법」 제355조 및 제356조에 규정된 죄를 범한 자로서 300만원 이상의 벌금형을 선고받고 그 형이 확정된 후 2년이 지나지 아니한 자<br/>6의3. 다음 각 목의 어느 하나에 해당하는 죄를 범한 사람으로서 100만원 이상의 벌금형을 선고받고 그 형이 확정된 후 3년이 지나지 아니한 사람<br/>가. 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 따른 성폭력범죄<br/>나. 「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제74조제1항제2호 및 제3호에 규정된 죄<br/>다. 「스토킹범죄의 처벌 등에 관한 법률」 제2조제2호에 따른 스토킹범죄<br/>6의4. 미성년자에 대하여 「성폭력범죄의 처벌 등에 관한 특례법」 제2조에 따른 성폭력 범죄 또는 「아동·청소년의 성보호에 관한 법률」 제2조제2호에 따른 아동·청소년 대상 성범죄를 범한 사람으로서 다음 각 목의 어느 하나에 해당하는 날부터 20년이 지나지 아니한 사람<br/>가. 금고 이상의 실형을 선고받고 그 집행이 끝나거나(집행이 끝난 것으로 보는 경우를 포함한다) 집행이 면제된 날<br/>나. 금고 이상의 형의 집행유예를 선고받고 그 집행유예가 확정된 날<br/>다. 벌금 이하의 형을 선고받고 그 형이 확정된 날<br/>라. 치료감호를 선고받고 그 집행이 끝나거나 집행이 면제된 날<br/>마. 징계로 파면처분 또는 해임처분을 받은 날<br/>7. 징계로 파면처분을 받은 때부터 5년이 지나지 아니한 자<br/>8. 징계로 해임처분을 받은 때부터 3년이 지나지 아니한 자<br/>* 단, 동조 제3호 내지 5호의 경우, 교통사고로 인한 경우는 제외<br/> <br/>2) 한국무역보험공사 또는 다른 공공기관에서 부정한 방법으로 채용된 사실이 적발되어 과거 5년 이내에 채용이 취소된 자<br/> <br/>3) 「부패방지 및 국민권익위원회의 설치와 운영에 관한 법률」 제82조에 따른 비위면직자 등의 취업제한 적용을 받는 자</p>
+<h4>우대내용</h4>
+<p>□ 별도 명시된 경우를 제외하고는, 입사지원서 접수 마감 시(`26.1.12(월) 오전 11시) 기준 유효하게 등록 또는 자격 취득(유지)자에 한함<br/> <br/>□ 첨부파일 채용공고 '5. 증빙서류 제출'에 제시된 서류 제출이 가능한 경우에만 인정(입사지원시 서류발급 가능여부를 미리 확인)<br/>* 실제 대상자임에도 불구하고 입사지원시 우대사항을 기재(입력)하지 않은 경우 증빙서류 제출 여부와 관계없이 우대사항 인정되지 않음<br/>- 「국가유공자 등 예우 및 지원에 관한 법률」등 보훈 관계법률에 의한 취업지원대상자<br/>- 「장애인고용촉진 및 직업재활법」에 의한 장애인<br/>- 비수도권 지역인재 (첨부파일 [첨부5] 한국무역보험공사 비수도권 지역인재 세부기준 참조)<br/>- 「국민기초생활 보장법」에 의한 수급자(본인 또는 자녀) 또는 차상위계층(본인 또는 자녀), 또는 「한부모가족지원법」에 의한 지원대상자<br/>- 「다문화가족지원법」에 의한 다문화가족 구성원<br/>- 「북한이탈주민의 보호 및 정착지원에 관한 법률」에 의한 북한이탈주민<br/>- 직무관련 자격증 보유자<br/>* 안전관리역 : 정보처리기사, 정보처리산업기사, 사무자동화산업기사, 컴퓨터활용능력 1급, 워드프로세서(단일등급 또는 1급)</p>
+<h4>전형절차/방법</h4>
+<p>□ 1차(서류전형) : 6배수, 지원자격 부합 여부 및 NCS 기반 입사지원서 정성 평가<br/>* 자기소개서 및 직무관련 경력·경험·자격사항 등 종합평가<br/>** 입사지원서 불성실 기재시 서류전형 결격(불합격) 처리<br/>*** 서류전형 합격자는 별도 안내한 기한 내에 면접전형 본인 확인용 추가자료 등록<br/> <br/>□ 2차(면접전형) : 1배수, 역량면접<br/>* 직무능력, 의사소통, 문제해결, 조직이해 능력 등을 종합적으로 평가<br/>** 면접 전후에 인성검사 및 조직적합도검사 실시(합격자 선정시 적/부 판정)<br/> <br/>□ 신체검사 및 신원조사 : 면접전형 합격자 발표시 세부사항 공지 예정<br/>* 신체검사 및 신원조사 결과 결격사유가 없는 경우 최종합격자로 선정<br/> <br/>보다 자세한 사항은 첨부파일 [첨부1] 한국무역보험공사 2025년 개방형 계약직(안전관리역) 채용공고 내 '3. 채용절차 및 일정' 참조</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294438" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 한국무역보험공사 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[한국무역보험공사]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const dbData = [
+            ...(window.DB_PART_1 || []), 
+            ...(window.DB_PART_2 || [])
+        ];
+        console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+        const mainContentArea = document.getElementById('mainContentArea');
+        let originalMainContent = ""; // 원래 공고 내용 저장용
+
+        window.onload = function() {
+            originalMainContent = mainContentArea.innerHTML; // 초기 공고 내용 백업
+            
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 50); // 사이드바 성능 위해 50개 제한
+            
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map((item, index) => {
+                    // [소장님 지시] 사이드바: 500자 요약 노출 & 중복 제목 삭제 (본문만 표시)
+                    // item.content는 전체 내용이므로 500자까지만 자름
+                    let summaryContent = item.content.substring(0, 500) + "...";
+                    let fullContent = item.content.replace(/'/g, "\'"); // 클릭 시 전달할 전체 내용
+                    
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        summaryContent = summaryContent.replace(regex, highlightStr);
+                    }
+
+                    // [소장님 지시] 클릭 시 showFullReport 함수 호출 (1200자 대왕 글자)
+                    // [소장님 지시] 중복 제목 제거: 제목 div 아예 삭제하고 배지와 본문만 표시
+                    return `
+                    <div class="db-card" onclick="showFullReport('${fullContent}')">
+                        <div class="match-badge">🎯 </div>
+                        <div class="db-text">${summaryContent}</div>
+                        <div style="text-align:right; margin-top:10px; color:#2563eb; font-size:0.8rem; font-weight:bold;">👉 클릭하여 전체보기 (확대)</div>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+        renderDB();
+
+        // [소장님 지시] 클릭 시 중앙 화면을 22px 대왕 리포트로 교체하는 함수
+        function showFullReport(fullText) {
+            // 중앙 영역 전체를 리포트 뷰로 교체
+            mainContentArea.innerHTML = `
+                <div class="full-report-view">
+                    <button class="back-btn" onclick="restoreOriginalContent()">↩ 공고문으로 돌아가기</button>
+                    <div class="full-report-title">📄 합격 자기소개서 심층 분석 (전문)</div>
+                    <div style="white-space: pre-wrap;">${fullText}</div>
+                    <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
+                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격 데이터입니다.</p>
+                        <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ AI시대 자소서의 기준이 문잔력에서 실제 행동으로 바뀌었습니다.</a>
+                    </div>
+                </div>
+            `;
+            // 상단으로 스크롤 이동
+            mainContentArea.scrollTop = 0;
+        }
+
+        function restoreOriginalContent() {
+            mainContentArea.innerHTML = originalMainContent;
+        }
+
+        function searchDB(keyword) { dbSearch.value = keyword; renderDB(keyword); }
+        function manualSearch() { const val = document.getElementById('manualKeyword').value; if(val) { searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); } }
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        /* ========== [여기로 붙여넣으세요] ========== */
+        function askAiAboutNews(title, date) {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 1. 사용자에게 보여줄 안내 멘트 (채팅창에 기록됨)
+            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기를 분석하고 있습니다.";
+            addBubble(displayMsg, 'user');
+
+            // 2. AI에게만 전달할 비밀 지시사항 (채팅창 노출 안 됨)
+            // 한국무역보험공사은 파이썬 변수이므로 하나만 씁니다.
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+기업명: 한국무역보험공사
+뉴스 제목: ` + title + `
+뉴스 날짜: ` + date + `
+
+1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
+2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+
+            // 3. 로딩 표시
+            const loadingId = addBubble("⏳ 분석 전략 수립 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. 서버와 직접 통신 (비밀 메시지 전송)
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            // fetch 안의 중괄호는 자바스크립트용이므로 두 번 겹쳐 씁니다 { }
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]\n기업명: 한국무역보험공사\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 지연. 잠시 후 다시 시도해 주세요."; }
+            });
+        }
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '합격자소서 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 한국무역보험공사\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
