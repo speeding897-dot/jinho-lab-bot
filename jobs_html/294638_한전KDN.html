@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[한전KDN] 합격 자기소개서 리포트 (ID:294638)</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <script src="db_data1.js"></script>
+    <script src="db_data2.js"></script>
+
+    <style>
+        :root { --navy: #0f172a; --gold: #d4af37; --bg: #f8fafc; --text: #334155; --sidebar-w: 480px; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-w); background: white; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; height: 100%; padding: 25px; z-index: 100; flex-shrink: 0; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; position: relative; background: #f8fafc; }
+
+        .home-link-btn { display: block; text-align: center; background: var(--navy); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
+        
+        /* [소장님 지시] 사이드바 디자인 혁신: 18px 대왕 글자 & 중복 제거 */
+        .db-card { 
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px; 
+            padding: 20px; margin-bottom: 15px; transition: 0.2s; position: relative; cursor: pointer;
+        }
+        .db-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* [소장님 지시] 일치율 배지 */
+        .match-badge { 
+            display: inline-block; background: #fee2e2; color: #ef4444; 
+            padding: 5px 12px; border-radius: 20px; font-weight: 800; 
+            font-size: 14px; margin-bottom: 12px; border: 1px solid #fecaca;
+        }
+
+        /* [소장님 지시] 사이드바 텍스트 18px */
+        .db-text { 
+            font-size: 18px; line-height: 1.6; color: #334155; 
+            word-break: break-all;
+        }
+        
+        /* [소장님 지시] 중앙 확대 리포트 스타일 (22px) */
+        .full-report-view {
+            background: white; padding: 60px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 22px; line-height: 2.0; color: #1e293b;
+        }
+        .full-report-title {
+            font-size: 28px; font-weight: 800; color: var(--navy); 
+            border-bottom: 3px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 40px;
+        }
+        .back-btn {
+            display: inline-block; margin-bottom: 20px; padding: 10px 20px; 
+            background: #e2e8f0; color: #475569; border-radius: 30px; 
+            font-weight: bold; cursor: pointer; font-size: 16px; border: none;
+        }
+        .back-btn:hover { background: #cbd5e1; }
+
+        .ai-ask-btn { display: none; } /* 사이드바에서는 텍스트 클릭 유도를 위해 버튼 숨김 (카드 전체 클릭) */
+
+        .ai-preview-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 12px; padding: 25px; margin-bottom: 30px; position: relative; }
+        .ai-tag { background: #f59e0b; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; position: absolute; top: -12px; left: 20px; }
+        .action-quote { font-size: 1.05rem; font-weight: 800; color: #1e40af; border-left: 5px solid #2563eb; padding-left: 15px; margin-top: 20px; line-height: 1.5; }
+        .cta-link { display: inline-block; margin-top: 15px; color: #2563eb; font-weight: bold; text-decoration: underline; cursor: pointer; }
+
+        .news-container { margin: 30px 0; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .news-header { font-size: 1.3rem; font-weight: 800; color: var(--navy); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom:10px; }
+        .news-scroll-box { max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .news-scroll-box::-webkit-scrollbar { width: 6px; }
+        .news-scroll-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .news-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
+        .news-item:last-child { border-bottom: none; }
+        .news-info { flex: 1; }
+        .news-title { font-size: 0.95rem; font-weight: bold; color: #333; text-decoration: none; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .news-title:hover { text-decoration: underline; color: #2563eb; }
+        .news-date { font-size: 0.75rem; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+        .news-ai-btn { background: white; color: #d97706; border: 1px solid #d97706; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.2s; }
+        .news-ai-btn:hover { background: #fffbeb; transform: translateY(-2px); }
+
+        .highlight { background-color: #fef08a; font-weight: 900; border-bottom: 3px solid #facc15; padding: 0 2px; }
+        
+        .job-card { background: white; border-radius: 15px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto; }
+        .job-title { font-size: 2rem; color: var(--navy); margin: 10px 0 20px 0; font-weight: 800; }
+        .keyword-chip { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 50px; margin: 5px; display: inline-block; font-weight: 600; cursor: pointer; }
+        .custom-search-box { display: inline-flex; align-items: center; margin-left: 10px; gap: 5px; }
+        .custom-search-box input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 20px; outline: none; font-size: 14px; width: 180px; }
+        .custom-search-box button { padding: 8px 15px; background: var(--navy); color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .content-body { font-size: 0.95rem; line-height: 1.8; color: #334155; margin-top: 30px; }
+
+        #chatbot-bubble { position: fixed; bottom: 95px; right: 30px; background: white; padding: 10px 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #2563eb; font-size: 13px; font-weight: bold; color: #1e40af; z-index: 9998; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        #chatbot-bubble::after { content: ''; position: absolute; bottom: -8px; right: 25px; border-width: 8px 8px 0; border-style: solid; border-color: #2563eb transparent transparent transparent; }
+        @keyframes float { 0% {transform: translateY(0);} 50% {transform: translateY(-10px);} 100% {transform: translateY(0);} }
+        #chatbot-floater { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); cursor: pointer; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        #chatbot-floater:hover { transform: scale(1.1); }
+        #chatbot-window { display: none; position: fixed; bottom: 100px; right: 30px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; flex-direction: column; border: 1px solid #e2e8f0; overflow: hidden; }
+        .chat-header { background: #2563eb; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 2px; }
+        .msg-ai { align-self: flex-start; background: white; border: 1px solid #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 10px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; }
+        .chat-input-area button { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            body { flex-direction: column; overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="mainSidebar">
+        <a href="https://kimjinholab.pages.dev" target="_blank" class="home-link-btn">🏠 홈으로 이동</a>
+        <div style="font-weight:800; margin-bottom:10px; font-size:18px;">📚 합격 자기소개서 DB</div>
+        
+        <input type="text" id="dbSearch" placeholder="통합 데이터 검색..." 
+               style="width:100%; padding:12px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:15px; outline:none;">
+               
+        <div id="dbContainer" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <div class="main-content" id="mainContentArea">
+        <div class="job-card">
+            <span style="background:var(--navy); color:white; padding:4px 10px; border-radius:10px; font-size:0.8rem;">합격자소서 공개</span>
+            <h1 class="job-title">한전KDN(주) 울산지사 AMI 유지보수 작업원 모집공고</h1>
+            <div style="color:#64748b; margin-bottom:20px;">기관명: <strong>한전KDN</strong> | 마감일: 2026.01.02</div>
+
+            <div class="ai-preview-box">
+                <div class="ai-tag">🔥 합격자소서 공개 & AI 전략 분석</div>
+                <div id="aiSampleContent" style="color: #4b5563; font-style: italic; line-height: 1.6;">
+                    데이터 로딩 중... (가장 유사한 합격 사례를 분석하고 있습니다)
+                </div>
+                <div class="action-quote">
+                    "최종 합격을 결정짓는 것은 이런 뻔한 문장이 아닌,<br>
+                    오직 당신만이 가진 <strong>'행동 중심의 에피소드'</strong>입니다."
+                </div>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" class="cta-link">👉 AI는 흉내낼 수 없는 '나만의 행동 중심 자소서' 설계받기</a>
+            </div>
+
+            <div style="margin:20px 0; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; flex-wrap:wrap; gap:5px;">
+                    <strong style="color:var(--navy); margin-right:10px;">✨ 핵심 키워드:</strong> 
+                    <span class="keyword-chip" onclick="searchDB('윤리')">#윤리</span><span class="keyword-chip" onclick="searchDB('안전')">#안전</span>
+                    <div class="custom-search-box">
+                        <input type="text" id="manualKeyword" placeholder="원하는 키워드 입력" onkeypress="if(event.key==='Enter') manualSearch()">
+                        <button onclick="manualSearch()">검색</button>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:#64748b;">💡 키워드 입력 후 왼쪽 사이드바의 <span style="color:red;">빨간색 데이터</span>를 AI에게 물어보세요!</div>
+            </div>
+
+            <div class="news-container">
+                <div class="news-header">
+                    <span>📰 한전KDN 실시간 이슈 TOP 30</span>
+                    <span style="font-size:0.8rem; font-weight:normal; color:#64748b;">*구글 뉴스 기반</span>
+                </div>
+                <div class="news-scroll-box">
+                    <div style='padding:15px; text-align:center; color:#64748b;'>최근 뉴스가 없거나 수집하지 못했습니다.</div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="tab-content current" id="tab-1">
+<h4>응시자격</h4>
+<p>1. 일반 : 학력, 연령, 외국어 제한없음<br/>2. 병역 : 병역법 제 76조에서 정한 병역의무 불이행 사실이 없는 자<br/>3. 자격 : 건설업 기초 안전보건교육 이수자 또는 이수 가능자(계약시 증빙)<br/>4. 기타<br/>- 당사 인사규정2.1.4(채용결격사유)에 해당하지 않는 자(붙임1 참조)<br/>- 주민등록상 거주지가 울산시 및 양산시 거주자<br/>5. 직종별자격(KDN 조공)<br/>- 해당분야 현장의 시공과 관련한 단순작업, 자재의 운반, 교통통제, 작업준비 등 보조 업무 수행이 가능한 자(고소작업차 운행)<br/>- 모뎀설치 및 장애처리 업무 수행이 가능한 자</p>
+<h4>결격사유</h4>
+<p>1. 피성년후견인<br/>2. 파산선고를 받고 복권되지 아니한 자<br/>3. 금고 이상의 실형을 선고 받고 그 집행이 끝나거나(집행이 끝난 것으로 보는 경우를 포함한다.) 집행이 면제된 날로부터 5년이 지나지 아니한 자<br/>4. 금고 이상의 형의 집행유예를 선고받고 그 유예기간이 끝난 날로부터 2년이 지나지 아니한 자<br/>5. 금고 이상의 형의 선고유예를 받은 경우에 그 선고유예 기간 중에 있는 자<br/>6. 징계에 의하여 해임의 처분을 받은 때로부터 5년이 지나지 아니한 자<br/>7. 법원의 판결 또는 법률에 의하여 자격이 상실 또는 정지된 자<br/>8. 공무원 또는 공공기관의 운영에 관한 법률에서 정한 공공기관의 임직원으로 재직 중 직무와 관련하여 형법 제355조(횡령, 배임) 및 제356조(업무상의 횡령과 배임)에 규정된 죄를 범한 자로서 300만원 이상의 벌금형을 선고받고 그 형이 확정된 후 2년이 지나지 아니한 자<br/>9. 「공직자윤리법」 제17조 및 「부패방지 및 국민권익위원회의 설치와 운영에 관한 법률」 제82조에 따라 취업제한 적용을 받는 자<br/>10. 「국가공무원법」 제33조 6의3 또는 6의4에 해당하는 자<br/>11. 병역법 제76조에서 정한 병역의무 불이행자<br/>12. 신체검사 결과 불합격으로 판정된 자<br/>13. 색각 이상자(통신/전기분야에 한함)<br/>14. 입사 제출서류에 허위사실이 발견된 자<br/>15. 입사 전·후 위계(僞計) 또는 위·변조 증빙사실이 발견된 자<br/>16. 수습 평가결과 직원으로서 부적격하다고 판정된 자<br/>17. 기타 직원으로서 부적격 하다고 판정된 자</p>
+<h4>우대내용</h4>
+<p>- 자기차량 보유자(자동차보험, 유효한 검사필증 보유)<br/>- 운전면허 소지자(1종보통), 1.2톤 고소작업차 운행 가능자<br/>- 전기˙통신분야 현장업무 유경험자(100일 이상)<br/>- 복지카드(장애인) 소지자<br/>- 울산시, 양산시 거주자</p>
+<h4>전형절차/방법</h4>
+<p>1차 : 서류전형(적부심사)<br/>2차 : 면접전형(100점, 1배수)</p>
+</div>
+            </div>
+
+            <div style="margin-top:50px; text-align:center; padding:30px; background:#f1f5f9; border-radius:10px;">
+                <h3>"이 공고, 어떻게 써야 할지 막막하신가요?"</h3>
+                <p>우측 하단 챗봇에게 물어보세요. AI가 이 공고를 분석해 드립니다.</p>
+                <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="display:inline-block; margin-top:10px; background:var(--gold); color:white; padding:12px 25px; border-radius:30px; text-decoration:none; font-weight:bold;">⚡ 1:1 전문가 첨삭 신청</a>
+            </div>
+            
+            <a href="https://job.alio.go.kr/recruitview.do?idx=294638" target="_blank" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none;">📄 원문 공고 확인하기</a>
+        </div>
+    </div>
+
+    <div id="chatbot-bubble" onclick="toggleChat()">자기소개서 무엇이든 물어보세요!! AI입니다.</div>
+    <div id="chatbot-floater" onclick="toggleChat()"><span>🤖</span></div>
+
+    <div id="chatbot-window">
+        <div class="chat-header" id="chatHeader">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span>🧠 한전KDN 전담 AI</span>
+                <span style="font-size:10px; background:#10b981; padding:2px 6px; border-radius:10px;">ONLINE</span>
+            </div>
+            <div style="display:flex; gap:10px;"><span onclick="toggleChat()" style="cursor:pointer;">_</span><span onclick="toggleChat()" style="cursor:pointer;">✕</span></div>
+        </div>
+        <div id="chat-messages">
+            <div class="msg msg-ai">
+                안녕하세요! <strong>[한전KDN]</strong> 분석 AI입니다.<br>
+                공고 내용이나 왼쪽의 <strong>[AI에게 전략 묻기]</strong> 버튼을 눌러 질문해주세요.<br>
+                <span style="font-size:0.8rem; color:#666; margin-top:5px; display:block;">🐢 (첫 질문 시 서버 기상 시간 약 30초 소요)</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="질문 입력..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()">전송</button>
+        </div>
+    </div>
+
+    <script>
+        const dbData = [
+            ...(window.DB_PART_1 || []), 
+            ...(window.DB_PART_2 || [])
+        ];
+        console.log("📊 전체 합격 DB 로드 완료: " + dbData.length + "건");
+        const dbContainer = document.getElementById('dbContainer');
+        const dbSearch = document.getElementById('dbSearch');
+        const mainContentArea = document.getElementById('mainContentArea');
+        let originalMainContent = ""; // 원래 공고 내용 저장용
+
+        window.onload = function() {
+            originalMainContent = mainContentArea.innerHTML; // 초기 공고 내용 백업
+            
+            if(dbData.length > 0) {
+                const randomItem = dbData[Math.floor(Math.random() * dbData.length)];
+                document.getElementById('aiSampleContent').innerText = randomItem.content.substring(0, 350) + "...";
+            }
+        };
+
+        function renderDB(filter = "") {
+            let filtered = dbData;
+            if (filter) {
+                filtered = dbData.filter(item => 
+                    item.title.includes(filter) || item.content.includes(filter)
+                );
+            }
+            filtered = filtered.slice(0, 50); // 사이드바 성능 위해 50개 제한
+            
+            if(filtered.length > 0) {
+                dbContainer.innerHTML = filtered.map((item, index) => {
+                    // [소장님 지시] 사이드바: 500자 요약 노출 & 중복 제목 삭제 (본문만 표시)
+                    // item.content는 전체 내용이므로 500자까지만 자름
+                    let summaryContent = item.content.substring(0, 500) + "...";
+                    let fullContent = item.content.replace(/'/g, "\'"); // 클릭 시 전달할 전체 내용
+                    
+                    if (filter) {
+                        const regex = new RegExp(filter, "gi");
+                        const highlightStr = `<span class="highlight">${filter}</span>`;
+                        summaryContent = summaryContent.replace(regex, highlightStr);
+                    }
+
+                    // [소장님 지시] 클릭 시 showFullReport 함수 호출 (1200자 대왕 글자)
+                    // [소장님 지시] 중복 제목 제거: 제목 div 아예 삭제하고 배지와 본문만 표시
+                    return `
+                    <div class="db-card" onclick="showFullReport('${fullContent}')">
+                        <div class="match-badge">🎯 </div>
+                        <div class="db-text">${summaryContent}</div>
+                        <div style="text-align:right; margin-top:10px; color:#2563eb; font-size:0.8rem; font-weight:bold;">👉 클릭하여 전체보기 (확대)</div>
+                    </div>`;
+                }).join('');
+            } else {
+                dbContainer.innerHTML = "<div style='padding:10px;'>검색 결과가 없습니다.</div>";
+            }
+        }
+        renderDB();
+
+        // [소장님 지시] 클릭 시 중앙 화면을 22px 대왕 리포트로 교체하는 함수
+        function showFullReport(fullText) {
+            // 중앙 영역 전체를 리포트 뷰로 교체
+            mainContentArea.innerHTML = `
+                <div class="full-report-view">
+                    <button class="back-btn" onclick="restoreOriginalContent()">↩ 공고문으로 돌아가기</button>
+                    <div class="full-report-title">📄 합격 자기소개서 심층 분석 (전문)</div>
+                    <div style="white-space: pre-wrap;">${fullText}</div>
+                    <div style="margin-top:50px; border-top:2px dashed #e2e8f0; padding-top:30px; text-align:center;">
+                        <p style="font-size:18px; color:#64748b;">이 데이터는 합격 데이터입니다.</p>
+                        <a href="https://kimjinholab.pages.dev/consult.html" target="_blank" style="background:var(--gold); color:white; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:18px;">⚡ AI시대 자소서의 기준이 문잔력에서 실제 행동으로 바뀌었습니다.</a>
+                    </div>
+                </div>
+            `;
+            // 상단으로 스크롤 이동
+            mainContentArea.scrollTop = 0;
+        }
+
+        function restoreOriginalContent() {
+            mainContentArea.innerHTML = originalMainContent;
+        }
+
+        function searchDB(keyword) { dbSearch.value = keyword; renderDB(keyword); }
+        function manualSearch() { const val = document.getElementById('manualKeyword').value; if(val) { searchDB(val); alert("왼쪽 사이드바에서 결과를 확인하세요!"); } }
+        dbSearch.addEventListener('input', (e) => { renderDB(e.target.value); });
+
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex'; bubble.style.display = 'none'; document.getElementById('chatInput').focus();
+            } else {
+                win.style.display = 'none'; bubble.style.display = 'block';
+            }
+        }
+
+        /* ========== [여기로 붙여넣으세요] ========== */
+        function askAiAboutNews(title, date) {
+            const win = document.getElementById('chatbot-window');
+            const bubble = document.getElementById('chatbot-bubble');
+            if(win) win.style.display = 'flex'; 
+            if(bubble) bubble.style.display = 'none';
+
+            // 1. 사용자에게 보여줄 안내 멘트 (채팅창에 기록됨)
+            const displayMsg = "📢 선택하신 뉴스 [" + title + "]를 기반으로 합격 지원동기를 분석하고 있습니다.";
+            addBubble(displayMsg, 'user');
+
+            // 2. AI에게만 전달할 비밀 지시사항 (채팅창 노출 안 됨)
+            // 한전KDN은 파이썬 변수이므로 하나만 씁니다.
+            const secretMsg = `[뉴스 기반 지원동기 작성 요청] 
+기업명: 한전KDN
+뉴스 제목: ` + title + `
+뉴스 날짜: ` + date + `
+
+1. 위 뉴스 내용을 기업의 사업 방향과 연결하여 전문적인 비즈니스 문체로 '지원동기' 초안을 작성해줘.
+2. 답변 마지막에 'AI 채용 도입으로 인해 합격 자소서의 평가 기준이 행동(Action) 중심으로 바뀌고 있습니다. 더 정교한 합격을 원하시면 전문가의 행동 중심 자소서 첨삭을 받아보세요.'라는 문구를 추가해줘.`;
+
+            // 3. 로딩 표시
+            const loadingId = addBubble("⏳ 분석 전략 수립 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            // 4. 서버와 직접 통신 (비밀 메시지 전송)
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '공고 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            // fetch 안의 중괄호는 자바스크립트용이므로 두 번 겹쳐 씁니다 { }
+            fetch('https://jinho-lab-bot.onrender.com/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    message: secretMsg,
+                    context: `[현재 공고 정보]\n기업명: 한전KDN\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            })
+            .catch(err => {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 지연. 잠시 후 다시 시도해 주세요."; }
+            });
+        }
+        async function sendMsg() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            const loadingId = addBubble("⏳ AI 서버 깨우는 중... (약 30초 소요)", 'ai');
+            const loadingElement = document.getElementById(loadingId); 
+
+            const jobTitle = document.querySelector('.job-title') ? document.querySelector('.job-title').innerText : '합격자소서 분석';
+            const jobContent = document.querySelector('.content-body') ? document.querySelector('.content-body').innerText.substring(0, 1000) : ''; 
+
+            try {
+                const res = await fetch('https://jinho-lab-bot.onrender.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: msg,
+                        context: `[현재 공고 정보]\n기업명: 한전KDN\n공고제목: ${jobTitle}\n공고내용요약: ${jobContent}...`
+                    })
+                });
+                const data = await res.json();
+                if (loadingElement) { loadingElement.innerHTML = data.response.replace(/\n/g, '<br>'); }
+            } catch (err) {
+                if (loadingElement) { loadingElement.innerText = "⚠ 서버 연결 실패 (네트워크를 확인하세요)"; }
+            }
+        }
+
+        function addBubble(text, type) {
+            const box = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            div.id = 'msg-' + Date.now();
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id; 
+        }
+
+        dragElement(document.getElementById("chatbot-window"));
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("chatHeader")) { document.getElementById("chatHeader").onmousedown = dragMouseDown; }
+            function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
+            function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+    </script>
+</body>
+</html>
